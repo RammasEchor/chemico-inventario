@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import logo from "../../../images/logo.jpg";
 
 interface props {
@@ -15,9 +16,9 @@ function Brand(props: props) {
 
     return (
         <div className="navbar-brand">
-            <a className="p-5" href="https://localhost:3000/mainpage">
+            <Link className="p-5" to="/">
                 <img src={logo} alt="Logo" width={130} height={50} />
-            </a>
+            </Link>
 
             <span onClick={burgerSelected} role="button" className={
                 isBurgerSelected

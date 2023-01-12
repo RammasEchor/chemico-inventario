@@ -1,37 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import {
-  createBrowserRouter,
-  RouterProvider
-} from "react-router-dom";
+import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import './index.css';
-import Inventario from './inventario/inventario';
-import Login from './login/login';
+import { AuthProvider } from './login/auth-provider/auth_provider';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <App />
-  },
-  {
-    path: "login",
-    element: <Login />
-  },
-  {
-    path: "inventario",
-    element: <Inventario />
-  }
-]);
-
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <BrowserRouter basename='/chemico-front'>
+      <AuthProvider>
+        <App />
+      </AuthProvider>
+    </BrowserRouter>
   </React.StrictMode>
 );
 
