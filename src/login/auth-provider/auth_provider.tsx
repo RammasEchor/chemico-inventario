@@ -1,10 +1,6 @@
-import React from "react";
+import React, { PropsWithChildren, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import fakeAuth from "./fake_auth";
-
-interface props {
-    children: React.ReactNode
-}
 
 interface AuthContextInterface {
     token: string | null;
@@ -17,10 +13,19 @@ function useAuth() {
     return React.useContext(AuthContext);
 }
 
-function AuthProvider(props: props) {
-    const [token, setToken] = React.useState<string | null>(null);
+function AuthProvider(props: PropsWithChildren) {
+    let localToken = localStorage.getItem('token');
+    if( localToken )    {
+        localToken = JSON.parse(localToken);
+    }
+
+    const [token, setToken] = useState<string | null>(localToken);
     const navigate = useNavigate();
     const location = useLocation();
+    
+    useEffect(() => {
+        localStorage.setItem('token', JSON.stringify(token));
+    }, [token]);
 
     const handleLogin = async () => {
         const token = await fakeAuth();
@@ -34,7 +39,7 @@ function AuthProvider(props: props) {
         setToken(null);
     };
 
-    const value: AuthContextInterface = {
+    const value = {
         token,
         onLogin: handleLogin,
         onLogout: handleLogout,

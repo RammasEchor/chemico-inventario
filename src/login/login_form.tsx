@@ -1,23 +1,9 @@
-import { Form, Formik, useField } from "formik";
+import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import "../css/bulma.css";
+import TextInputWithName from "../form_components/text_input_name";
 import logo from "../images/logo.jpg";
 import { useAuth } from "./auth-provider/auth_provider";
-
-const TextInput = ({ label, ...props }: { label: string, [x: string]: any; }) => {
-    const [field, meta] = useField(props as any);
-    return (
-        <div className="field">
-            {/* <label className="label is-medium" htmlFor={props.id || props.name}>{label}</label> */}
-            <div className="control">
-                <input {...field} {...props} className="input is-medium" placeholder={label} />
-                {meta.touched && meta.error ? (
-                    <div className="error">{meta.error}</div>
-                ) : null}
-            </div>
-        </div>
-    );
-}
 
 interface loginValues {
     username: string
@@ -57,12 +43,12 @@ function LoginForm() {
                 </div>
                 <div className="card-content">
                     <Form>
-                        <TextInput
+                        <TextInputWithName
                             label="Username"
                             name="username"
                             type="text"
                         />
-                        <TextInput
+                        <TextInputWithName
                             label="Password"
                             name="password"
                             type="password"

@@ -1,0 +1,24 @@
+@media screen and (max-width: 1023px) {
+    .button.fullwidthwhenmobile {
+        width: 100%
+    }
+
+    /* .file.inv-file-responsive {
+        font-size: 1.0rem;
+    } */
+}
+
+@media screen and (min-width: 1024px) {
+    /* .file.inv-file-responsive {
+        font-size: 1.5rem;
+    } */
+}
+
+.inv-line {
+    border: 1px solid;
+    border-color: #eff1fa;
+}
+
+.inv-basis-cont {
+    flex-basis: 60%;
+}
