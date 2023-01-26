@@ -4,6 +4,7 @@ import CrearCotizacion from './cotizacion/crear_cotizacion/crear_cotizacion';
 import Inventario from './inventario/inventario';
 import Login from './login/login';
 import MainPage from './mainpage/mainpage';
+import AltaProducto from './productos/alta_producto/alta_producto';
 
 function App() {
   return (
@@ -11,7 +12,8 @@ function App() {
       <Route path='/' element={<MainPage />} />
       <Route path='/login' element={<Login />} />
       <Route path='/inventario' element={<Inventario />} />
-      <Route path='/crear_cotizacion' element={<CrearCotizacion />}/>
+      <Route path='/alta_producto' element={<AltaProducto />} />
+      <Route path='/crear_cotizacion' element={<CrearCotizacion />} />
     </Routes>
   );
 }
