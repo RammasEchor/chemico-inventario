@@ -1,6 +1,11 @@
 @media screen and (max-width: 1023px) {
-    .button.fullwidthwhenmobile {
+    /* .button.fullwidthwhenmobile {
         width: 100%
+    } */
+
+    .fullwidthwhenmobile {
+        flex: none;
+        width: 100%;
     }
 
     /* .file.inv-file-responsive {

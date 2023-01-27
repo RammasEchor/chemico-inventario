@@ -14,7 +14,7 @@ function TextInputLabelWarning(props: TextInputProps & FieldHookConfig<string>) 
             <label className="is-size-5" htmlFor={props.name}>{props.label}</label>
             <TextInput name={props.name} type={props.type} />
             {meta.touched && meta.error ? (
-                <div className="has-text-danger">{props.label + " es requerido"}</div>
+                <div className="has-text-danger">{meta.error}</div>
             ) : null}
         </div>
     );

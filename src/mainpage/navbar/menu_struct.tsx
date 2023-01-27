@@ -1,14 +1,14 @@
 const menu_layout = [
     {
         title: "Usuarios", children: [
-            { title: "Alta de usuario", link: "/" },
+            { title: "Alta de usuario", link: "/alta_usuario" },
             { title: "Baja de usuario", link: "/" }
         ]
     },
     {
         title: "Productos", children: [
-            { title: "Alta producto nuevo", link: "/alta_producto" },
-            { title: "Baja de producto", link: "/" },
+            { title: "Alta de producto", link: "/alta_producto" },
+            { title: "Baja de producto", link: "/baja_producto" },
             { title: "Traspaso entre ubicaciones", link: "/" },
             { title: "Asignar producto a usuario", link: "/" }
         ]

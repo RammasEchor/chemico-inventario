@@ -1,10 +1,10 @@
 import "../css/inventario.css";
 
-interface SubmitButtonProps {
+interface WithdrawButtonProps {
     text?: string
 }
 
-function SubmitButton(props: SubmitButtonProps) {
+function WithdrawButton(props: WithdrawButtonProps) {
     return (
         <div className="is-flex is-justify-content-flex-end mt-6 mb-3 mr-3">
             <div className="is-flex-grow-4" />
@@ -13,7 +13,7 @@ function SubmitButton(props: SubmitButtonProps) {
                     is-responsive 
                     button 
                     is-outlined 
-                    is-info 
+                    is-danger 
                     is-large 
                     is-right
                     fullwidthwhenmobile
@@ -27,4 +27,4 @@ function SubmitButton(props: SubmitButtonProps) {
     );
 }
 
-export default SubmitButton
+export default WithdrawButton
