@@ -1,4 +1,6 @@
 import { Formik } from "formik";
+import { useState } from "react";
+import { Navigate } from "react-router";
 import * as Yup from "yup";
 import ShadowedForm from "../../form_components/shadowed_form";
 import SubmitButton from "../../form_components/submit_button";
@@ -7,6 +9,12 @@ import TextInputLabelWarning from "../../form_components/text_input_label_warnin
 
 
 function FormularioAltaProducto() {
+    const [productSubmitted, setProductSubmitted] = useState(false);
+
+    if (productSubmitted) {
+        return (<Navigate to="/" />);
+    }
+
     return (
         <Formik
             initialValues={{
@@ -32,10 +40,12 @@ function FormularioAltaProducto() {
                 warehouseLocation: Yup.string(),
             })}
             onSubmit={(values, { setSubmitting }) => {
-                setTimeout(() => {
-                    alert(JSON.stringify(values, null, 2));
-                    setSubmitting(false);
-                }, 400)
+                setSubmitting(false);
+                fetch(`https://javaclusters-95554-0.cloudclusters.net/apiChemico-0.0.1-SNAPSHOT/api2/insertaProd/${values.plant}/${values.partNumber}/${values.description}/${values.max}/${values.min}/${values.measurementUnit}/${values.expirationDate}/${values.warehouseLocation}/${values.unitPrice}/`)
+                    .then(response => {
+                        if (response.ok)
+                            setProductSubmitted(true)
+                    })
             }}
         >
             <ShadowedForm>
@@ -53,7 +63,7 @@ function FormularioAltaProducto() {
                     <TextInputLabelWarning name='expirationDate' label='Fecha de expiración' />
                     <TextInputLabelWarning name='warehouseLocation' label='Ubicación almacén' />
                 </div>
-                <SubmitButton text='Agregar Producto'/>
+                <SubmitButton text='Agregar Producto' />
             </ShadowedForm>
         </Formik>
     );

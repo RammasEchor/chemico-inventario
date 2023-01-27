@@ -1,10 +1,14 @@
 import React, { PropsWithChildren, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
-import fakeAuth from "./fake_auth";
+
+interface loginValues {
+    username: string
+    password: string
+}
 
 interface AuthContextInterface {
     token: string | null;
-    onLogin: () => Promise<void>;
+    onLogin: (values: loginValues) => Promise<void>;
     onLogout: () => void;
 }
 
@@ -15,24 +19,29 @@ function useAuth() {
 
 function AuthProvider(props: PropsWithChildren) {
     let localToken = localStorage.getItem('token');
-    if( localToken )    {
+    if (localToken) {
         localToken = JSON.parse(localToken);
     }
 
     const [token, setToken] = useState<string | null>(localToken);
     const navigate = useNavigate();
     const location = useLocation();
-    
+
     useEffect(() => {
         localStorage.setItem('token', JSON.stringify(token));
     }, [token]);
 
-    const handleLogin = async () => {
-        const token = await fakeAuth();
-
-        setToken(token);
-        const origin = location.state?.from?.pathname || '/';
-        navigate(origin);
+    const handleLogin = (values: loginValues) => {
+        return (
+            fetch(`https://javaclusters-95554-0.cloudclusters.net/apiChemico-0.0.1-SNAPSHOT/api2/login/${values.username}/${values.password}/`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.body) {
+                        setToken('12345');
+                        const origin = location.state?.from?.pathname || '/';
+                        navigate(origin);
+                    }
+                }));
     };
 
     const handleLogout = () => {

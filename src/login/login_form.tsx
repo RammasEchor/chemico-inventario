@@ -1,25 +1,16 @@
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import "../css/bulma.css";
-import TextInputWithName from "../form_components/text_input_name";
+import TextInputLabelWarning from "../form_components/text_input_label_warning";
 import logo from "../images/logo.jpg";
 import { useAuth } from "./auth-provider/auth_provider";
 
-interface loginValues {
-    username: string
-    password: string
-}
+
 
 const buttonStyle: string = "button is-info is-medium"
 
 function LoginForm() {
     const { onLogin } = useAuth();
-
-    const onSubmit = (values: loginValues, { setSubmitting }: { setSubmitting: any }) => {
-        alert(JSON.stringify(values, null, 2));
-        setSubmitting(false);
-        onLogin();
-    }
 
     return (
         <Formik
@@ -28,14 +19,15 @@ function LoginForm() {
                 password: ''
             }}
             validationSchema={Yup.object({
-                username: Yup.string(),
-                // .email('Invalid email address')
-                // .required('Required'),
+                username: Yup.string()
+                    .required(),
                 password: Yup.string()
-                // .max(15, 'Must be 15 characters or less')
-                // .required('Required')
+                    .required()
             })}
-            onSubmit={onSubmit}
+            onSubmit={(values, { setSubmitting }) => {
+                setSubmitting(false);
+                onLogin(values);
+            }}
         >
             <div className="column p-0 is-5 card">
                 <div className="pl-5 pt-5 card-image">
@@ -43,12 +35,12 @@ function LoginForm() {
                 </div>
                 <div className="card-content">
                     <Form>
-                        <TextInputWithName
+                        <TextInputLabelWarning
                             label="Username"
                             name="username"
                             type="text"
                         />
-                        <TextInputWithName
+                        <TextInputLabelWarning
                             label="Password"
                             name="password"
                             type="password"

@@ -1,4 +1,6 @@
-function TablaInventario() {
+import { PropsWithChildren } from "react";
+
+function TablaInventario(props: PropsWithChildren) {
     const cols = [
         'Planta',
         'No. Parte',
@@ -12,11 +14,7 @@ function TablaInventario() {
     ]
 
     const jsx_cols = cols.map((name) => {
-        return( <th key={name}>{name}</th> );
-    });
-
-    const jsx_rows = cols.map((name) => {
-        return( <td key={name}>{name}</td> );
+        return (<th key={name}>{name}</th>);
     });
 
     return (
@@ -34,10 +32,7 @@ function TablaInventario() {
                 </tfoot>
                 <tbody>
                     <tr>
-                        {jsx_rows}
-                    </tr>
-                    <tr>
-                        {jsx_rows}
+                        {props.children}
                     </tr>
                 </tbody>
             </table>
