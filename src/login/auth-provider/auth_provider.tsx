@@ -36,7 +36,7 @@ function AuthProvider(props: PropsWithChildren) {
             fetch(`https://javaclusters-95554-0.cloudclusters.net/apiChemico-0.0.1-SNAPSHOT/api2/login/${values.username}/${values.password}/`)
                 .then(response => response.json())
                 .then(data => {
-                    if (data.body) {
+                    if (data) {
                         setToken('12345');
                         const origin = location.state?.from?.pathname || '/';
                         navigate(origin);

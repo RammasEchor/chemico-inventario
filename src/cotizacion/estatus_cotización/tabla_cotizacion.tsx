@@ -1,16 +1,15 @@
 import { PropsWithChildren } from "react";
 
-function TablaInventario(props: PropsWithChildren) {
+function TablaCotizacion(props: PropsWithChildren) {
     const cols = [
+        'Nombre',
+        'Parte',
+        'Fabricante',
+        'Cantidad',
+        'Presentación',
+        'Unidad',
         'Planta',
-        'No. Parte',
-        'Descripción',
-        'Máximo',
-        'Mínimo',
-        'Precio unitario',
-        'Unidad de medida',
-        'Fecha de expiración',
-        'Ubicación almacén'
+        'Área'
     ]
 
     const jsx_cols = cols.map((name) => {
@@ -38,4 +37,4 @@ function TablaInventario(props: PropsWithChildren) {
     );
 }
 
-export default TablaInventario
+export default TablaCotizacion

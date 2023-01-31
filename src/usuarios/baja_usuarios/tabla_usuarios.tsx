@@ -1,16 +1,12 @@
 import { PropsWithChildren } from "react";
 
-function TablaInventario(props: PropsWithChildren) {
+function TablaUsuarios(props: PropsWithChildren) {
     const cols = [
+        'Nombre',
+        'Rol',
+        'Email',
         'Planta',
-        'No. Parte',
-        'Descripción',
-        'Máximo',
-        'Mínimo',
-        'Precio unitario',
-        'Unidad de medida',
-        'Fecha de expiración',
-        'Ubicación almacén'
+        'CveUsuario'
     ]
 
     const jsx_cols = cols.map((name) => {
@@ -38,4 +34,4 @@ function TablaInventario(props: PropsWithChildren) {
     );
 }
 
-export default TablaInventario
+export default TablaUsuarios

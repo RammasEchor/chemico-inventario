@@ -5,31 +5,28 @@ import * as Yup from "yup";
 import "../../css/inventario.css";
 import Checkbox from "../../form_components/checkbox";
 import WithdrawButton from "../../form_components/withdraw_button";
-import TablaInventario from "../../inventario/tabla_inventario";
+import TablaUsuarios from "./tabla_usuarios";
 
-interface ProductFields {
-    idProd: string,
+interface UserFields {
+    id: string,
+    nombre: string,
+    contraseña: string,
+    rol: string,
+    email: string,
     planta: string,
-    noParte: string,
-    descripcion: string,
-    maximo: string,
-    minimo: string,
-    precio: string,
-    uni_medida: string,
-    fecha_exp: string,
-    ubicacion: string
+    cveUsuario: string
 }
 
-function FormularioBajaProducto() {
-    const [products, setProducts] = useState<ProductFields[]>([]);
-    const [prodIdToDelete, setProdIdToDelete] = useState<string>();
+function FormularioBajaUsuario() {
+    const [users, setUsers] = useState<UserFields[]>([]);
+    const [userIdtoDelete, setUserIdtoDelete] = useState<string>();
     const [deleted, setDeleted] = useState(false);
 
     useEffect(() => {
-        fetch('https://javaclusters-95554-0.cloudclusters.net/apiChemico-0.0.1-SNAPSHOT/api2/productos/')
+        fetch('https://javaclusters-95554-0.cloudclusters.net/apiChemico-0.0.1-SNAPSHOT/api2/usuarios/')
             .then(response => response.json())
-            .then((data: ProductFields[]) => {
-                setProducts(data);
+            .then((data: UserFields[]) => {
+                setUsers(data);
             });
     }, []);
 
@@ -46,7 +43,7 @@ function FormularioBajaProducto() {
             })}
             onSubmit={(values, { setSubmitting }) => {
                 setSubmitting(false);
-                fetch(`https://javaclusters-95554-0.cloudclusters.net/apiChemico-0.0.1-SNAPSHOT/api2/delProd/${prodIdToDelete}/`)
+                fetch(`https://javaclusters-95554-0.cloudclusters.net/apiChemico-0.0.1-SNAPSHOT/api2/delUsr/${userIdtoDelete}/`)
                     .then(response => {
                         if (response.ok)
                             setDeleted(true);
@@ -54,7 +51,7 @@ function FormularioBajaProducto() {
             }}
         >
             <Form className='box'>
-                <h4 className="title is-4">Baja de Producto</h4>
+                <h4 className="title is-4">Baja de Usuario</h4>
                 <div className='columns p-3 is-vcentered is-desktop'>
                     <input
                         className={`
@@ -71,19 +68,15 @@ function FormularioBajaProducto() {
                     <div className="column is-narrow is-gapless">
                         <div className="columns is-tablet">
                             <div className="column is-narrow-desktop is-flex is-flex-direction-column is-justify-content-space-between">
+                                <Checkbox>Nombre</Checkbox>
+                                <Checkbox>Rol</Checkbox>
+                            </div>
+                            <div className="column is-narrow-desktop is-flex is-flex-direction-column is-justify-content-space-between">
+                                <Checkbox>Email</Checkbox>
                                 <Checkbox>Planta</Checkbox>
-                                <Checkbox>No. Parte</Checkbox>
-                                <Checkbox>Descripción</Checkbox>
                             </div>
                             <div className="column is-narrow-desktop is-flex is-flex-direction-column is-justify-content-space-between">
-                                <Checkbox>Máximo</Checkbox>
-                                <Checkbox>Mínimo</Checkbox>
-                                <Checkbox>Precio unitario</Checkbox>
-                            </div>
-                            <div className="column is-narrow-desktop is-flex is-flex-direction-column is-justify-content-space-between">
-                                <Checkbox>Unidad de medida</Checkbox>
-                                <Checkbox>Fecha de expiración</Checkbox>
-                                <Checkbox>Ubicación almacén</Checkbox>
+                                <Checkbox>CveUsuario</Checkbox>
                             </div>
                         </div>
                     </div>
@@ -91,31 +84,27 @@ function FormularioBajaProducto() {
                         <button className="button is-info is-medium">Buscar</button>
                     </div>
                 </div>
-                <TablaInventario>
-                    {products.map(product => {
+                <TablaUsuarios>
+                    {users.map(user => {
                         return (
-                            <tr id={product.idProd}
-                                key={product.idProd}
-                                onClick={() => setProdIdToDelete(product.idProd)}
-                                className={prodIdToDelete === product.idProd ? 'is-selected' : ''}
+                            <tr id={user.id}
+                                key={user.id}
+                                onClick={() => setUserIdtoDelete(user.id)}
+                                className={userIdtoDelete === user.id ? 'is-selected' : ''}
                             >
-                                <td key={product.planta}>{product.planta}</td>
-                                <td key={product.noParte}>{product.noParte}</td>
-                                <td key={product.descripcion}>{product.descripcion}</td>
-                                <td key={product.maximo}>{product.maximo}</td>
-                                <td key={product.minimo}>{product.minimo}</td>
-                                <td key={product.precio}>{product.precio}</td>
-                                <td key={product.uni_medida}>{product.uni_medida}</td>
-                                <td key={product.fecha_exp}>{product.fecha_exp}</td>
-                                <td key={product.ubicacion}>{product.ubicacion}</td>
+                                <td key={user.nombre}>{user.nombre}</td>
+                                <td key={user.rol}>{user.rol}</td>
+                                <td key={user.email}>{user.email}</td>
+                                <td key={user.planta}>{user.planta}</td>
+                                <td key={user.cveUsuario}>{user.cveUsuario}</td>
                             </tr>
                         );
                     })}
-                </TablaInventario>
-                <WithdrawButton text='Eliminar Producto' />
+                </TablaUsuarios>
+                <WithdrawButton text='Eliminar Usuario' />
             </Form>
         </Formik>
     );
 }
 
-export default FormularioBajaProducto
+export default FormularioBajaUsuario

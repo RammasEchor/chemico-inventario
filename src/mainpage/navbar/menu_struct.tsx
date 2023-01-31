@@ -2,7 +2,7 @@ const menu_layout = [
     {
         title: "Usuarios", children: [
             { title: "Alta de usuario", link: "/alta_usuario" },
-            { title: "Baja de usuario", link: "/" }
+            { title: "Baja de usuario", link: "/baja_usuario" }
         ]
     },
     {
@@ -16,7 +16,7 @@ const menu_layout = [
     {
         title: "Cotización", children: [
             { title: "Crear cotización", link: "/crear_cotizacion" },
-            { title: "Estatus de cotización", link: "/" },
+            { title: "Estatus de cotización", link: "/status_cotizacion" },
             { title: "Cancelar cotización", link: "/" }
         ]
     },

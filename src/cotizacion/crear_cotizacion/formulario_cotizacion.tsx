@@ -1,70 +1,78 @@
 import { Formik } from "formik";
+import { useState } from "react";
+import { Navigate } from "react-router";
 import * as Yup from "yup";
 import "../../css/inventario.css";
-import FileForm from "../../form_components/file_form";
 import ShadowedForm from "../../form_components/shadowed_form";
 import SubmitButton from "../../form_components/submit_button";
 import TextArea from "../../form_components/textarea";
 import TextInputLabelWarning from "../../form_components/text_input_label_warning";
 
 function FormularioCotizacion() {
+    const [quoteSubmitted, setQuoteSubmitted] = useState(false);
+
+    if (quoteSubmitted) {
+        return (<Navigate to="/" />);
+    }
+
     return (
-        <>
-            <Formik
-                initialValues={{
-                    productName: '',
-                    partNumber: '',
-                    maker: '',
-                    howMany: '',
-                    type: '',
-                    metricUnit: '',
-                    origin: '',
-                    useArea: '',
-                    additionalInfo: '',
-                }}
-                validationSchema={Yup.object({
-                    productName: Yup.string()
-                        .required(),
-                    partNumber: Yup.string(),
-                    maker: Yup.string(),
-                    howMany: Yup.string(),
-                    type: Yup.string(),
-                    metricUnit: Yup.string(),
-                    origin: Yup.string(),
-                    useArea: Yup.string(),
-                    additionalInfo: Yup.string(),
-                })}
-                onSubmit={(values, { setSubmitting }) => {
-                    setTimeout(() => {
-                        alert(JSON.stringify(values, null, 2));
-                        setSubmitting(false);
-                    }, 400);
-                }}
-            >
-                <ShadowedForm>
-                    <h4 className="title is-4">Crear Cotización</h4>
-                    <div className="is-flex is-flex-direction-column">
-                        <div>
-                            <TextInputLabelWarning name='productName' label='Nombre de Producto' />
-                            <TextInputLabelWarning name='partNumber' label='Número de parte' />
-                            <TextInputLabelWarning name='maker' label='Fabricante' />
-                            <TextInputLabelWarning name='howMany' label='Cantidad a solicitar' />
-                            <TextInputLabelWarning name='type' label='Presentación' />
-                            <TextInputLabelWarning name='metricUnit' label='Unidad de Medida' />
-                            <TextInputLabelWarning name='origin' label='Planta de Origen' />
-                            <TextInputLabelWarning name='useArea' label='Área de Utilización' />
-                            <div className="mt-5">
-                                <TextArea name='additionalInfo' placeholder="Datos Adicionales" />
-                            </div>
-                        </div>
+        <Formik
+            initialValues={{
+                productName: '',
+                partNumber: '',
+                maker: '',
+                howMany: '',
+                type: '',
+                metricUnit: '',
+                origin: '',
+                useArea: '',
+                additionalInfo: '',
+            }}
+            validationSchema={Yup.object({
+                productName: Yup.string()
+                    .required(),
+                partNumber: Yup.string(),
+                maker: Yup.string(),
+                howMany: Yup.string(),
+                type: Yup.string(),
+                metricUnit: Yup.string(),
+                origin: Yup.string(),
+                useArea: Yup.string(),
+                additionalInfo: Yup.string(),
+            })}
+            onSubmit={(values, { setSubmitting }) => {
+                setSubmitting(false);
+                fetch(`https://javaclusters-95554-0.cloudclusters.net/apiChemico-0.0.1-SNAPSHOT/api2/insertaCot/${values.productName}/${values.partNumber}/${values.maker}/${values.howMany}/${values.type}/${values.metricUnit}/${values.origin}/${values.useArea}/`)
+                    .then(response => {
+                        if (response.ok)
+                            setQuoteSubmitted(true)
+                    })
+                    
+            }}
+        >
+            <ShadowedForm>
+                <h4 className="title is-4">Crear Cotización</h4>
+                <div className="is-flex is-flex-direction-column">
+                    <div>
+                        <TextInputLabelWarning name='productName' label='Nombre de Producto' />
+                        <TextInputLabelWarning name='partNumber' label='Número de parte' />
+                        <TextInputLabelWarning name='maker' label='Fabricante' />
+                        <TextInputLabelWarning name='howMany' label='Cantidad a solicitar' />
+                        <TextInputLabelWarning name='type' label='Presentación' />
+                        <TextInputLabelWarning name='metricUnit' label='Unidad de Medida' />
+                        <TextInputLabelWarning name='origin' label='Planta de Origen' />
+                        <TextInputLabelWarning name='useArea' label='Área de Utilización' />
                         <div className="mt-5">
-                            <FileForm />
+                            <TextArea name='additionalInfo' placeholder="Datos Adicionales" />
                         </div>
                     </div>
-                    <SubmitButton />
-                </ShadowedForm>
-            </Formik>
-        </>
+                    {/* <div className="mt-5">
+                            <FileForm />
+                        </div> */}
+                </div>
+                <SubmitButton text="Crear Cotización" />
+            </ShadowedForm>
+        </Formik>
     );
 }
 
