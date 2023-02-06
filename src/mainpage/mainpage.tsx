@@ -1,10 +1,10 @@
 import ProtectedRoute from "../login/protected-route/protected_route";
-import NavBar from "./navbar/navbar";
+import PageWithNavbar from "./pageWithNavbar/page_with_navbar";
 
 function MainPage() {
     return (
         <ProtectedRoute>
-            <NavBar />
+            <PageWithNavbar />
         </ProtectedRoute>
     );
 }

@@ -1,6 +1,6 @@
 import { PropsWithChildren } from "react";
 
-function TablaCotizacion(props: PropsWithChildren) {
+function LayoutTablaCotizacion(props: PropsWithChildren) {
     const cols = [
         'Nombre',
         'Parte',
@@ -37,4 +37,4 @@ function TablaCotizacion(props: PropsWithChildren) {
     );
 }
 
-export default TablaCotizacion
+export default LayoutTablaCotizacion

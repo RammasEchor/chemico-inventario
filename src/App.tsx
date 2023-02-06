@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import CrearCotizacion from './cotizacion/crear_cotizacion/crear_cotizacion';
-import EstatusCotizacion from './cotizacion/estatus_cotización/estatus_cotizacion';
+import EstatusCotization from './cotizacion/estatus_cotización/estatus_cotizacion';
 import Inventario from './inventario/inventario';
 import Login from './login/login';
 import MainPage from './mainpage/mainpage';
@@ -20,7 +20,7 @@ function App() {
       <Route path='/alta_producto' element={<AltaProducto />} />
       <Route path='/baja_producto' element={<BajaProducto />} />
       <Route path='/crear_cotizacion' element={<CrearCotizacion />} />
-      <Route path='/status_cotizacion' element={<EstatusCotizacion />} />
+      <Route path='/status_cotizacion' element={<EstatusCotization />} />
       <Route path='/inventario' element={<Inventario />} />
     </Routes>
   );

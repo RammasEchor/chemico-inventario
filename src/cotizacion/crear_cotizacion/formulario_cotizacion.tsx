@@ -7,6 +7,8 @@ import ShadowedForm from "../../form_components/shadowed_form";
 import SubmitButton from "../../form_components/submit_button";
 import TextArea from "../../form_components/textarea";
 import TextInputLabelWarning from "../../form_components/text_input_label_warning";
+import { createQuote } from "../api_cotizacion";
+import emailQuote from "./email_cotizacion";
 
 function FormularioCotizacion() {
     const [quoteSubmitted, setQuoteSubmitted] = useState(false);
@@ -42,12 +44,10 @@ function FormularioCotizacion() {
             })}
             onSubmit={(values, { setSubmitting }) => {
                 setSubmitting(false);
-                fetch(`https://javaclusters-95554-0.cloudclusters.net/apiChemico-0.0.1-SNAPSHOT/api2/insertaCot/${values.productName}/${values.partNumber}/${values.maker}/${values.howMany}/${values.type}/${values.metricUnit}/${values.origin}/${values.useArea}/`)
-                    .then(response => {
-                        if (response.ok)
-                            setQuoteSubmitted(true)
-                    })
-                    
+                emailQuote(values)
+                    .then(() => createQuote(values))
+                    .then(() => setQuoteSubmitted(true))
+                    .catch(error => console.error(error))
             }}
         >
             <ShadowedForm>
@@ -72,7 +72,7 @@ function FormularioCotizacion() {
                 </div>
                 <SubmitButton text="Crear Cotización" />
             </ShadowedForm>
-        </Formik>
+        </Formik >
     );
 }
 

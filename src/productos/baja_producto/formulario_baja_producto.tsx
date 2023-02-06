@@ -6,6 +6,7 @@ import "../../css/inventario.css";
 import Checkbox from "../../form_components/checkbox";
 import WithdrawButton from "../../form_components/withdraw_button";
 import TablaInventario from "../../inventario/tabla_inventario";
+import { deleteProduct, getProducts } from "../api_productos";
 
 interface ProductFields {
     idProd: string,
@@ -26,7 +27,7 @@ function FormularioBajaProducto() {
     const [deleted, setDeleted] = useState(false);
 
     useEffect(() => {
-        fetch('https://javaclusters-95554-0.cloudclusters.net/apiChemico-0.0.1-SNAPSHOT/api2/productos/')
+        getProducts()
             .then(response => response.json())
             .then((data: ProductFields[]) => {
                 setProducts(data);
@@ -46,11 +47,12 @@ function FormularioBajaProducto() {
             })}
             onSubmit={(values, { setSubmitting }) => {
                 setSubmitting(false);
-                fetch(`https://javaclusters-95554-0.cloudclusters.net/apiChemico-0.0.1-SNAPSHOT/api2/delProd/${prodIdToDelete}/`)
+                deleteProduct(prodIdToDelete)
                     .then(response => {
                         if (response.ok)
                             setDeleted(true);
                     })
+                    .catch(error => console.error(error))
             }}
         >
             <Form className='box'>

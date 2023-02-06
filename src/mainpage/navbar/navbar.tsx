@@ -1,14 +1,19 @@
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import Brand from "./brand/brand";
 import DropMenu from "./dropmenu/dropmenu";
 import DropMenuItem from "./dropmenu/dropmenuitem";
 import menu_layout from "./menu_struct";
 import VerticalMenu from "./verticalmenu/verticalmenu";
 
-function NavBar() {
+interface NavBarProps {
+    setBurgerOpen: Dispatch<SetStateAction<boolean>>
+}
+
+function NavBar(props: NavBarProps) {
     const [sideMenu, setSideMenu] = useState(false);
     const burger_click = () => {
-        setSideMenu(!sideMenu);
+        setSideMenu(sideMenu => !sideMenu);
+        props.setBurgerOpen(sideMenu => !sideMenu);
     }
 
     const menu_items = menu_layout.map(topic =>

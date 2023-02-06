@@ -1,12 +1,13 @@
 import ProtectedRoute from "../../login/protected-route/protected_route";
-import NavBar from "../../mainpage/navbar/navbar";
+import PageWithNavbar from "../../mainpage/pageWithNavbar/page_with_navbar";
 import FormularioCotizacion from "./formulario_cotizacion";
 
 function CrearCotizacion() {
     return (
         <ProtectedRoute>
-            <NavBar/>
-            <FormularioCotizacion/>
+            <PageWithNavbar>
+                <FormularioCotizacion />
+            </PageWithNavbar>
         </ProtectedRoute>
     );
 }

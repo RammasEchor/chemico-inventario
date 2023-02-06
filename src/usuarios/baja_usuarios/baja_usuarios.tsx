@@ -1,12 +1,13 @@
 import ProtectedRoute from "../../login/protected-route/protected_route";
-import NavBar from "../../mainpage/navbar/navbar";
+import PageWithNavbar from "../../mainpage/pageWithNavbar/page_with_navbar";
 import FormularioBajaUsuario from "./formulario_baja_usuario";
 
 function BajaUsuario() {
     return (
         <ProtectedRoute>
-            <NavBar />
-            <FormularioBajaUsuario />
+            <PageWithNavbar>
+                <FormularioBajaUsuario />
+            </PageWithNavbar>
         </ProtectedRoute>
     );
 }

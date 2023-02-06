@@ -5,6 +5,7 @@ import * as Yup from "yup";
 import ShadowedForm from "../../form_components/shadowed_form";
 import SubmitButton from "../../form_components/submit_button";
 import TextInputLabelWarning from "../../form_components/text_input_label_warning";
+import { createUser, getRoles } from "../api_usuarios";
 
 interface RolAPIReturn {
     id: string,
@@ -16,7 +17,7 @@ function FormularioAltaUsuario() {
     const [userSubmitted, setUserSubmitted] = useState(false);
 
     useEffect(() => {
-        fetch('https://javaclusters-95554-0.cloudclusters.net/apiChemico-0.0.1-SNAPSHOT/api2/roles/')
+        getRoles()
             .then(response => response.json())
             .then((data: RolAPIReturn[]) => {
                 setRoles(data.map(rol => rol.nombre));
@@ -54,11 +55,9 @@ function FormularioAltaUsuario() {
             })}
             onSubmit={(values, { setSubmitting }) => {
                 setSubmitting(false);
-                fetch(`https://javaclusters-95554-0.cloudclusters.net/apiChemico-0.0.1-SNAPSHOT/api2/insertaUsr/${values.name}/${values.userKey}/${values.password}/${values.email}/${values.plant}/${values.rol}/`)
-                    .then(response => {
-                        if (response.ok)
-                            setUserSubmitted(true)
-                    })
+                createUser(values)
+                    .then(() => setUserSubmitted(true))
+                    .catch(error => console.error(error))
             }}
         >
             <ShadowedForm>

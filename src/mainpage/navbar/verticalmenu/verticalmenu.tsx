@@ -7,7 +7,11 @@ function VerticalMenu() {
             <p className="menu-label" key={topic.title}>{topic.title}</p>
             <ul className="menu-list" key={index}>
                 {topic.children.map(item =>
-                    <li key={item.title}><Link to={item.link} key={item.title}>{item.title}</Link></li>
+                    <li key={item.title}>
+                        <Link to={item.link} key={topic.title + item.title}>
+                            {item.title}
+                        </Link>
+                    </li>
                 )}
             </ul>
         </>
