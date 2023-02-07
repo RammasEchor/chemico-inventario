@@ -3,6 +3,7 @@ import Brand from "./brand/brand";
 import DropMenu from "./dropmenu/dropmenu";
 import DropMenuItem from "./dropmenu/dropmenuitem";
 import menu_layout from "./menu_struct";
+import UserIcon from "./user_icon/user_icon";
 import VerticalMenu from "./verticalmenu/verticalmenu";
 
 interface NavBarProps {
@@ -29,9 +30,11 @@ function NavBar(props: NavBarProps) {
             <Brand onClick={burger_click} />
             {sideMenu
                 ? <VerticalMenu />
-                : <></>
+                : <>{menu_items}</>
             }
-            <>{menu_items}</>
+            <div className="navbar-end">
+                <UserIcon />
+            </div>
         </nav>
     );
 }

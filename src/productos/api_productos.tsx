@@ -28,7 +28,7 @@ function deleteProduct(productId: string | undefined) {
     }
 
     if (productId === undefined) {
-        return (failedPromise("prodId is undefined"));
+        return (failedPromise("The productd ID to delete is undefined"));
     }
 
     let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;

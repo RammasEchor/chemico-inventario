@@ -36,7 +36,7 @@ function getRoles() {
     }
 
     let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
-    api_url += process.env.REACT_APP_BACKEND_ROLES
+    api_url += process.env.REACT_APP_BACKEND_GET_ROLES
     return fetch(api_url);
 
 }
