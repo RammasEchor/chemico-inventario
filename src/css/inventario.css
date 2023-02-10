@@ -27,3 +27,15 @@
 .inv-basis-cont {
     flex-basis: 60%;
 }
+
+.badge {
+    /* background: rgba(0, 0, 0, 0.5); */
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    border-radius: 50%;
+    position: absolute;
+    top: 10px;
+    right: 62px;
+    padding: 0px;
+}

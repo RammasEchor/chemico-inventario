@@ -1,6 +1,6 @@
 import ProtectedRoute from "../../login/protected-route/protected_route";
 import PageWithNavbar from "../../mainpage/pageWithNavbar/page_with_navbar";
-import DisplayCotizacion from "./display_cotizacion";
+import DisplayCotizacion from "./display_cotizaciones";
 
 function EstatusCotization() {
     return (

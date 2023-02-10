@@ -33,7 +33,7 @@ function FormularioAltaUsuario() {
             initialValues={{
                 name: '',
                 password: '',
-                rol: '',
+                rol: 'Admin',
                 email: '',
                 plant: '',
                 userKey: ''

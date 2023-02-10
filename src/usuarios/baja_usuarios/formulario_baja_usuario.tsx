@@ -5,6 +5,7 @@ import * as Yup from "yup";
 import "../../css/inventario.css";
 import Checkbox from "../../form_components/checkbox";
 import WithdrawButton from "../../form_components/withdraw_button";
+import { getUsers } from "../api_usuarios";
 import TablaUsuarios from "./tabla_usuarios";
 
 interface UserFields {
@@ -23,7 +24,7 @@ function FormularioBajaUsuario() {
     const [deleted, setDeleted] = useState(false);
 
     useEffect(() => {
-        fetch('https://javaclusters-95554-0.cloudclusters.net/apiChemico-0.0.1-SNAPSHOT/api2/usuarios/')
+        getUsers()
             .then(response => response.json())
             .then((data: UserFields[]) => {
                 setUsers(data);

@@ -1,5 +1,6 @@
 import { checkRootEnvironURL, envErrorMsg } from "../utilities/check_env";
 import { failedPromise } from "../utilities/failed_promise";
+import { ProductFields } from "./campos_producto";
 
 function checkProductEnvironURLS() {
     if (!checkRootEnvironURL() ||
@@ -10,6 +11,27 @@ function checkProductEnvironURLS() {
     }
 
     return true;
+}
+
+function insertProduct(product: ProductFields) {
+    if (!checkProductEnvironURLS()) {
+        return (failedPromise(envErrorMsg));
+    }
+
+    let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
+    api_url += process.env.REACT_APP_BACKEND_INSERT_PRODUCT
+
+    api_url += `${product.planta}/`
+    api_url += `${product.noParte}/`
+    api_url += `${product.descripcion}/`
+    api_url += `${product.maximo}/`
+    api_url += `${product.minimo}/`
+    api_url += `${product.precio}/`
+    api_url += `${product.uni_medida}/`
+    api_url += `${product.fecha_exp}/`
+    api_url += `${product.ubicacion}/`
+
+    return fetch(api_url);
 }
 
 function getProducts() {
@@ -37,5 +59,5 @@ function deleteProduct(productId: string | undefined) {
     return fetch(api_url);
 }
 
-export { getProducts, deleteProduct };
+export { insertProduct, getProducts, deleteProduct };
 

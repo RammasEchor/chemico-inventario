@@ -5,21 +5,9 @@ import * as Yup from "yup";
 import "../../css/inventario.css";
 import Checkbox from "../../form_components/checkbox";
 import WithdrawButton from "../../form_components/withdraw_button";
-import TablaInventario from "../../inventario/tabla_inventario";
 import { deleteProduct, getProducts } from "../api_productos";
-
-interface ProductFields {
-    idProd: string,
-    planta: string,
-    noParte: string,
-    descripcion: string,
-    maximo: string,
-    minimo: string,
-    precio: string,
-    uni_medida: string,
-    fecha_exp: string,
-    ubicacion: string
-}
+import { ProductFields } from "../campos_producto";
+import TablaInventario from "./tabla_productos";
 
 function FormularioBajaProducto() {
     const [products, setProducts] = useState<ProductFields[]>([]);

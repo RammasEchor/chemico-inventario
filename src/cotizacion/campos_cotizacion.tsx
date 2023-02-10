@@ -1,13 +1,39 @@
-interface quoteFields {
-    productName: string,
-    partNumber: string,
-    maker: string,
-    howMany: string,
-    type: string,
-    metricUnit: string,
-    origin: string,
-    useArea: string,
-    additionalInfo: string,
+interface QuoteFields {
+    id?: string,
+    nombre: string,
+    parte: string,
+    fabricante: string,
+    cant: string,
+    presentacion: string,
+    unidad: string,
+    planta: string,
+    area: string,
+    additionalInfo?: string,
 }
 
-export default quoteFields
+const quoteFieldsName = [
+    'Nombre',
+    'Parte',
+    'Fabricante',
+    'Cantidad',
+    'Presentación',
+    'Unidad',
+    'Planta',
+    'Área'
+]
+
+const quoteFieldsTableTitles = [
+    'Nombre',
+    'Parte',
+    'Fabricante',
+    'Cantidad',
+    'Presentación',
+    'Unidad',
+    'Planta',
+    'Área',
+    'Status'
+]
+
+export type { QuoteFields }
+export { quoteFieldsName, quoteFieldsTableTitles }
+

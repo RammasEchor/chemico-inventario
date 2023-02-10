@@ -1,4 +1,5 @@
 import { PropsWithChildren } from "react";
+import Tabla from "../../form_components/table";
 
 function TablaUsuarios(props: PropsWithChildren) {
     const cols = [
@@ -9,28 +10,10 @@ function TablaUsuarios(props: PropsWithChildren) {
         'CveUsuario'
     ]
 
-    const jsx_cols = cols.map((name) => {
-        return (<th key={name}>{name}</th>);
-    });
-
     return (
-        <div className="table-container">
-            <table className="table is-hoverable is-fullwidth">
-                <thead>
-                    <tr>
-                        {jsx_cols}
-                    </tr>
-                </thead>
-                <tfoot>
-                    <tr>
-                        {jsx_cols}
-                    </tr>
-                </tfoot>
-                <tbody>
-                    {props.children}
-                </tbody>
-            </table>
-        </div>
+        <Tabla cols={cols}>
+            {props.children}
+        </Tabla>
     );
 }
 

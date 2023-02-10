@@ -1,5 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
+import Aprobaciones from './aprobaciones/aprobaciones';
+import { CancelarCotizacion } from './cotizacion/cancelar_cotizacion/cancelar_cotizacion';
 import CrearCotizacion from './cotizacion/crear_cotizacion/crear_cotizacion';
 import EstatusCotization from './cotizacion/estatus_cotización/estatus_cotizacion';
 import Inventario from './inventario/inventario';
@@ -21,7 +23,9 @@ function App() {
       <Route path='/baja_producto' element={<BajaProducto />} />
       <Route path='/crear_cotizacion' element={<CrearCotizacion />} />
       <Route path='/status_cotizacion' element={<EstatusCotization />} />
+      <Route path='/cancelar_cotizacion' element={<CancelarCotizacion />} />
       <Route path='/inventario' element={<Inventario />} />
+      <Route path='/aprobaciones' element={<Aprobaciones />} />
     </Routes>
   );
 }

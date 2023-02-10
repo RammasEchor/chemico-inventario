@@ -6,6 +6,7 @@ import ShadowedForm from "../../form_components/shadowed_form";
 import SubmitButton from "../../form_components/submit_button";
 import TextArea from "../../form_components/textarea";
 import TextInputLabelWarning from "../../form_components/text_input_label_warning";
+import { insertProduct } from "../api_productos";
 
 
 function FormularioAltaProducto() {
@@ -18,15 +19,15 @@ function FormularioAltaProducto() {
     return (
         <Formik
             initialValues={{
-                plant: '',
-                partNumber: '',
-                description: '',
-                max: '',
-                min: '',
-                unitPrice: '',
-                measurementUnit: '',
-                expirationDate: '',
-                warehouseLocation: ''
+                planta: '',
+                noParte: '',
+                descripcion: '',
+                maximo: '',
+                minimo: '',
+                precio: '',
+                uni_medida: '',
+                fecha_exp: '',
+                ubicacion: ''
             }}
             validationSchema={Yup.object({
                 plant: Yup.string(),
@@ -41,7 +42,7 @@ function FormularioAltaProducto() {
             })}
             onSubmit={(values, { setSubmitting }) => {
                 setSubmitting(false);
-                fetch(`https://javaclusters-95554-0.cloudclusters.net/apiChemico-0.0.1-SNAPSHOT/api2/insertaProd/${values.plant}/${values.partNumber}/${values.description}/${values.max}/${values.min}/${values.measurementUnit}/${values.expirationDate}/${values.warehouseLocation}/${values.unitPrice}/`)
+                insertProduct(values)
                     .then(response => {
                         if (response.ok)
                             setProductSubmitted(true)

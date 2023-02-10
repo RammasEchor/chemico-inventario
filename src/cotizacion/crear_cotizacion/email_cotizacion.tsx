@@ -1,24 +1,28 @@
-import quoteFields from "../campos_cotizacion";
+import emailjs from '@emailjs/browser';
+import { QuoteFields } from "../campos_cotizacion";
 
-function emailQuote(quote: quoteFields) {
+function emailQuote(quote: QuoteFields) {
+    if (process.env.NODE_ENV === 'production') {
+        return emailjs.send(
+            'service_2tjakvh',
+            'template_rd5gdcd',
+            {
+                'productName': `${quote.nombre}`,
+                'partNumber': `${quote.parte}`,
+                'maker': `${quote.fabricante}`,
+                'howMany': `${quote.cant}`,
+                'type': `${quote.presentacion}`,
+                'metricUnit': `${quote.unidad}`,
+                'origin': `${quote.planta}`,
+                'useArea': `${quote.area}`,
+                'additionalInfo': `${quote.additionalInfo}`,
+                'to_reply': 'chemico.dev@gmail.com'
+            },
+            'H51r8KvhSQF6bf2AO'
+        );
+    }
+
     return Promise.resolve();
-    // return emailjs.send(
-    //     'service_2tjakvh',
-    //     'template_rd5gdcd',
-    //     {
-    //         'productName': `${quote.productName}`,
-    //         'partNumber': `${quote.partNumber}`,
-    //         'maker': `${quote.maker}`,
-    //         'howMany': `${quote.howMany}`,
-    //         'type': `${quote.type}`,
-    //         'metricUnit': `${quote.metricUnit}`,
-    //         'origin': `${quote.origin}`,
-    //         'useArea': `${quote.useArea}`,
-    //         'additionalInfo': `${quote.additionalInfo}`,
-    //         'to_reply': 'chemico.dev@gmail.com'
-    //     },
-    //     'H51r8KvhSQF6bf2AO'
-    // );
 }
 
 export default emailQuote

@@ -1,25 +1,17 @@
 import { PropsWithChildren } from "react";
 
-function TablaInventario(props: PropsWithChildren) {
-    const cols = [
-        'Planta',
-        'No. Parte',
-        'Descripción',
-        'Máximo',
-        'Mínimo',
-        'Precio unitario',
-        'Unidad de medida',
-        'Fecha de expiración',
-        'Ubicación almacén'
-    ]
+interface PropsTabla {
+    cols: string[]
+}
 
-    const jsx_cols = cols.map((name) => {
+function Tabla(props: PropsTabla & PropsWithChildren) {
+    const jsx_cols = props.cols.map((name) => {
         return (<th key={name}>{name}</th>);
     });
 
     return (
         <div className="table-container">
-            <table className="table is-hoverable is-fullwidth">
+            <table className="table is-hoverable is-fullwidth is-striped">
                 <thead>
                     <tr>
                         {jsx_cols}
@@ -38,4 +30,4 @@ function TablaInventario(props: PropsWithChildren) {
     );
 }
 
-export default TablaInventario
+export default Tabla

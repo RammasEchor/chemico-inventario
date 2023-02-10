@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 interface props {
     text: string
     link?: string
-    key?: string
 }
 
 function DropMenuItem(props: props) {

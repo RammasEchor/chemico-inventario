@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getProducts } from "../productos/api_productos";
-import TablaInventario from "./tabla_inventario";
+import TablaInventario from "../productos/baja_producto/tabla_productos";
 
 interface ProductFields {
     idProd: string,

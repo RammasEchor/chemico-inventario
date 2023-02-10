@@ -20,29 +20,29 @@ function FormularioCotizacion() {
     return (
         <Formik
             initialValues={{
-                productName: '',
-                partNumber: '',
-                maker: '',
-                howMany: '',
-                type: '',
-                metricUnit: '',
-                origin: '',
-                useArea: '',
+                nombre: '',
+                parte: '',
+                fabricante: '',
+                cant: '',
+                presentacion: '',
+                unidad: '',
+                planta: '',
+                area: '',
                 additionalInfo: '',
             }}
             validationSchema={Yup.object({
-                productName: Yup.string()
-                    .required(),
-                partNumber: Yup.string(),
-                maker: Yup.string(),
-                howMany: Yup.string(),
-                type: Yup.string(),
-                metricUnit: Yup.string(),
-                origin: Yup.string(),
-                useArea: Yup.string(),
+                nombre: Yup.string().required(),
+                parte: Yup.string(),
+                fabricante: Yup.string(),
+                cant: Yup.string(),
+                presentacion: Yup.string(),
+                unidad: Yup.string(),
+                planta: Yup.string(),
+                area: Yup.string(),
                 additionalInfo: Yup.string(),
             })}
             onSubmit={(values, { setSubmitting }) => {
+                console.log(process.env.NODE_ENV);
                 setSubmitting(false);
                 emailQuote(values)
                     .then(() => createQuote(values))
@@ -54,14 +54,14 @@ function FormularioCotizacion() {
                 <h4 className="title is-4">Crear Cotización</h4>
                 <div className="is-flex is-flex-direction-column">
                     <div>
-                        <TextInputLabelWarning name='productName' label='Nombre de Producto' />
-                        <TextInputLabelWarning name='partNumber' label='Número de parte' />
-                        <TextInputLabelWarning name='maker' label='Fabricante' />
-                        <TextInputLabelWarning name='howMany' label='Cantidad a solicitar' />
-                        <TextInputLabelWarning name='type' label='Presentación' />
-                        <TextInputLabelWarning name='metricUnit' label='Unidad de Medida' />
-                        <TextInputLabelWarning name='origin' label='Planta de Origen' />
-                        <TextInputLabelWarning name='useArea' label='Área de Utilización' />
+                        <TextInputLabelWarning name='nombre' label='Nombre de Producto' />
+                        <TextInputLabelWarning name='parte' label='Número de parte' />
+                        <TextInputLabelWarning name='fabricante' label='Fabricante' />
+                        <TextInputLabelWarning name='cant' label='Cantidad a solicitar' />
+                        <TextInputLabelWarning name='presentacion' label='Presentación' />
+                        <TextInputLabelWarning name='unidad' label='Unidad de Medida' />
+                        <TextInputLabelWarning name='planta' label='Planta de Origen' />
+                        <TextInputLabelWarning name='area' label='Área de Utilización' />
                         <div className="mt-5">
                             <TextArea name='additionalInfo' placeholder="Datos Adicionales" />
                         </div>

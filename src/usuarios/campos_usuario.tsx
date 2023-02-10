@@ -1,10 +1,20 @@
-interface userFields {
-    name: string,
-    password: string,
-    rol: string,
-    email: string,
-    plant: string,
-    userKey: string
+interface UserFields {
+    name?: string,
+    password?: string,
+    rol?: string,
+    email?: string,
+    plant?: string,
+    userKey?: string
 }
 
-export default userFields
+const cols = [
+    'Nombre',
+    'Rol',
+    'Email',
+    'Planta',
+    'CveUsuario'
+]
+
+export type { UserFields }
+export { cols }
+
