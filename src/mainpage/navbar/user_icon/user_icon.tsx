@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BiUserCircle } from "react-icons/bi";
 import { MdCircleNotifications } from "react-icons/md";
 import "../../../css/inventario.css";
-import { useAuth } from "../../../login/auth-provider/auth_provider";
+import { getRoleFromString, useAuth } from "../../../login/auth-provider/auth_provider";
+import { Role } from "../../../usuarios/campos_usuario";
 import DropMenuItem from "../dropmenu/dropmenuitem";
+import { getPendingQuotes } from "./api_notificaciones";
 
 interface UserIconState {
     activeIconBadge: boolean,
@@ -15,7 +17,24 @@ function UserIcon() {
         activeIconBadge: false,
         numberOfQuotes: 0
     });
-    const { userKey } = useAuth();
+    const { userKey, userRole, onLogout } = useAuth();
+
+    function checkForPendingQuotes() {
+        getPendingQuotes()
+            .then(response => response.json())
+            .then(pending => setIconState({
+                activeIconBadge: true,
+                numberOfQuotes: pending
+            }));
+    }
+
+    useEffect(() => {
+        const role = getRoleFromString(userRole);
+        if (role !== Role.Cliente) {
+            const interval = setInterval(checkForPendingQuotes, 10000);
+            return () => clearInterval(interval);
+        }
+    }, [userRole]);
 
     return (
         <div className={`
@@ -29,16 +48,6 @@ function UserIcon() {
                 has-text-link
                 navbar-item has-dropdown is-hoverable
             `}
-            onClick={() => {
-                setIconState(iconState => {
-                    const newQuotes = iconState.numberOfQuotes > 0 ? 0 : 1;
-                    const updatedValues: UserIconState = {
-                        activeIconBadge: !iconState.activeIconBadge,
-                        numberOfQuotes: newQuotes
-                    }
-                    return { ...iconState, ...updatedValues };
-                });
-            }}
         >
             {/* // Font awesome pixel sizes relative to the multiplier.
             // 1x - 14px
@@ -54,17 +63,16 @@ function UserIcon() {
                 {userKey}
             </div>
             <div className="navbar-dropdown is-right">
-                {/* <div className="navbar-item">
-                    {`Cotizaciones${iconState.numberOfQuotes > 0 ? ` (${iconState.numberOfQuotes})` : ""}`}
-                </div> */}
                 <DropMenuItem
                     text={`Cotizaciones${iconState.numberOfQuotes > 0 ? ` (${iconState.numberOfQuotes})` : ""}`}
                     link="/status_cotizacion"
                 />
                 <hr className="navbar-divider" />
-                <div className="navbar-item">
-                    Log Out
-                </div>
+                <DropMenuItem
+                    text="Log Out"
+                    link="/"
+                    onClick={() => onLogout()}
+                />
             </div>
         </div>
     );

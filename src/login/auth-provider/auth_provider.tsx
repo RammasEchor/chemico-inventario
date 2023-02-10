@@ -1,6 +1,6 @@
 import React, { PropsWithChildren, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
-import { Role } from "../../usuarios/enum_roles";
+import { Role } from "../../usuarios/campos_usuario";
 
 interface loginValues {
     username: string

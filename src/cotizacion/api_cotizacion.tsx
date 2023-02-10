@@ -5,6 +5,7 @@ import { QuoteFields } from "./campos_cotizacion";
 function checkQuoteEnvironURLS() {
     if (!checkRootEnvironURL() ||
         !process.env.REACT_APP_BACKEND_INSERT_QUOTE ||
+        !process.env.REACT_APP_BACKEND_GET_PENDING_QUOTES ||
         !process.env.REACT_APP_BACKEND_GET_QUOTES) {
         return false;
     }
@@ -12,7 +13,7 @@ function checkQuoteEnvironURLS() {
     return true;
 }
 
-function createQuote(quote: QuoteFields) {
+function createQuote(quote: QuoteFields, userKey: string | null) {
     if (!checkQuoteEnvironURLS()) {
         return (failedPromise(envErrorMsg));
     }
@@ -27,19 +28,33 @@ function createQuote(quote: QuoteFields) {
     api_url += `${quote.unidad}/`
     api_url += `${quote.planta}/`
     api_url += `${quote.area}/`
+    api_url += `${userKey}/`
 
     return fetch(api_url);
 }
 
-function getQuotes() {
+function getQuotes(rol: string | null, cveUsuario: string | null) {
     if (!checkQuoteEnvironURLS()) {
         return (failedPromise(envErrorMsg));
     }
 
     let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
-    api_url += process.env.REACT_APP_BACKEND_GET_QUOTES
+    api_url += process.env.REACT_APP_BACKEND_GET_PENDING_QUOTES
+    api_url += `${rol}/`
+    api_url += `${cveUsuario}/`
     return fetch(api_url);
 }
 
-export { createQuote, getQuotes };
+function approveQuote(id: string | undefined) {
+    if (!checkQuoteEnvironURLS() || !id) {
+        return (failedPromise(envErrorMsg));
+    }
+
+    let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
+    api_url += process.env.REACT_APP_BACKEND_APPROVE_QUOTE;
+    api_url += `${id}/`
+    return fetch(api_url);
+}
+
+export { createQuote, getQuotes, approveQuote };
 

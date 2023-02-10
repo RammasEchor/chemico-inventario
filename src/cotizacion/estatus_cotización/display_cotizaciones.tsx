@@ -1,23 +1,38 @@
 import { useEffect, useState } from "react";
 import { Modal } from "../../form_components/modal";
-import { getQuotes } from "../api_cotizacion";
-import { QuoteFields } from "../campos_cotizacion";
+import { useAuth } from "../../login/auth-provider/auth_provider";
+import { getUserRoleFromString, Role } from "../../usuarios/campos_usuario";
+import { approveQuote, getQuotes } from "../api_cotizacion";
+import { getQuoteStatusFromString, QuoteFields, QuoteStatus } from "../campos_cotizacion";
 import { QuoteDetail } from "../cotizacion_card";
 import TablaCotizacion from "./tabla_cotizaciones";
 
 function DisplayCotizacion() {
     const [quotes, setQuotes] = useState<QuoteFields[]>([]);
-    const [selectedQuote, setSelectedQuote] = useState<string>();
+    const [selectedQuoteId, setSelectedQuoteId] = useState<string>();
     const [showDetail, setShowDetail] = useState(false);
     const [detailQuote, setDetailQuote] = useState<QuoteFields>();
+    const [updatedQuote, setUpdatedQuote] = useState(false);
+
+    const { userRole, userKey } = useAuth();
 
     useEffect(() => {
-        getQuotes()
+        getQuotes(userRole, userKey)
             .then(response => response.json())
             .then((data: QuoteFields[]) => {
                 setQuotes(data);
             });
-    }, []);
+    }, [updatedQuote, userRole, userKey]);
+
+    function startApprovingQuote(id: string | undefined) {
+        approveQuote(id)
+            .then(response => {
+                if (response.ok) {
+                    setUpdatedQuote(updatedQuote => !updatedQuote);
+                    setShowDetail(false);
+                }
+            });
+    }
 
     return (
         <div className="box">
@@ -27,8 +42,8 @@ function DisplayCotizacion() {
                     return (
                         <tr id={quote.id}
                             key={quote.id}
-                            onClick={() => setSelectedQuote(quote.id)}
-                            className={selectedQuote === quote.id ? 'is-selected' : ''}
+                            onClick={() => setSelectedQuoteId(quote.id)}
+                            className={selectedQuoteId === quote.id ? 'is-selected' : ''}
                         >
                             <td key={quote.nombre}>{quote.nombre}</td>
                             <td key={quote.parte}>{quote.parte}</td>
@@ -39,20 +54,36 @@ function DisplayCotizacion() {
                             <td key={quote.planta}>{quote.planta}</td>
                             <td key={quote.area}>{quote.area}</td>
                             <td key={quote.area + quote.nombre}>
-                                <button
-                                    className="button"
-                                    onClick={() => {
-                                        setDetailQuote(quote);
-                                        setShowDetail(true);
-                                    }}
-                                >Button</button>
+                                <div className="block">
+                                    {
+                                        getQuoteStatusFromString(quote.status) === QuoteStatus.Aprobada ?
+                                            <button className="button is-success is-inverted">Aprobada</button>
+                                            :
+                                            getUserRoleFromString(userRole) !== Role.Cliente ?
+                                                <button
+                                                    className="button is-danger is-outlined"
+                                                    onClick={() => {
+                                                        setDetailQuote(quote);
+                                                        setShowDetail(true);
+                                                    }}
+                                                >Pendiente</button>
+                                                :
+                                                <button
+                                                    className="button is-danger is-inverted"
+                                                >Pendiente</button>
+                                    }
+                                </div>
                             </td>
                         </tr>
                     );
                 })}
             </TablaCotizacion>
             <Modal showModal={showDetail} onClick={() => setShowDetail(false)}>
-                <QuoteDetail detail={detailQuote} onClickX={() => setShowDetail(false)} />
+                <QuoteDetail
+                    detail={detailQuote}
+                    onClickX={() => setShowDetail(false)}
+                    onClickAprobar={() => startApprovingQuote(detailQuote?.id)}
+                />
             </Modal>
 
         </div >

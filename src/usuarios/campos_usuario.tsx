@@ -15,6 +15,20 @@ const cols = [
     'CveUsuario'
 ]
 
+enum Role {
+    Cliente,
+    Chemico,
+    Admin
+};
+
+function getUserRoleFromString(rawString: string | null) {
+    switch (rawString) {
+        case "Admin": return Role.Admin
+        case "Chemico": return Role.Chemico
+        default: return Role.Cliente
+    }
+}
+
 export type { UserFields }
-export { cols }
+export { cols, Role, getUserRoleFromString }
 

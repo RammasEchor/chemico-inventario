@@ -34,12 +34,10 @@ function NavBar(props: NavBarProps) {
     return (
         <nav className="navbar">
             <Brand onClick={burger_click} />
+            {sideMenu && <VerticalMenu />}
             <div className="navbar-menu">
                 <div className="navbar-start">
-                    {sideMenu
-                        ? <VerticalMenu />
-                        : <>{menu_items}</>
-                    }
+                    {!sideMenu && <>{menu_items}</>}
                 </div>
                 <div className="navbar-end">
                     <UserIcon />

@@ -1,4 +1,4 @@
-import { Role } from "../../usuarios/enum_roles"
+import { Role } from "../../usuarios/campos_usuario"
 
 const menu_layout = [
     {

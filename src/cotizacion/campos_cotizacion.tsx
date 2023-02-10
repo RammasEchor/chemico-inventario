@@ -1,3 +1,15 @@
+enum QuoteStatus {
+    Pendiente,
+    Aprobada,
+}
+
+function getQuoteStatusFromString(rawString: string | undefined) {
+    switch (rawString) {
+        case "Aprobada": return QuoteStatus.Aprobada
+        default: return QuoteStatus.Pendiente
+    }
+}
+
 interface QuoteFields {
     id?: string,
     nombre: string,
@@ -9,6 +21,7 @@ interface QuoteFields {
     planta: string,
     area: string,
     additionalInfo?: string,
+    status?: string
 }
 
 const quoteFieldsName = [
@@ -35,5 +48,5 @@ const quoteFieldsTableTitles = [
 ]
 
 export type { QuoteFields }
-export { quoteFieldsName, quoteFieldsTableTitles }
+export { quoteFieldsName, quoteFieldsTableTitles, QuoteStatus, getQuoteStatusFromString }
 

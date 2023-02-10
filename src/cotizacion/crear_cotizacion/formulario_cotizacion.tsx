@@ -7,11 +7,13 @@ import ShadowedForm from "../../form_components/shadowed_form";
 import SubmitButton from "../../form_components/submit_button";
 import TextArea from "../../form_components/textarea";
 import TextInputLabelWarning from "../../form_components/text_input_label_warning";
+import { useAuth } from "../../login/auth-provider/auth_provider";
 import { createQuote } from "../api_cotizacion";
 import emailQuote from "./email_cotizacion";
 
 function FormularioCotizacion() {
     const [quoteSubmitted, setQuoteSubmitted] = useState(false);
+    const { userKey } = useAuth();
 
     if (quoteSubmitted) {
         return (<Navigate to="/" />);
@@ -45,7 +47,7 @@ function FormularioCotizacion() {
                 console.log(process.env.NODE_ENV);
                 setSubmitting(false);
                 emailQuote(values)
-                    .then(() => createQuote(values))
+                    .then(() => createQuote(values, userKey))
                     .then(() => setQuoteSubmitted(true))
                     .catch(error => console.error(error))
             }}
