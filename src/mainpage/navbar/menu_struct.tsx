@@ -27,7 +27,7 @@ const menu_layout = [
     },
     {
         title: "Inventarios", children: [
-            { title: "Entrada de material", link: "/", visibility: Role.Admin },
+            { title: "Entrada de material", link: "/entrada_material", visibility: Role.Admin },
             { title: "Salida de material", link: "/", visibility: Role.Admin },
             { title: "Impresión de ordenes de material", link: "/", visibility: Role.Cliente },
             { title: "Listado de productos", link: "/", visibility: Role.Admin },

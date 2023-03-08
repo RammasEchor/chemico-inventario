@@ -7,6 +7,7 @@ function emailQuote(quote: QuoteFields) {
             'service_2tjakvh',
             'template_rd5gdcd',
             {
+                'id': `${quote.id}`,
                 'productName': `${quote.nombre}`,
                 'partNumber': `${quote.parte}`,
                 'maker': `${quote.fabricante}`,
@@ -21,8 +22,8 @@ function emailQuote(quote: QuoteFields) {
             'H51r8KvhSQF6bf2AO'
         );
     }
-
-    return Promise.resolve();
+    
+    return Promise.resolve(); 
 }
 
 export default emailQuote

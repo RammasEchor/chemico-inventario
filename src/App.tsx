@@ -4,7 +4,8 @@ import Aprobaciones from './aprobaciones/aprobaciones';
 import { CancelarCotizacion } from './cotizacion/cancelar_cotizacion/cancelar_cotizacion';
 import CrearCotizacion from './cotizacion/crear_cotizacion/crear_cotizacion';
 import EstatusCotization from './cotizacion/estatus_cotización/estatus_cotizacion';
-import Inventario from './inventario/inventario';
+import { EntradaProducto } from './inventario/entrada_material/entrada_producto';
+import Inventario from './inventario/inventario/inventario';
 import Login from './login/login';
 import MainPage from './mainpage/mainpage';
 import AltaProducto from './productos/alta_producto/alta_producto';
@@ -24,6 +25,7 @@ function App() {
       <Route path='/crear_cotizacion' element={<CrearCotizacion />} />
       <Route path='/status_cotizacion' element={<EstatusCotization />} />
       <Route path='/cancelar_cotizacion' element={<CancelarCotizacion />} />
+      <Route path='/entrada_material' element={<EntradaProducto />} />
       <Route path='/inventario' element={<Inventario />} />
       <Route path='/aprobaciones' element={<Aprobaciones />} />
     </Routes>

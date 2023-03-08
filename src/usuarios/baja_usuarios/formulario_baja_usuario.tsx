@@ -2,10 +2,10 @@ import { Form, Formik } from "formik";
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router";
 import * as Yup from "yup";
+import { getUsers } from "../../apis/api_usuarios";
 import "../../css/inventario.css";
 import Checkbox from "../../form_components/checkbox";
 import WithdrawButton from "../../form_components/withdraw_button";
-import { getUsers } from "../api_usuarios";
 import TablaUsuarios from "./tabla_usuarios";
 
 interface UserFields {

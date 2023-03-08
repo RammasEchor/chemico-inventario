@@ -1,6 +1,6 @@
+import { ProductFields } from "../productos/campos_producto";
 import { checkRootEnvironURL, envErrorMsg } from "../utilities/check_env";
 import { failedPromise } from "../utilities/failed_promise";
-import { ProductFields } from "./campos_producto";
 
 function checkProductEnvironURLS() {
     if (!checkRootEnvironURL() ||

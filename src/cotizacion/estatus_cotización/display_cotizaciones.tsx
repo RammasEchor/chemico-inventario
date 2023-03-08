@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
+import { approveQuote, getQuotes } from "../../apis/api_cotizacion";
 import { Modal } from "../../form_components/modal";
 import { useAuth } from "../../login/auth-provider/auth_provider";
 import { getUserRoleFromString, Role } from "../../usuarios/campos_usuario";
-import { approveQuote, getQuotes } from "../api_cotizacion";
 import { getQuoteStatusFromString, QuoteFields, QuoteStatus } from "../campos_cotizacion";
 import { QuoteDetail } from "../cotizacion_card";
 import TablaCotizacion from "./tabla_cotizaciones";
@@ -57,7 +57,7 @@ function DisplayCotizacion() {
                                 <div className="block">
                                     {
                                         getQuoteStatusFromString(quote.status) === QuoteStatus.Aprobada ?
-                                            <button className="button is-success is-inverted">Aprobada</button>
+                                            <button className="button is-success is-inverted">Enviada</button>
                                             :
                                             getUserRoleFromString(userRole) !== Role.Cliente ?
                                                 <button

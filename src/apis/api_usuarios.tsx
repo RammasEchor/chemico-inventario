@@ -1,6 +1,6 @@
+import { UserFields } from "../usuarios/campos_usuario";
 import { checkRootEnvironURL, envErrorMsg } from "../utilities/check_env";
 import { failedPromise } from "../utilities/failed_promise";
-import { UserFields } from "./campos_usuario";
 
 function checkUserEnvironURLS() {
     if (!checkRootEnvironURL() ||

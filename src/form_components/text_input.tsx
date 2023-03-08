@@ -1,8 +1,11 @@
 import { Field } from "formik";
+import { StringSchema } from "yup";
 
 interface TextInputProps {
     name: string,
     type?: string,
+    placeholder?: string
+    value?: StringSchema
 }
 
 function TextInput(props: TextInputProps) {
@@ -11,6 +14,8 @@ function TextInput(props: TextInputProps) {
             name={props.name}
             type={props.type ? props.type : 'text'}
             className='input'
+            placeholder={props.placeholder}
+            value={props.value}
         />
     );
 }

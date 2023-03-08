@@ -2,12 +2,12 @@ import { Form, Formik } from "formik";
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router";
 import * as Yup from "yup";
+import { deleteProduct, getProducts } from "../../apis/api_productos";
 import "../../css/inventario.css";
 import Checkbox from "../../form_components/checkbox";
 import WithdrawButton from "../../form_components/withdraw_button";
-import { deleteProduct, getProducts } from "../api_productos";
 import { ProductFields } from "../campos_producto";
-import TablaInventario from "./tabla_productos";
+import TablaProducto from "./tabla_productos";
 
 function FormularioBajaProducto() {
     const [products, setProducts] = useState<ProductFields[]>([]);
@@ -81,7 +81,7 @@ function FormularioBajaProducto() {
                         <button className="button is-info is-medium">Buscar</button>
                     </div>
                 </div>
-                <TablaInventario>
+                <TablaProducto>
                     {products.map(product => {
                         return (
                             <tr id={product.idProd}
@@ -101,7 +101,7 @@ function FormularioBajaProducto() {
                             </tr>
                         );
                     })}
-                </TablaInventario>
+                </TablaProducto>
                 <WithdrawButton text='Eliminar Producto' />
             </Form>
         </Formik>

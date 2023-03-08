@@ -1,6 +1,6 @@
+import { QuoteFields } from "../cotizacion/campos_cotizacion";
 import { checkRootEnvironURL, envErrorMsg } from "../utilities/check_env";
 import { failedPromise } from "../utilities/failed_promise";
-import { QuoteFields } from "./campos_cotizacion";
 
 function checkQuoteEnvironURLS() {
     if (!checkRootEnvironURL() ||

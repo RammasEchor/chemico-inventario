@@ -2,7 +2,7 @@ import { PropsWithChildren } from "react";
 import Tabla from "../../form_components/table";
 import { productFieldsName } from "../campos_producto";
 
-function TablaInventario(props: PropsWithChildren) {
+function TablaProducto(props: PropsWithChildren) {
     return (
         <Tabla cols={productFieldsName}>
             {props.children}
@@ -10,4 +10,4 @@ function TablaInventario(props: PropsWithChildren) {
     );
 }
 
-export default TablaInventario
+export default TablaProducto

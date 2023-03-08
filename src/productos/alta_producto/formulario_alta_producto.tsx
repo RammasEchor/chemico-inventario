@@ -1,16 +1,27 @@
 import { Formik } from "formik";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Navigate } from "react-router";
 import * as Yup from "yup";
+import { getPlants, PlantasAPI } from "../../apis/api_plantas";
+import { insertProduct } from "../../apis/api_productos";
+import { SelectWithLabel } from "../../form_components/select_with_label";
 import ShadowedForm from "../../form_components/shadowed_form";
 import SubmitButton from "../../form_components/submit_button";
 import TextArea from "../../form_components/textarea";
 import TextInputLabelWarning from "../../form_components/text_input_label_warning";
-import { insertProduct } from "../api_productos";
 
 
 function FormularioAltaProducto() {
     const [productSubmitted, setProductSubmitted] = useState(false);
+    const [plantas, setPlantas] = useState<string[]>([]);
+
+    useEffect(() => {
+        getPlants()
+            .then(response => response.json())
+            .then((data: PlantasAPI[]) => {
+                setPlantas(data.map(planta => planta.nombre));
+            });
+    });
 
     if (productSubmitted) {
         return (<Navigate to="/" />);
@@ -19,7 +30,7 @@ function FormularioAltaProducto() {
     return (
         <Formik
             initialValues={{
-                planta: '',
+                planta: 'Planta 1',
                 noParte: '',
                 descripcion: '',
                 maximo: '',
@@ -52,7 +63,9 @@ function FormularioAltaProducto() {
             <ShadowedForm>
                 <h4 className="title is-4">Alta de Producto</h4>
                 <div className="is-flex is-flex-direction-column">
-                    <TextInputLabelWarning name='plant' label='Planta' />
+                    <SelectWithLabel name="plant" label="Planta">
+                        {plantas.map(planta => <option value={planta} key={planta}>{planta}</option>)}
+                    </SelectWithLabel>
                     <TextInputLabelWarning name='partNumber' label='Número de parte' />
                     <div className="mt-5 mb-5">
                         <TextArea name='description' placeholder='Descripción del producto' />
