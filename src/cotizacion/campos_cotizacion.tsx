@@ -24,6 +24,15 @@ interface QuoteFields {
     status?: string
 }
 
+interface MasterQuoteFields {
+    id?: string,
+    descripcion?: string,
+    aprobador1?: string,
+    aprobador2?: string,
+    fechaAprob1?: string,
+    fechaAprob2?: string
+}
+
 const quoteFieldsName = [
     'Nombre',
     'Parte',
@@ -47,6 +56,6 @@ const quoteFieldsTableTitles = [
     'Status'
 ]
 
-export type { QuoteFields }
+export type { QuoteFields, MasterQuoteFields }
 export { quoteFieldsName, quoteFieldsTableTitles, QuoteStatus, getQuoteStatusFromString }
 

@@ -1,47 +1,42 @@
 import { useEffect, useState } from "react";
-import { getMasterQuotes, uploadPDF } from "../../apis/api_cotizacion";
-import { Modal } from "../../form_components/modal";
+import { Navigate } from "react-router";
+import { getToApproves, insertToApprove } from "../../apis/api_cotizacion";
 import Tabla from "../../form_components/table";
-import { useAuth } from "../../login/auth-provider/auth_provider";
 import { MasterQuoteFields } from "../campos_cotizacion";
-import { QuoteDetail } from "../cotizacion_card";
 
-function DisplayCotizacion() {
+function DisplayCotizacionesListas() {
     const [quotes, setQuotes] = useState<MasterQuoteFields[]>([]);
     const [selectedQuoteId, setSelectedQuoteId] = useState<string>();
-    const [showDetail, setShowDetail] = useState(false);
-    const [detailQuoteId, setDetailQuoteId] = useState<string>();
-    const [updatedQuote, setUpdatedQuote] = useState(false);
-
-    const { userRole, userKey } = useAuth();
+    const [anyApproved, setAnyApproved] = useState(false);
 
     useEffect(() => {
-        getMasterQuotes()
+        getToApproves()
             .then(response => response.json())
             .then((data: MasterQuoteFields[]) => {
                 setQuotes(data);
             });
-    }, [updatedQuote, userRole, userKey]);
-
-    function startUpload(file: File) {
-        uploadPDF(file, detailQuoteId)
-            .then(response => response.text())
-            .then(data => {
-                if (data) {
-                    setUpdatedQuote(updatedQuote => !updatedQuote);
-                    setShowDetail(false);
-                }
-            })
-            .catch(error => {
-                console.log(error)
-            })
-    }
+    }, [anyApproved]);
 
     function redIfNull(toCheck: string | undefined) {
         if (!toCheck)
             return "has-text-danger"
 
         return ""
+    }
+
+    if (anyApproved) {
+        return (<Navigate to="/" />);
+    }
+
+    function startApproved(id: string | undefined) {
+        insertToApprove(id)
+            .then(response => response.text())
+            .then(data => {
+                if (data) {
+                    setAnyApproved(true);
+                }
+            })
+            .catch(error => console.log(error))
     }
 
     return (
@@ -54,7 +49,8 @@ function DisplayCotizacion() {
                 'Aprobador 2',
                 'Fecha Aprobación 1',
                 'Fecha Aprobación 2',
-                'Detalle'
+                'Revisar',
+                'Acción'
             ]}>
                 {quotes.map(quote => {
                     return (
@@ -82,6 +78,9 @@ function DisplayCotizacion() {
                                 {quote.fechaAprob2 ? quote.fechaAprob2 : "Faltante"}
                             </td>
                             <td key={quote.id}>
+                                <a href={`https://javaclusters-95554-0.cloudclusters.net/pdfs/COT_${quote.id}`}>PDF</a>
+                            </td>
+                            <td key={quote.id}>
                                 <div className="block">
                                     <button
                                         className={selectedQuoteId === quote.id ?
@@ -89,26 +88,18 @@ function DisplayCotizacion() {
                                             "button is-info is-outlined"
                                         }
                                         onClick={() => {
-                                            setShowDetail(true)
-                                            setDetailQuoteId(quote.id)
+                                            startApproved(quote.id)
                                         }}
-                                    >Adjuntar PDF</button>
+                                    >Enviar a Aprobar</button>
                                 </div>
                             </td>
                         </tr>
                     );
                 })}
             </Tabla>
-            <Modal showModal={showDetail} onClick={() => setShowDetail(false)}>
-                <QuoteDetail
-                    quoteId={detailQuoteId}
-                    onClickX={() => setShowDetail(false)}
-                    onClickAprobar={startUpload}
-                />
-            </Modal>
-
         </div >
     );
 }
 
-export default DisplayCotizacion
+export { DisplayCotizacionesListas };
+

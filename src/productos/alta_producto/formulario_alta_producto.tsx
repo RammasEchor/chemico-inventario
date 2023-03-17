@@ -21,7 +21,7 @@ function FormularioAltaProducto() {
             .then((data: PlantasAPI[]) => {
                 setPlantas(data.map(planta => planta.nombre));
             });
-    });
+    }, []);
 
     if (productSubmitted) {
         return (<Navigate to="/" />);

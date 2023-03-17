@@ -20,8 +20,9 @@ const menu_layout = [
     {
         title: "Cotización", children: [
             { title: "Crear cotización", link: "/crear_cotizacion", visibility: Role.Cliente },
-            { title: "Estatus de cotización", link: "/status_cotizacion", visibility: Role.Cliente },
+            { title: "Estatus de cotización", link: "/status_cotizacion", visibility: Role.Chemico },
             { title: "Cancelar cotización", link: "/cancelar_cotizacion", visibility: Role.Admin },
+            { title: "Cotizaciones listas", link: "/cotizaciones_listas", visibility: Role.Cliente },
         ],
         visibility: Role.Cliente
     },
@@ -39,9 +40,10 @@ const menu_layout = [
     },
     {
         title: "Aprobaciones", children: [
-            { title: "Aprobaciones", link: "/aprobaciones", visibility: Role.Chemico },
+            { title: "Por aprobar", link: "/aprobaciones", visibility: Role.Chemico },
+            { title: "Aprobadas", link: "/aprobaciones_listas", visibility: Role.Cliente },
         ],
-        visibility: Role.Chemico
+        visibility: Role.Cliente
     },
     {
         title: "Consultas", children: [

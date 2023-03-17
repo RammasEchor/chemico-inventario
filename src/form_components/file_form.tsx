@@ -1,7 +1,14 @@
+import { Dispatch, SetStateAction, useState } from "react";
 import { FaUpload } from "react-icons/fa";
 import "../css/inventario.css";
 
-function FileForm() {
+interface FileFormInterface {
+    onChange: Dispatch<SetStateAction<File>>
+}
+
+function FileForm(props: FileFormInterface) {
+    const [filename, setFilename] = useState("Ningún archivo seleccionado");
+
     return (
         <div className={`
                 file 
@@ -12,7 +19,12 @@ function FileForm() {
                 is-large
             `}>
             <label className="file-label">
-                <input className="file-input" type="file" name="resume" />
+                <input className="file-input" type="file" name="resume"
+                    onChange={(event) => {
+                        const files = event.currentTarget.files as FileList
+                        props.onChange(files[0]);
+                        setFilename(files[0].name);
+                    }} />
                 <span className="file-cta">
                     <span className="file-icon">
                         <i className="fas fa-upload">
@@ -24,7 +36,7 @@ function FileForm() {
                     </span>
                 </span>
                 <span className="file-name">
-                    Ningún archivo seleccionado
+                    {filename}
                 </span>
             </label>
         </div>

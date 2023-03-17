@@ -1,7 +1,9 @@
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
-import Aprobaciones from './aprobaciones/aprobaciones';
+import Aprobaciones from './aprobaciones/aprobaciones/aprobaciones';
+import AprobacionesListas from './aprobaciones/aprobaciones_listas/aprobaciones_listas';
 import { CancelarCotizacion } from './cotizacion/cancelar_cotizacion/cancelar_cotizacion';
+import CotizacionesListas from './cotizacion/cotizaciones_listas/cotizaciones_listas';
 import CrearCotizacion from './cotizacion/crear_cotizacion/crear_cotizacion';
 import EstatusCotization from './cotizacion/estatus_cotización/estatus_cotizacion';
 import { EntradaProducto } from './inventario/entrada_material/entrada_producto';
@@ -28,6 +30,8 @@ function App() {
       <Route path='/entrada_material' element={<EntradaProducto />} />
       <Route path='/inventario' element={<Inventario />} />
       <Route path='/aprobaciones' element={<Aprobaciones />} />
+      <Route path='/cotizaciones_listas' element={<CotizacionesListas />} />
+      <Route path='/aprobaciones_listas' element={<AprobacionesListas />} />
     </Routes>
   );
 }
