@@ -1,14 +1,14 @@
 import { Field } from "formik";
-import { PropsWithChildren } from "react";
+import { ComponentPropsWithoutRef } from "react";
 
-interface SelectProps   {
-    name?: string
+interface SelectProps extends ComponentPropsWithoutRef<'select'> {
+    name: string
 }
 
-function Select(props: PropsWithChildren & SelectProps) {
+function Select({ name, ...rest }: SelectProps) {
     return (
-        <Field className="is-fullwidth" name={props.name} as="select">
-            {props.children}
+        <Field className="is-fullwidth" name={name} as="select" {...rest}>
+            {rest.children}
         </Field>
     );
 }

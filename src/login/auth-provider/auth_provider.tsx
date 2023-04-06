@@ -10,7 +10,8 @@ interface loginValues {
 interface loginReturn {
     loginSuccess: string,
     rolUsuario: string | null,
-    cveUsuario: string | null
+    cveUsuario: string | null,
+    nuevo: number | null
 }
 
 interface AuthContextInterface {
@@ -72,18 +73,30 @@ function AuthProvider(props: PropsWithChildren) {
     }, [token, role, userKey]);
 
     const handleLogin = (values: loginValues) => {
+        let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
+        api_url += `login/${values.username}/${values.password}/`
         return (
-            fetch(`https://javaclusters-95554-0.cloudclusters.net/apiChemico-0.0.1-SNAPSHOT/api2/login/${values.username}/${values.password}/`)
+            fetch(api_url)
                 .then(response => response.json())
                 .then((data: loginReturn) => {
                     if (data.loginSuccess !== "No") {
                         setToken('12345');
                         setRole(data.rolUsuario);
                         setUserKey(data.cveUsuario);
-                        const origin = location.state?.from?.pathname || '/';
-                        navigate(origin);
+                        if (data.nuevo === 0) {
+                            navigate('/change_passw');
+                        }
+                        else {
+                            const origin = location.state?.from?.pathname || '/';
+                            navigate(origin);
+                        }
+                    }
+
+                    else {
+                        alert("Usuario/Contraseña incorrecto(s)")
                     }
                 })
+                .catch(error => console.log(error))
         );
     };
 

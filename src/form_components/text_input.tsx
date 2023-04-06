@@ -1,14 +1,7 @@
 import { Field } from "formik";
-import { StringSchema } from "yup";
+import { ComponentPropsWithoutRef } from "react";
 
-interface TextInputProps {
-    name: string,
-    type?: string,
-    placeholder?: string
-    value?: StringSchema
-}
-
-function TextInput(props: TextInputProps) {
+function TextInput({...props}: ComponentPropsWithoutRef<'input'>) {
     return (
         <Field
             name={props.name}

@@ -37,6 +37,8 @@ function createUser(user: UserFields) {
     api_url += `${user.email}/`
     api_url += `${user.plant}/`
     api_url += `${user.rol}/`
+    api_url += `${user.aprobador1}/`
+    api_url += `${user.aprobador2}/`
 
     return fetch(api_url);
 }
@@ -51,5 +53,16 @@ function getRoles() {
     return fetch(api_url);
 }
 
-export { createUser, getRoles, getUsers };
+function getAprobadores(planta: string) {
+    if (!checkUserEnvironURLS) {
+        return (failedPromise(envErrorMsg));
+    }
+
+    let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
+    api_url += process.env.REACT_APP_BACKEND_GET_APROBADORES
+    api_url += `${planta}/`
+    return fetch(api_url);
+}
+
+export { createUser, getRoles, getUsers, getAprobadores };
 

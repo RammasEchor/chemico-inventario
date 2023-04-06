@@ -1,22 +1,20 @@
-import { FieldHookConfig, useField } from "formik";
+import { useField } from 'formik';
+import type { ComponentPropsWithoutRef } from "react";
 import TextInput from "./text_input";
 
-interface TextInputProps {
-    name: string,
-    type?: string,
+interface TextInputLabelWarningProps extends ComponentPropsWithoutRef<'input'> {
     label: string,
-    placeholder?: string
-    value?: string
+    name: string
 }
 
-function TextInputLabelWarning(props: TextInputProps & FieldHookConfig<string>) {
-    const [, meta] = useField(props);
+function TextInputLabelWarning({ label, name, ...rest }: TextInputLabelWarningProps) {
+    const [, meta] = useField(name);
     return (
         <div className="is-flex is-flex-direction-column mb-3">
-            <label className="is-size-5" htmlFor={props.name}>{props.label}</label>
-            <TextInput name={props.name} type={props.type} placeholder={props.placeholder} value={props.value}/>
+            <label className="is-size-5" htmlFor={name}>{label}</label>
+            <TextInput name={name} {...rest} />
             {meta.touched && meta.error ? (
-                <div className="has-text-danger">{meta.error}</div>
+                <div className="has-text-danger">{`${meta.error}`}</div>
             ) : null}
         </div>
     );

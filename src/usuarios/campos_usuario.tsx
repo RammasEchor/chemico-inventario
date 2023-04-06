@@ -4,7 +4,9 @@ interface UserFields {
     rol?: string,
     email?: string,
     plant?: string,
-    userKey?: string
+    userKey?: string,
+    aprobador1?: string,
+    aprobador2?: string
 }
 
 const cols = [

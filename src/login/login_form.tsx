@@ -3,6 +3,7 @@ import * as Yup from "yup";
 import "../css/bulma.css";
 import TextInputLabelWarning from "../form_components/text_input_label_warning";
 import logo from "../images/logo.jpg";
+import { appendFieldRequiredSpanish } from "../utilities/error_messages";
 import { useAuth } from "./auth-provider/auth_provider";
 
 
@@ -19,10 +20,11 @@ function LoginForm() {
                 password: ''
             }}
             validationSchema={Yup.object({
-                username: Yup.string()
-                    .required(),
+                username: Yup
+                    .string()
+                    .required(appendFieldRequiredSpanish('Usuario')),
                 password: Yup.string()
-                    .required()
+                    .required(appendFieldRequiredSpanish('Contraseña'))
             })}
             onSubmit={(values, { setSubmitting }) => {
                 setSubmitting(false);
@@ -36,12 +38,12 @@ function LoginForm() {
                 <div className="card-content">
                     <Form>
                         <TextInputLabelWarning
-                            label="Username"
+                            label="Usuario"
                             name="username"
                             type="text"
                         />
                         <TextInputLabelWarning
-                            label="Password"
+                            label="Contraseña"
                             name="password"
                             type="password"
                         />

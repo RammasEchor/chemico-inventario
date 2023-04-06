@@ -9,6 +9,7 @@ import EstatusCotization from './cotizacion/estatus_cotización/estatus_cotizaci
 import { EntradaProducto } from './inventario/entrada_material/entrada_producto';
 import Inventario from './inventario/inventario/inventario';
 import Login from './login/login';
+import ResetPassword from './login/reset_passwd';
 import MainPage from './mainpage/mainpage';
 import AltaProducto from './productos/alta_producto/alta_producto';
 import BajaProducto from './productos/baja_producto/baja_producto';
@@ -32,6 +33,7 @@ function App() {
       <Route path='/aprobaciones' element={<Aprobaciones />} />
       <Route path='/cotizaciones_listas' element={<CotizacionesListas />} />
       <Route path='/aprobaciones_listas' element={<AprobacionesListas />} />
+      <Route path='/change_passw' element={<ResetPassword />} />
     </Routes>
   );
 }

@@ -80,7 +80,7 @@ function AddProduct(props: AddProductProps) {
                         <TextInputLabelWarning name='cant' label='Cantidad a solicitar' />
                         <TextInputLabelWarning name='presentacion' label='Presentación' />
                         <TextInputLabelWarning name='unidad' label='Unidad de Medida' />
-                        <SelectWithLabel name="plant" label="Planta">
+                        <SelectWithLabel name="planta" label="Planta">
                             {plantas.map(planta => <option value={planta} key={planta}>{planta}</option>)}
                         </SelectWithLabel>
                         <TextInputLabelWarning name='area' label='Área de Utilización' />
