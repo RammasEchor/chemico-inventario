@@ -19,8 +19,9 @@ const cols = [
 
 enum Role {
     Cliente,
+    Aprobador,
     Chemico,
-    Admin
+    Admin,
 };
 
 function getUserRoleFromString(rawString: string | null) {

@@ -30,7 +30,8 @@ function useAuth() {
 function getRoleFromString(rawRole: string | null): Role {
     switch (rawRole) {
         case "Admin": return Role.Admin;
-        case "Chemico": return Role.Chemico
+        case "Chemico": return Role.Chemico;
+        case "Aprobador": return Role.Aprobador;
         default: return Role.Cliente;
     }
 }

@@ -12,12 +12,12 @@ function DisplayAprobaciones() {
     const { userKey } = useAuth();
 
     useEffect(() => {
-        getPendingApproves()
+        getPendingApproves(userKey as string)
             .then(response => response.json())
             .then((data: MasterQuoteFields[]) => {
                 setQuotes(data);
             });
-    }, [anyApproved]);
+    }, [anyApproved, userKey]);
 
     function redIfNull(toCheck: string | undefined) {
         if (!toCheck)
@@ -59,7 +59,7 @@ function DisplayAprobaciones() {
                         <tr id={quote.id}
                             key={quote.id}
                             onClick={() => setSelectedQuoteId(quote.id)}
-                            className={selectedQuoteId === quote.id ? 'is-selected' : ''}
+                            className={(selectedQuoteId === quote.id ? 'is-selected' : '')}
                         >
                             <td key={quote.id} className={redIfNull(quote.id)}>
                                 {quote.id ? quote.id : "Sin Descripción"}
@@ -80,7 +80,7 @@ function DisplayAprobaciones() {
                                 {quote.fechaAprob2 ? quote.fechaAprob2 : "Faltante"}
                             </td>
                             <td key={quote.id}>
-                                <a href={`https://javaclusters-95554-0.cloudclusters.net/pdfs/COT_${quote.id}`}>PDF</a>
+                                <a className="is-underlined" href={`https://javaclusters-95554-0.cloudclusters.net/pdfs/COT_${quote.id}`}>PDF</a>
                             </td>
                             <td key={quote.id}>
                                 <div className="block">

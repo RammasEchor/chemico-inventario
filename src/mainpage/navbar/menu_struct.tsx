@@ -40,7 +40,7 @@ const menu_layout = [
     },
     {
         title: "Aprobaciones", children: [
-            { title: "Por aprobar", link: "/aprobaciones", visibility: Role.Chemico },
+            { title: "Por aprobar", link: "/aprobaciones", visibility: Role.Aprobador },
             { title: "Aprobadas", link: "/aprobaciones_listas", visibility: Role.Cliente },
         ],
         visibility: Role.Cliente
