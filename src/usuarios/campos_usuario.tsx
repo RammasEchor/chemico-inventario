@@ -18,8 +18,8 @@ const cols = [
 ]
 
 enum Role {
-    Cliente,
     Aprobador,
+    Cliente,
     Chemico,
     Admin,
 };

@@ -124,13 +124,14 @@ function getMasterQuotes() {
     return fetch(api_url);
 }
 
-function getToApproves() {
+function getToApproves(userKey: string) {
     if (!checkQuoteEnvironURLS()) {
         return (failedPromise(envErrorMsg));
     }
 
     let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
     api_url += process.env.REACT_APP_BACKEND_GET_APPROVES;
+    api_url += `${userKey}/`;
 
     return fetch(api_url);
 }

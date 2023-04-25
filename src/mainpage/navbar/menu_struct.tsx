@@ -19,10 +19,10 @@ const menu_layout = [
     },
     {
         title: "Cotización", children: [
-            { title: "Crear cotización", link: "/crear_cotizacion", visibility: Role.Cliente },
-            { title: "Estatus de cotización", link: "/status_cotizacion", visibility: Role.Chemico },
+            { title: "Crear cotización", link: "/crear_cotizacion", visibility: Role.Aprobador },
+            { title: "Pendientes de cotizar", link: "/status_cotizacion", visibility: Role.Chemico },
             { title: "Cancelar cotización", link: "/cancelar_cotizacion", visibility: Role.Admin },
-            { title: "Cotizaciones listas", link: "/cotizaciones_listas", visibility: Role.Cliente },
+            { title: "Cotizaciones enviadas", link: "/cotizaciones_listas", visibility: Role.Aprobador },
         ],
         visibility: Role.Cliente
     },
@@ -30,29 +30,29 @@ const menu_layout = [
         title: "Inventarios", children: [
             { title: "Entrada de material", link: "/entrada_material", visibility: Role.Admin },
             { title: "Salida de material", link: "/", visibility: Role.Admin },
-            { title: "Impresión de ordenes de material", link: "/", visibility: Role.Cliente },
+            { title: "Impresión de ordenes de material", link: "/", visibility: Role.Aprobador },
             { title: "Listado de productos", link: "/", visibility: Role.Admin },
             { title: "Inventario", link: "/inventario", visibility: Role.Admin },
             { title: "Cancelar salida de material", link: "/", visibility: Role.Admin },
             { title: "Ajustes de inventario", link: "/", visibility: Role.Admin }
         ],
-        visibility: Role.Cliente
+        visibility: Role.Chemico
     },
     {
         title: "Aprobaciones", children: [
             { title: "Por aprobar", link: "/aprobaciones", visibility: Role.Aprobador },
-            { title: "Aprobadas", link: "/aprobaciones_listas", visibility: Role.Cliente },
+            { title: "Aprobadas", link: "/aprobaciones_listas", visibility: Role.Aprobador },
         ],
-        visibility: Role.Cliente
+        visibility: Role.Aprobador
     },
     {
         title: "Consultas", children: [
             { title: "Reporte de entradas", link: "/", visibility: Role.Chemico },
             { title: "Reporte de consumos", link: "/", visibility: Role.Chemico },
-            { title: "Reporte On hand/stock", link: "/", visibility: Role.Cliente },
+            { title: "Reporte On hand/stock", link: "/", visibility: Role.Aprobador },
             { title: "Listado de usuarios", link: "/", visibility: Role.Admin },
         ],
-        visibility: Role.Cliente
+        visibility: Role.Aprobador
     },
 
 ]

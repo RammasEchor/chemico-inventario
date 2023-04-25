@@ -1,10 +1,10 @@
 import { Form, Formik } from "formik";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import * as Yup from "yup";
-import { getPlants, PlantasAPI } from "../../apis/api_plantas";
 import { SelectWithLabel } from "../../form_components/select_with_label";
-import TextArea from "../../form_components/textarea";
 import TextInputLabelWarning from "../../form_components/text_input_label_warning";
+import TextArea from "../../form_components/textarea";
+import { useAuth } from "../../login/auth-provider/auth_provider";
 import { QuoteFields } from "../campos_cotizacion";
 
 interface AddProductProps {
@@ -14,7 +14,8 @@ interface AddProductProps {
 }
 
 function AddProduct(props: AddProductProps) {
-    const [plantas, setPlantas] = useState<string[]>([]);
+    const { userPlant } = useAuth();
+    const [plantas, setPlantas] = useState<string[]>([userPlant as string]);
     const [initialValues, setInitialValues] = useState({
         nombre: '',
         parte: '',
@@ -22,29 +23,29 @@ function AddProduct(props: AddProductProps) {
         cant: '',
         presentacion: '',
         unidad: '',
-        planta: '',
+        planta: userPlant as string,
         area: '',
         additionalInfo: '',
     });
 
-    useEffect(() => {
-        getPlants()
-            .then(response => response.json())
-            .then((data: PlantasAPI[]) => {
-                setPlantas(data.map(planta => planta.nombre));
-                setInitialValues({
-                    nombre: '',
-                    parte: '',
-                    fabricante: '',
-                    cant: '',
-                    presentacion: '',
-                    unidad: '',
-                    planta: data[0].nombre,
-                    area: '',
-                    additionalInfo: '',
-                })
-            });
-    }, []);
+    // useEffect(() => {
+    //     getPlants()
+    //         .then(response => response.json())
+    //         .then((data: PlantasAPI[]) => {
+    //             setPlantas(data.map(planta => planta.nombre));
+    //             setInitialValues({
+    //                 nombre: '',
+    //                 parte: '',
+    //                 fabricante: '',
+    //                 cant: '',
+    //                 presentacion: '',
+    //                 unidad: '',
+    //                 planta: data[0].nombre,
+    //                 area: '',
+    //                 additionalInfo: '',
+    //             })
+    //         });
+    // }, []);
 
     return (
         <Formik

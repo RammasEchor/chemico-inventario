@@ -2,15 +2,17 @@ import { useEffect, useState } from "react";
 import { Navigate } from "react-router";
 import { getToApproves, insertToApprove } from "../../apis/api_cotizacion";
 import Tabla from "../../form_components/table";
+import { useAuth } from "../../login/auth-provider/auth_provider";
 import { MasterQuoteFields } from "../campos_cotizacion";
 
 function DisplayCotizacionesListas() {
     const [quotes, setQuotes] = useState<MasterQuoteFields[]>([]);
     const [selectedQuoteId, setSelectedQuoteId] = useState<string>();
+    const { userKey } = useAuth();
     const [anyApproved, setAnyApproved] = useState(false);
 
     useEffect(() => {
-        getToApproves()
+        getToApproves(userKey as string)
             .then(response => response.json())
             .then((data: MasterQuoteFields[]) => {
                 setQuotes(data);

@@ -11,7 +11,8 @@ interface loginReturn {
     loginSuccess: string,
     rolUsuario: string | null,
     cveUsuario: string | null,
-    nuevo: number | null
+    nuevo: number | null,
+    planta: string | null
 }
 
 interface AuthContextInterface {
@@ -20,6 +21,7 @@ interface AuthContextInterface {
     onLogout: () => void;
     userRole: string | null;
     userKey: string | null;
+    userPlant: string | null;
 }
 
 const AuthContext = React.createContext({} as AuthContextInterface);
@@ -61,9 +63,18 @@ function AuthProvider(props: PropsWithChildren) {
         cachedUserKey = null;
     }
 
+    let cachedUserPlant = localStorage.getItem('userPlant');
+    if (cachedUserPlant && cachedUserPlant !== "null") {
+        cachedUserPlant = JSON.parse(cachedUserPlant);
+    }
+    else {
+        cachedUserPlant = null;
+    }
+
     const [token, setToken] = useState<string | null>(localToken);
     const [role, setRole] = useState<string | null>(cachedRole);
     const [userKey, setUserKey] = useState<string | null>(cachedUserKey);
+    const [userPlant, setUserPlant] = useState<string | null>(cachedUserPlant);
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -71,7 +82,8 @@ function AuthProvider(props: PropsWithChildren) {
         localStorage.setItem('token', JSON.stringify(token));
         localStorage.setItem('role', JSON.stringify(role));
         localStorage.setItem('userKey', JSON.stringify(userKey));
-    }, [token, role, userKey]);
+        localStorage.setItem('userPlant', JSON.stringify(userPlant));
+    }, [token, role, userKey, userPlant]);
 
     const handleLogin = (values: loginValues) => {
         let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
@@ -84,6 +96,7 @@ function AuthProvider(props: PropsWithChildren) {
                         setToken('12345');
                         setRole(data.rolUsuario);
                         setUserKey(data.cveUsuario);
+                        setUserPlant(data.planta);
                         if (data.nuevo === 0) {
                             navigate('/change_passw');
                         }
@@ -110,7 +123,8 @@ function AuthProvider(props: PropsWithChildren) {
         onLogin: handleLogin,
         onLogout: handleLogout,
         userRole: role,
-        userKey: userKey
+        userKey: userKey,
+        userPlant: userPlant
     };
 
     return (
