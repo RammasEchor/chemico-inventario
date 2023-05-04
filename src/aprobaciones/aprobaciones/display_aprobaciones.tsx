@@ -41,6 +41,17 @@ function DisplayAprobaciones() {
             .catch(error => console.log(error))
     }
 
+    function startDecline(folio: string | undefined) {
+        sendOneApproves(userKey as string, folio)
+            .then(response => response.text())
+            .then(data => {
+                if (data) {
+                    setAnyApproved(true);
+                }
+            })
+            .catch(error => console.log(error))
+    }
+
     return (
         <div className="box">
             <h4 className="title is-4">Cotizaciones</h4>
@@ -86,13 +97,22 @@ function DisplayAprobaciones() {
                                 <div className="block">
                                     <button
                                         className={selectedQuoteId === quote.id ?
-                                            "button is-success is-inverted" :
-                                            "button is-success is-outlined"
+                                            "button is-success is-inverted mr-2" :
+                                            "button is-success is-outlined mr-2"
                                         }
                                         onClick={() => {
                                             startApproved(quote.id)
                                         }}
                                     >Aprobar</button>
+                                    <button
+                                        className={selectedQuoteId === quote.id ?
+                                            "button is-danger is-inverted" :
+                                            "button is-danger is-outlined"
+                                        }
+                                        onClick={() => {
+                                            startDecline(quote.id)
+                                        }}
+                                    >Rechazar</button>
                                 </div>
                             </td>
                         </tr>

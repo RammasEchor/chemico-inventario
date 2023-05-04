@@ -40,7 +40,7 @@ function getRoleFromString(rawRole: string | null): Role {
 
 function AuthProvider(props: PropsWithChildren) {
     let localToken = localStorage.getItem('token');
-    if (localToken && localToken !== "null") {
+    if (localToken && localToken !== "null" && localToken !== "undefined") {
         localToken = JSON.parse(localToken);
     }
     else {
@@ -48,7 +48,7 @@ function AuthProvider(props: PropsWithChildren) {
     }
 
     let cachedRole = localStorage.getItem('role');
-    if (cachedRole && cachedRole !== "null") {
+    if (cachedRole && cachedRole !== "null" && cachedRole !== "undefined") {
         cachedRole = JSON.parse(cachedRole);
     }
     else {
@@ -56,7 +56,7 @@ function AuthProvider(props: PropsWithChildren) {
     }
 
     let cachedUserKey = localStorage.getItem('userKey');
-    if (cachedUserKey && cachedUserKey !== "null") {
+    if (cachedUserKey && cachedUserKey !== "null" && cachedUserKey !== "undefined") {
         cachedUserKey = JSON.parse(cachedUserKey);
     }
     else {
@@ -64,7 +64,7 @@ function AuthProvider(props: PropsWithChildren) {
     }
 
     let cachedUserPlant = localStorage.getItem('userPlant');
-    if (cachedUserPlant && cachedUserPlant !== "null") {
+    if (cachedUserPlant && cachedUserPlant !== "null" && cachedUserPlant !== "undefined") {
         cachedUserPlant = JSON.parse(cachedUserPlant);
     }
     else {

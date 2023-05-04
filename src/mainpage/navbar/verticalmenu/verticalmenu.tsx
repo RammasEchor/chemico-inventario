@@ -10,13 +10,28 @@ function VerticalMenu() {
         <React.Fragment key={topic.title + index}>
             <p className="menu-label" key={topic.title}>{topic.title}</p>
             <ul className="menu-list" key={index}>
-                {topic.children.map(item =>
-                    <li key={item.title}>
-                        <Link to={item.link} key={topic.title + item.title}>
-                            {item.title}
-                        </Link>
-                    </li>
-                )}
+                {topic.children.map(item => {
+                    if ('children' in item) {
+                        return (
+                            item.children?.map(subitem =>
+                                <li key={subitem.title}>
+                                    <Link to={subitem.link} key={topic.title + subitem.title}>
+                                        {subitem.title}
+                                    </Link>
+                                </li>
+                            )
+                        );
+                    }
+                    else {
+                        return (
+                            <li key={item.title}>
+                                <Link to={item.link} key={topic.title + item.title}>
+                                    {item.title}
+                                </Link>
+                            </li>
+                        );
+                    }
+                })}
             </ul>
         </React.Fragment>
     );

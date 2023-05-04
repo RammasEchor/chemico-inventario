@@ -19,12 +19,19 @@ const menu_layout = [
     },
     {
         title: "Cotización", children: [
-            { title: "Crear cotización", link: "/crear_cotizacion", visibility: Role.Aprobador },
+            { title: "Crear cotización", link: "/crear_cotizacion", visibility: Role.Cliente },
             { title: "Pendientes de cotizar", link: "/status_cotizacion", visibility: Role.Chemico },
             { title: "Cancelar cotización", link: "/cancelar_cotizacion", visibility: Role.Admin },
-            { title: "Cotizaciones enviadas", link: "/cotizaciones_listas", visibility: Role.Aprobador },
+            { title: "Cotizaciones enviadas", link: "/cotizaciones_listas", visibility: Role.Cliente },
+            {
+                title: "Aprobar/Rechazar Cotizaciones", children: [
+                    { title: "Por aprobar", link: "/aprobaciones", visibility: Role.Aprobador },
+                    { title: "Aprobadas", link: "/aprobaciones_listas", visibility: Role.Aprobador },
+                ],
+                visibility: Role.Aprobador
+            },
         ],
-        visibility: Role.Cliente
+        visibility: Role.Aprobador
     },
     {
         title: "Inventarios", children: [
@@ -37,13 +44,6 @@ const menu_layout = [
             { title: "Ajustes de inventario", link: "/", visibility: Role.Admin }
         ],
         visibility: Role.Chemico
-    },
-    {
-        title: "Aprobaciones", children: [
-            { title: "Por aprobar", link: "/aprobaciones", visibility: Role.Aprobador },
-            { title: "Aprobadas", link: "/aprobaciones_listas", visibility: Role.Aprobador },
-        ],
-        visibility: Role.Aprobador
     },
     {
         title: "Consultas", children: [
