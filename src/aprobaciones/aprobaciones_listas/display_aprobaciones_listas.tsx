@@ -1,12 +1,19 @@
 import { useEffect, useState } from "react";
 import { getCotAprobadas } from "../../apis/api_cotizacion";
 import { MasterQuoteFields } from "../../cotizacion/campos_cotizacion";
+import FullQuoteDetail from "../../cotizacion/estatus_cotización/modal_full_info";
+import { Modal } from "../../form_components/modal";
 import Tabla from "../../form_components/table";
 import { useAuth } from "../../login/auth-provider/auth_provider";
+import ConpaqModal from "./updateConpaqModal";
 
 function DisplayAprobacionesListas() {
     const [quotes, setQuotes] = useState<MasterQuoteFields[]>([]);
     const [selectedQuoteId, setSelectedQuoteId] = useState<string>();
+    const [showDescriptionModal, setShowDescriptionModal] = useState(false);
+    const [tituloDescModal, setTituloDescModal] = useState('Vacio');
+    const [showModalConpaq, setShowModalConpaq] = useState(false);
+
     const { userKey } = useAuth();
 
     useEffect(() => {
@@ -15,7 +22,7 @@ function DisplayAprobacionesListas() {
             .then((data: MasterQuoteFields[]) => {
                 setQuotes(data);
             });
-    }, [userKey]);
+    }, [userKey, showModalConpaq]);
 
     function redIfNull(toCheck: string | undefined) {
         if (!toCheck)
@@ -34,6 +41,8 @@ function DisplayAprobacionesListas() {
                 'Aprobador 2',
                 'Fecha Aprobación 1',
                 'Fecha Aprobación 2',
+                'Fecha Estimada',
+                'Orden',
                 'Revisar',
             ]}>
                 {quotes.map(quote => {
@@ -47,7 +56,20 @@ function DisplayAprobacionesListas() {
                                 {quote.id ? quote.id : "Sin Descripción"}
                             </td>
                             <td key={quote.descripcion} className={redIfNull(quote.descripcion)}>
-                                {quote.descripcion ? quote.descripcion : "Sin Descripción"}
+                                {quote.descripcion ?
+                                    <button
+                                        className='button is-ghost'
+                                        onClick={() => {
+                                            setSelectedQuoteId(quote.id)
+                                            setTituloDescModal(quote.descripcion as string)
+                                            setShowDescriptionModal(true)
+                                        }}
+                                    >
+                                        {quote.descripcion}
+                                    </button>
+                                    :
+                                    "Sin Descripción"
+                                }
                             </td>
                             <td key={quote.aprobador1} className={redIfNull(quote.aprobador1)}>
                                 {quote.aprobador1 ? quote.aprobador1 : "Faltante"}
@@ -61,23 +83,47 @@ function DisplayAprobacionesListas() {
                             <td key={quote.fechaAprob2} className={redIfNull(quote.fechaAprob2)}>
                                 {quote.fechaAprob2 ? quote.fechaAprob2 : "Faltante"}
                             </td>
-                            <td key={quote.id}>
-                                <a href={`https://javaclusters-95554-0.cloudclusters.net/pdfs/COT_${quote.id}`}>PDF</a>
+                            <td key={quote.fechaEstimada} className={redIfNull(quote.fechaEstimada)}>
+                                {quote.fechaEstimada ? quote.fechaEstimada : "Faltante"}
                             </td>
-                            {/* <td key={quote.id}>
-                                <div className="block">
-                                    <button
-                                        className={selectedQuoteId === quote.id ?
-                                            "button is-success is-inverted" :
-                                            "button is-success is-outlined"
-                                        }
-                                    >Aprobar</button>
+                            <td key={quote.orden} className={redIfNull(quote.orden)}>
+                                {quote.orden ? quote.orden : "Faltante"}
+                            </td>
+                            <td key={quote.id}>
+                                <div className="is-flex is-justify-content-space-between is-align-items-center is-flex-wrap-wrap">
+                                    <a href={`https://javaclusters-95554-0.cloudclusters.net/pdfs/COT_${quote.id}`}>PDF</a>
+                                    {quote.aprobador2 && quote.aprobador1 &&
+                                        <button
+                                            className={selectedQuoteId === quote.id ?
+                                                "button is-success is-inverted" :
+                                                "button is-success is-outlined"
+                                            }
+                                            onClick={() => {
+                                                setSelectedQuoteId(quote.id)
+                                                setShowModalConpaq(true)
+                                            }}
+                                        >Procesada</button>
+                                    }
                                 </div>
-                            </td> */}
+                            </td>
                         </tr>
                     );
                 })}
             </Tabla>
+            <Modal showModal={showDescriptionModal} onClick={() => setShowDescriptionModal(false)}>
+                <FullQuoteDetail
+                    cotId={selectedQuoteId}
+                    titulo={tituloDescModal}
+                    onClickCancelar={() => setShowDescriptionModal(false)}
+                    show={showDescriptionModal}
+                />
+            </Modal>
+            <Modal showModal={showModalConpaq} onClick={() => setShowModalConpaq(false)}>
+                <ConpaqModal
+                    folio={selectedQuoteId as string}
+                    onClickCancelar={() => setShowModalConpaq(false)}
+                />
+            </Modal>
         </div >
     );
 }

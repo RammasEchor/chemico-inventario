@@ -5,11 +5,14 @@ import Tabla from "../../form_components/table";
 import { useAuth } from "../../login/auth-provider/auth_provider";
 import { MasterQuoteFields } from "../campos_cotizacion";
 import { QuoteDetail } from "../cotizacion_card";
+import FullQuoteDetail from "./modal_full_info";
 
 function DisplayCotizacion() {
     const [quotes, setQuotes] = useState<MasterQuoteFields[]>([]);
     const [selectedQuoteId, setSelectedQuoteId] = useState<string>();
     const [showDetail, setShowDetail] = useState(false);
+    const [showDescriptionModal, setShowDescriptionModal] = useState(false);
+    const [tituloDescModal, setTituloDescModal] = useState('Vacio');
     const [detailQuoteId, setDetailQuoteId] = useState<string>();
     const [updatedQuote, setUpdatedQuote] = useState(false);
 
@@ -67,7 +70,20 @@ function DisplayCotizacion() {
                                 {quote.id ? quote.id : "Sin Descripción"}
                             </td>
                             <td key={quote.descripcion} className={redIfNull(quote.descripcion)}>
-                                {quote.descripcion ? quote.descripcion : "Sin Descripción"}
+                                {quote.descripcion ?
+                                    <button
+                                        className='button is-ghost'
+                                        onClick={() => {
+                                            setSelectedQuoteId(quote.id)
+                                            setTituloDescModal(quote.descripcion as string)
+                                            setShowDescriptionModal(true)
+                                        }}
+                                    >
+                                        {quote.descripcion}
+                                    </button>
+                                    :
+                                    "Sin Descripción"
+                                }
                             </td>
                             <td key={quote.aprobador1} className={redIfNull(quote.aprobador1)}>
                                 {quote.aprobador1 ? quote.aprobador1 : "Faltante"}
@@ -81,7 +97,7 @@ function DisplayCotizacion() {
                             <td key={quote.fechaAprob2} className={redIfNull(quote.fechaAprob2)}>
                                 {quote.fechaAprob2 ? quote.fechaAprob2 : "Faltante"}
                             </td>
-                            <td key={quote.id}>
+                            <td key={quote.id + (quote.fechaAprob1 as string)}>
                                 <div className="block">
                                     <button
                                         className={selectedQuoteId === quote.id ?
@@ -106,7 +122,14 @@ function DisplayCotizacion() {
                     onClickAprobar={startUpload}
                 />
             </Modal>
-
+            <Modal showModal={showDescriptionModal} onClick={() => setShowDescriptionModal(false)}>
+                <FullQuoteDetail
+                    cotId={selectedQuoteId}
+                    titulo={tituloDescModal}
+                    onClickCancelar={() => setShowDescriptionModal(false)}
+                    show={showDescriptionModal}
+                />
+            </Modal>
         </div >
     );
 }

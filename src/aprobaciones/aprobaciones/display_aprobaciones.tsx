@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { Navigate } from "react-router";
 import { getPendingApproves, sendOneApproves } from "../../apis/api_cotizacion";
 import { MasterQuoteFields } from "../../cotizacion/campos_cotizacion";
+import FullQuoteDetail from "../../cotizacion/estatus_cotización/modal_full_info";
+import { Modal } from "../../form_components/modal";
 import Tabla from "../../form_components/table";
 import { useAuth } from "../../login/auth-provider/auth_provider";
 
@@ -9,6 +11,8 @@ function DisplayAprobaciones() {
     const [quotes, setQuotes] = useState<MasterQuoteFields[]>([]);
     const [selectedQuoteId, setSelectedQuoteId] = useState<string>();
     const [anyApproved, setAnyApproved] = useState(false);
+    const [showDescriptionModal, setShowDescriptionModal] = useState(false);
+    const [tituloDescModal, setTituloDescModal] = useState('Vacio');
     const { userKey } = useAuth();
 
     useEffect(() => {
@@ -76,7 +80,20 @@ function DisplayAprobaciones() {
                                 {quote.id ? quote.id : "Sin Descripción"}
                             </td>
                             <td key={quote.descripcion} className={redIfNull(quote.descripcion)}>
-                                {quote.descripcion ? quote.descripcion : "Sin Descripción"}
+                                {quote.descripcion ?
+                                    <button
+                                        className='button is-ghost'
+                                        onClick={() => {
+                                            setSelectedQuoteId(quote.id)
+                                            setTituloDescModal(quote.descripcion as string)
+                                            setShowDescriptionModal(true)
+                                        }}
+                                    >
+                                        {quote.descripcion}
+                                    </button>
+                                    :
+                                    "Sin Descripción"
+                                }
                             </td>
                             <td key={quote.aprobador1} className={redIfNull(quote.aprobador1)}>
                                 {quote.aprobador1 ? quote.aprobador1 : "Faltante"}
@@ -97,8 +114,8 @@ function DisplayAprobaciones() {
                                 <div className="block">
                                     <button
                                         className={selectedQuoteId === quote.id ?
-                                            "button is-success is-inverted mr-2" :
-                                            "button is-success is-outlined mr-2"
+                                            "button is-success is-inverted mr-2 mb-2" :
+                                            "button is-success is-outlined mr-2 mb-2"
                                         }
                                         onClick={() => {
                                             startApproved(quote.id)
@@ -119,6 +136,14 @@ function DisplayAprobaciones() {
                     );
                 })}
             </Tabla>
+            <Modal showModal={showDescriptionModal} onClick={() => setShowDescriptionModal(false)}>
+                <FullQuoteDetail
+                    cotId={selectedQuoteId}
+                    titulo={tituloDescModal}
+                    onClickCancelar={() => setShowDescriptionModal(false)}
+                    show={showDescriptionModal}
+                />
+            </Modal>
         </div >
     );
 }

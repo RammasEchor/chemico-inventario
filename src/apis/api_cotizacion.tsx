@@ -184,6 +184,39 @@ function getCotAprobadas(userKey: string | undefined) {
     return fetch(api_url);
 }
 
+function getInfoCot(id: string | undefined) {
+    if (!checkQuoteEnvironURLS()) {
+        return (failedPromise(envErrorMsg));
+    }
+
+    let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
+    api_url += process.env.REACT_APP_BACKEND_QUOTE_FULL_DETAIL;
+    api_url += `${id}/`
+
+    return fetch(api_url);
+}
+
+function postContpaq({ comment, fecha, folio }: { comment: number, fecha: string, folio: string }) {
+    if (!checkQuoteEnvironURLS()) {
+        return (failedPromise(envErrorMsg));
+    }
+
+    let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
+    api_url += process.env.REACT_APP_BACKEND_QUOTE_CONTPAQ;
+
+    return fetch(api_url, {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            'folio': folio,
+            'orden': comment,
+            'fecha': fecha
+        })
+    });
+}
+
 export {
     createQuote,
     getQuotes,
@@ -197,7 +230,9 @@ export {
     insertToApprove,
     getPendingApproves,
     sendOneApproves,
-    getCotAprobadas
+    getCotAprobadas,
+    getInfoCot,
+    postContpaq
 };
 
 

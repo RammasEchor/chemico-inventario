@@ -17,7 +17,7 @@ function DisplayCotizacionesListas() {
             .then((data: MasterQuoteFields[]) => {
                 setQuotes(data);
             });
-    }, [anyApproved]);
+    }, [anyApproved, userKey]);
 
     function redIfNull(toCheck: string | undefined) {
         if (!toCheck)

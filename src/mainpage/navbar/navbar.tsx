@@ -23,14 +23,14 @@ function NavBar(props: NavBarProps) {
     const userVisibility = getRoleFromString(userRole);
 
     const menu_items = menu_layout.map(topic =>
-        topic.visibility <= userVisibility &&
+        topic.visibility.includes(userVisibility) &&
         <DropMenu text={topic.title} key={topic.title}>
             {topic.children.map(item => {
                 if ('children' in item) {
                     return (
-                        <Submenu label={item.title}>
+                        <Submenu label={item.title} key={item.title}>
                             {item.children?.map(subitem =>
-                                subitem.visibility <= userVisibility &&
+                                subitem.visibility.includes(userVisibility) &&
                                 <DropMenuItem text={subitem.title} link={subitem.link} key={subitem.title} />
                             )}
                         </Submenu>
@@ -38,7 +38,7 @@ function NavBar(props: NavBarProps) {
                 }
                 else {
                     return (
-                        item.visibility <= userVisibility &&
+                        item.visibility.includes(userVisibility) &&
                         <DropMenuItem text={item.title} link={item.link} key={item.title} />
                     );
                 }

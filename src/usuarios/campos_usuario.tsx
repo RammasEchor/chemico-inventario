@@ -6,7 +6,8 @@ interface UserFields {
     plant?: string,
     userKey?: string,
     aprobador1?: string,
-    aprobador2?: string
+    aprobador2?: string,
+    monto_aprobador?: string
 }
 
 const cols = [
@@ -22,6 +23,7 @@ enum Role {
     Cliente,
     Chemico,
     Admin,
+    Hidden
 };
 
 function getUserRoleFromString(rawString: string | null) {

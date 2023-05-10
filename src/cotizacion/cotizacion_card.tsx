@@ -55,28 +55,28 @@ function QuoteDetail(props: CotizacionCardProps) {
                             <tr id={quote.id}
                                 key={quote.id}
                             >
-                                <td key={quote?.nombre}>
+                                <td>
                                     {quote?.nombre}
                                 </td>
-                                <td key={quote?.parte}>
+                                <td>
                                     {quote?.parte}
                                 </td>
-                                <td key={quote?.fabricante}>
+                                <td>
                                     {quote?.fabricante}
                                 </td>
-                                <td key={quote?.cant}>
+                                <td>
                                     {quote?.cant}
                                 </td>
-                                <td key={quote?.presentacion}>
+                                <td>
                                     {quote?.presentacion}
                                 </td>
-                                <td key={quote?.unidad}>
+                                <td>
                                     {quote?.unidad}
                                 </td>
-                                <td key={quote?.planta}>
+                                <td>
                                     {quote?.planta}
                                 </td>
-                                <td key={quote?.area}>
+                                <td>
                                     {quote?.area}
                                 </td>
                             </tr>

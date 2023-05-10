@@ -2,7 +2,7 @@ import { Formik } from "formik";
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router";
 import * as Yup from 'yup';
-import { getPlants, PlantasAPI } from "../../apis/api_plantas";
+import { PlantasAPI, getPlants } from "../../apis/api_plantas";
 import { createUser, getAprobadores, getRoles } from "../../apis/api_usuarios";
 import { SelectWithLabel } from "../../form_components/select_with_label";
 import ShadowedForm from "../../form_components/shadowed_form";
@@ -33,7 +33,8 @@ function FormularioAltaUsuario() {
         plant: '',
         userKey: '',
         aprobador1: '',
-        aprobador2: ''
+        aprobador2: '',
+        monto_aprobador: ''
     })
 
     useEffect(() => {
@@ -80,6 +81,27 @@ function FormularioAltaUsuario() {
         return (<Navigate to="/" />);
     }
 
+    let extra_items = <></>
+    if (currentRole === 'Cliente') {
+        extra_items = (
+            <div className="px-3">
+                <SelectWithLabel name='aprobador1' label='Aprobador 1'>
+                    {aprobadores1.map(ap1 => <option value={ap1} key={ap1}>{ap1}</option>)}
+                </SelectWithLabel>
+                <SelectWithLabel name='aprobador2' label='Aprobador 2'>
+                    {aprobadores2.map(ap2 => <option value={ap2} key={ap2}>{ap2}</option>)}
+                </SelectWithLabel>
+            </div>
+        )
+    }
+    else if (currentRole === 'Aprobador') {
+        extra_items = (
+            <div className="px-3">
+                <TextInputLabelWarning name='monto_aprobador' label='Monto' />
+            </div>
+        )
+    }
+
     return (
         <Formik
             enableReinitialize={true}
@@ -103,6 +125,9 @@ function FormularioAltaUsuario() {
                 if (currentRole !== 'Cliente') {
                     values.aprobador1 = '-'
                     values.aprobador2 = '-'
+                }
+                if (currentRole !== 'Aprobador') {
+                    values.monto_aprobador = '-'
                 }
                 createUser(values)
                     .then(() => setUserSubmitted(true))
@@ -137,17 +162,7 @@ function FormularioAltaUsuario() {
                         >
                             {roles.map(rol => <option value={rol} key={rol}>{rol}</option>)}
                         </SelectWithLabel>
-                        {
-                            currentRole === 'Cliente' &&
-                            <div className="px-3">
-                                <SelectWithLabel name='aprobador1' label='Aprobador 1'>
-                                    {aprobadores1.map(ap1 => <option value={ap1} key={ap1}>{ap1}</option>)}
-                                </SelectWithLabel>
-                                <SelectWithLabel name='aprobador2' label='Aprobador 2'>
-                                    {aprobadores2.map(ap2 => <option value={ap2} key={ap2}>{ap2}</option>)}
-                                </SelectWithLabel>
-                            </div>
-                        }
+                        {extra_items}
                         <TextInputLabelWarning name='email' label='Email' />
                         <TextInputLabelWarning name='userKey' label='Clave de Usuario' />
                     </div>

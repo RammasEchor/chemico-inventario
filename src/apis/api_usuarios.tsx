@@ -39,6 +39,7 @@ function createUser(user: UserFields) {
     api_url += `${user.rol}/`
     api_url += `${user.aprobador1}/`
     api_url += `${user.aprobador2}/`
+    api_url += `${user.monto_aprobador}/`
 
     return fetch(api_url);
 }
