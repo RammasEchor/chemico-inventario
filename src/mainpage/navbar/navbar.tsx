@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import { Submenu } from "../../form_components/submenu";
-import { getRoleFromString, useAuth } from "../../login/auth-provider/auth_provider";
+import { useAuth } from "../../login/auth-provider/auth_provider";
+import { getUserRoleFromString } from "../../usuarios/campos_usuario";
 import Brand from "./brand/brand";
 import DropMenu from "./dropmenu/dropmenu";
 import DropMenuItem from "./dropmenu/dropmenuitem";
@@ -20,31 +21,35 @@ function NavBar(props: NavBarProps) {
         props.setBurgerOpen(sideMenu => !sideMenu);
     }
 
-    const userVisibility = getRoleFromString(userRole);
+    const userVisibility = getUserRoleFromString(userRole);
 
-    const menu_items = menu_layout.map(topic =>
-        topic.visibility.includes(userVisibility) &&
-        <DropMenu text={topic.title} key={topic.title}>
-            {topic.children.map(item => {
-                if ('children' in item) {
-                    return (
-                        <Submenu label={item.title} key={item.title}>
-                            {item.children?.map(subitem =>
-                                subitem.visibility.includes(userVisibility) &&
-                                <DropMenuItem text={subitem.title} link={subitem.link} key={subitem.title} />
-                            )}
-                        </Submenu>
-                    );
-                }
-                else {
-                    return (
-                        item.visibility.includes(userVisibility) &&
-                        <DropMenuItem text={item.title} link={item.link} key={item.title} />
-                    );
-                }
-            })}
-        </DropMenu>
-    );
+    const menu_items = menu_layout.map(topic => {
+        if (topic.visibility.includes(userVisibility))
+            return (
+                <DropMenu text={topic.title} key={topic.title}>
+                    {topic.children.map(item => {
+                        if ('children' in item && item.visibility.includes(userVisibility)) {
+                            return (
+                                <Submenu label={item.title} key={item.title}>
+                                    {item.children?.map(subitem =>
+                                        subitem.visibility.includes(userVisibility) &&
+                                        <DropMenuItem text={subitem.title} link={subitem.link} key={subitem.title} />
+                                    )}
+                                </Submenu>
+                            );
+                        }
+                        else {
+                            return (
+                                item.visibility.includes(userVisibility) &&
+                                <DropMenuItem text={item.title} link={item.link} key={item.title} />
+                            );
+                        }
+                    })}
+                </DropMenu>
+            );
+
+        return <></>
+    });
 
     return (
         <nav className="navbar">

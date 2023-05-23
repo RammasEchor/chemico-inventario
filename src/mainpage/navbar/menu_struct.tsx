@@ -4,6 +4,7 @@ const menu_layout = [
     {
         title: "Usuarios", children: [
             { title: "Alta de usuario", link: "/alta_usuario", visibility: [Role.Admin] },
+            { title: "Modificar usuario", link: "/modificar_usuario", visibility: [Role.Admin] },
             { title: "Baja de usuario", link: "/baja_usuario", visibility: [Role.Admin] }
         ],
         visibility: [Role.Admin]
@@ -11,6 +12,7 @@ const menu_layout = [
     {
         title: "Productos", children: [
             { title: "Alta de producto", link: "/alta_producto", visibility: [Role.Admin] },
+            { title: "Modificar producto", link: "/modificar_producto", visibility: [Role.Admin] },
             { title: "Baja de producto", link: "/baja_producto", visibility: [Role.Admin] },
             { title: "Traspaso entre ubicaciones", link: "/", visibility: [Role.Admin] },
             { title: "Asignar producto a usuario", link: "/", visibility: [Role.Admin] }
@@ -21,7 +23,7 @@ const menu_layout = [
         title: "Cotización", children: [
             { title: "Crear cotización", link: "/crear_cotizacion", visibility: [Role.Cliente, Role.Aprobador, Role.Chemico, Role.Admin] },
             { title: "Pendientes de cotizar", link: "/status_cotizacion", visibility: [Role.Chemico, Role.Admin] },
-            { title: "Cancelar cotización", link: "/cancelar_cotizacion", visibility: [Role.Admin] },
+            { title: "Cotizaciones rechazadas", link: "/cotizaciones_rechazadas", visibility: [Role.Admin] },
             { title: "Cotizaciones enviadas", link: "/cotizaciones_listas", visibility: [Role.Cliente, Role.Aprobador, Role.Chemico, Role.Admin] },
             {
                 title: "Aprobar/Rechazar Cotizaciones", children: [
@@ -31,7 +33,7 @@ const menu_layout = [
                 visibility: [Role.Aprobador, Role.Chemico, Role.Admin]
             },
         ],
-        visibility: [Role.Aprobador, Role.Chemico, Role.Admin]
+        visibility: [Role.Aprobador, Role.Chemico, Role.Admin, Role.Cliente]
     },
     {
         title: "Inventarios", children: [

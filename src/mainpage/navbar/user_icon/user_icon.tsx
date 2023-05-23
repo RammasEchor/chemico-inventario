@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { BiUserCircle } from "react-icons/bi";
 import { MdCircleNotifications } from "react-icons/md";
 import "../../../css/inventario.css";
-import { getRoleFromString, useAuth } from "../../../login/auth-provider/auth_provider";
-import { Role } from "../../../usuarios/campos_usuario";
+import { useAuth } from "../../../login/auth-provider/auth_provider";
+import { Role, getUserRoleFromString } from "../../../usuarios/campos_usuario";
 import DropMenuItem from "../dropmenu/dropmenuitem";
 import { getPendingQuotes } from "./api_notificaciones";
 
@@ -29,7 +29,7 @@ function UserIcon() {
     }
 
     useEffect(() => {
-        const role = getRoleFromString(userRole);
+        const role = getUserRoleFromString(userRole);
         if (role !== Role.Cliente) {
             const interval = setInterval(checkForPendingQuotes, 10000);
             return () => clearInterval(interval);

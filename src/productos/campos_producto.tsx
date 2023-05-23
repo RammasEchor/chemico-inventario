@@ -1,5 +1,6 @@
 interface ProductFields {
-    idProd?: string,
+    [index: string]: string,
+    idProd: string,
     planta: string,
     noParte: string,
     descripcion: string,

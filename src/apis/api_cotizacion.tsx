@@ -217,6 +217,37 @@ function postContpaq({ comment, fecha, folio }: { comment: number, fecha: string
     });
 }
 
+function sendOneDecline(folio: string | undefined) {
+    if (!checkQuoteEnvironURLS()) {
+        return (failedPromise(envErrorMsg));
+    }
+
+    let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
+    api_url += process.env.REACT_APP_BACKEND_QUOTE_DECLINE;
+
+    return fetch(api_url, {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            'folio': folio
+        })
+    });
+}
+
+function getQuotesDeclined(userKey: string) {
+    if (!checkQuoteEnvironURLS()) {
+        return (failedPromise(envErrorMsg));
+    }
+
+    let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
+    api_url += process.env.REACT_APP_BACKEND_GET_QUOTES_DECLINED;
+    api_url += `${userKey}/`
+
+    return fetch(api_url);
+}
+
 export {
     createQuote,
     getQuotes,
@@ -232,7 +263,9 @@ export {
     sendOneApproves,
     getCotAprobadas,
     getInfoCot,
-    postContpaq
+    postContpaq,
+    sendOneDecline,
+    getQuotesDeclined
 };
 
 

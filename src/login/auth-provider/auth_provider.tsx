@@ -1,6 +1,5 @@
 import React, { PropsWithChildren, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
-import { Role } from "../../usuarios/campos_usuario";
 
 interface loginValues {
     username: string
@@ -27,15 +26,6 @@ interface AuthContextInterface {
 const AuthContext = React.createContext({} as AuthContextInterface);
 function useAuth() {
     return React.useContext(AuthContext);
-}
-
-function getRoleFromString(rawRole: string | null): Role {
-    switch (rawRole) {
-        case "Admin": return Role.Admin;
-        case "Chemico": return Role.Chemico;
-        case "Aprobador": return Role.Aprobador;
-        default: return Role.Cliente;
-    }
 }
 
 function AuthProvider(props: PropsWithChildren) {
@@ -134,5 +124,5 @@ function AuthProvider(props: PropsWithChildren) {
     );
 }
 
-export { useAuth, AuthProvider, getRoleFromString };
+export { useAuth, AuthProvider };
 

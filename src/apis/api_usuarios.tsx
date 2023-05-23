@@ -45,7 +45,7 @@ function createUser(user: UserFields) {
 }
 
 function getRoles() {
-    if (!checkUserEnvironURLS) {
+    if (!checkUserEnvironURLS()) {
         return (failedPromise(envErrorMsg));
     }
 
@@ -55,7 +55,7 @@ function getRoles() {
 }
 
 function getAprobadores(planta: string) {
-    if (!checkUserEnvironURLS) {
+    if (!checkUserEnvironURLS()) {
         return (failedPromise(envErrorMsg));
     }
 
@@ -65,5 +65,22 @@ function getAprobadores(planta: string) {
     return fetch(api_url);
 }
 
-export { createUser, getRoles, getUsers, getAprobadores };
+function modifyUser(user: UserFields) {
+    if (!checkUserEnvironURLS()) {
+        return (failedPromise(envErrorMsg));
+    }
+
+    let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
+    api_url += process.env.REACT_APP_BACKEND_MODIFY_USER
+
+    return fetch(api_url, {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(user)
+    });
+}
+
+export { createUser, getRoles, getUsers, getAprobadores, modifyUser };
 

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router";
-import { getPendingApproves, sendOneApproves } from "../../apis/api_cotizacion";
+import { getPendingApproves, sendOneApproves, sendOneDecline } from "../../apis/api_cotizacion";
 import { MasterQuoteFields } from "../../cotizacion/campos_cotizacion";
-import FullQuoteDetail from "../../cotizacion/estatus_cotización/modal_full_info";
+import FullQuoteDetail from "../../cotizacion/cotizaciones_pendientes/modal_full_info";
 import { Modal } from "../../form_components/modal";
 import Tabla from "../../form_components/table";
 import { useAuth } from "../../login/auth-provider/auth_provider";
@@ -46,7 +46,7 @@ function DisplayAprobaciones() {
     }
 
     function startDecline(folio: string | undefined) {
-        sendOneApproves(userKey as string, folio)
+        sendOneDecline(folio)
             .then(response => response.text())
             .then(data => {
                 if (data) {

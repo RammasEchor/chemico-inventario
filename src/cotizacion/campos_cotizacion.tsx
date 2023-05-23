@@ -32,7 +32,8 @@ interface MasterQuoteFields {
     fechaAprob1?: string,
     fechaAprob2?: string,
     fechaEstimada?: string,
-    orden?: string
+    orden?: string,
+    total?: string
 }
 
 const quoteFieldsName = [

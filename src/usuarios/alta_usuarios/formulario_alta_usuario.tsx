@@ -8,6 +8,8 @@ import { SelectWithLabel } from "../../form_components/select_with_label";
 import ShadowedForm from "../../form_components/shadowed_form";
 import SubmitButton from "../../form_components/submit_button";
 import TextInputLabelWarning from "../../form_components/text_input_label_warning";
+import { appendFieldRequiredSpanish } from "../../utilities/error_messages";
+import { UserFields } from "../campos_usuario";
 
 interface RolAPIReturn {
     id: string,
@@ -26,12 +28,12 @@ function FormularioAltaUsuario() {
     const [aprobadores2, setAprobadores2] = useState([])
 
     const [initialValues, setIntialValues] = useState({
-        name: '',
-        password: '',
+        nombre: '',
+        contraseña: '',
         rol: '',
         email: '',
-        plant: '',
-        userKey: '',
+        planta: '',
+        cveUsuario: '',
         aprobador1: '',
         aprobador2: '',
         monto_aprobador: ''
@@ -54,7 +56,7 @@ function FormularioAltaUsuario() {
                 setPlantas(data.map(planta => planta.nombre));
                 setCurrentPlant(data[0].nombre)
                 setIntialValues(initialValues => {
-                    return { ...initialValues, plant: data[0].nombre }
+                    return { ...initialValues, planta: data[0].nombre }
                 })
             });
     }, []);
@@ -108,17 +110,18 @@ function FormularioAltaUsuario() {
             initialValues={initialValues}
             validationSchema={Yup.object({
                 name: Yup.string()
-                    .required(),
+                    .required(appendFieldRequiredSpanish('Nombre')),
                 password: Yup.string()
-                    .required(),
-                rol: Yup.string(),
+                    .required(appendFieldRequiredSpanish('Contraseña')),
+                rol: Yup.string()
+                    .required(appendFieldRequiredSpanish('Rol')),
                 email: Yup.string()
                     .email('Email inválido')
-                    .required(),
+                    .required(appendFieldRequiredSpanish('Email')),
                 plant: Yup.string()
-                    .required(),
+                    .required(appendFieldRequiredSpanish('Planta')),
                 userKey: Yup.string()
-                    .required()
+                    .required(appendFieldRequiredSpanish('Clave de Usuario'))
             })}
             onSubmit={(values, { setSubmitting }) => {
                 setSubmitting(false);
@@ -129,7 +132,7 @@ function FormularioAltaUsuario() {
                 if (currentRole !== 'Aprobador') {
                     values.monto_aprobador = '-'
                 }
-                createUser(values)
+                createUser(values as UserFields)
                     .then(() => setUserSubmitted(true))
                     .catch(error => console.error(error))
             }}
@@ -138,15 +141,15 @@ function FormularioAltaUsuario() {
                 <ShadowedForm>
                     <h4 className="title is-4">Alta de Usuario</h4>
                     <div className="is-flex is-flex-direction-column">
-                        <TextInputLabelWarning name='name' label='Nombre' />
-                        <TextInputLabelWarning name='password' label='Contraseña' type='password' />
+                        <TextInputLabelWarning name='nombre' label='Nombre' />
+                        <TextInputLabelWarning name='contraseña' label='Contraseña' type='password' />
                         <SelectWithLabel
                             onChange={(e) => {
                                 setCurrentPlant(e.currentTarget.value)
-                                props.setFieldValue('plant', e.currentTarget.value)
+                                props.setFieldValue('planta', e.currentTarget.value)
                             }}
                             value={currentPlant}
-                            name="plant"
+                            name="planta"
                             label="Planta"
                         >
                             {plantas.map(planta => <option value={planta} key={planta}>{planta}</option>)}
@@ -164,7 +167,7 @@ function FormularioAltaUsuario() {
                         </SelectWithLabel>
                         {extra_items}
                         <TextInputLabelWarning name='email' label='Email' />
-                        <TextInputLabelWarning name='userKey' label='Clave de Usuario' />
+                        <TextInputLabelWarning name='cveUsuario' label='Clave de Usuario' />
                     </div>
                     <SubmitButton text='Crear Usuario' />
                 </ShadowedForm>

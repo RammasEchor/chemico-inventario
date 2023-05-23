@@ -59,5 +59,22 @@ function deleteProduct(productId: string | undefined) {
     return fetch(api_url);
 }
 
-export { insertProduct, getProducts, deleteProduct };
+function modifyProduct(product: ProductFields) {
+    if (!checkProductEnvironURLS()) {
+        return (failedPromise(envErrorMsg));
+    }
+
+    let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
+    api_url += process.env.REACT_APP_BACKEND_MODIFY_PRODUCT
+
+    return fetch(api_url, {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(product)
+    });
+}
+
+export { insertProduct, getProducts, deleteProduct, modifyProduct };
 

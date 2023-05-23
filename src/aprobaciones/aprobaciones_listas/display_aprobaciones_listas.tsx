@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getCotAprobadas } from "../../apis/api_cotizacion";
 import { MasterQuoteFields } from "../../cotizacion/campos_cotizacion";
-import FullQuoteDetail from "../../cotizacion/estatus_cotización/modal_full_info";
+import FullQuoteDetail from "../../cotizacion/cotizaciones_pendientes/modal_full_info";
 import { Modal } from "../../form_components/modal";
 import Tabla from "../../form_components/table";
 import { useAuth } from "../../login/auth-provider/auth_provider";

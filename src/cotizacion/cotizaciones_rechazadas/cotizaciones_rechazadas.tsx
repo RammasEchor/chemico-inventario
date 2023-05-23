@@ -1,15 +1,15 @@
 import ProtectedRoute from "../../login/protected-route/protected_route";
 import PageWithNavbar from "../../mainpage/pageWithNavbar/page_with_navbar";
-import DisplayCotizacion from "./display_cotizaciones";
+import DisplayCotizacionesRechazadas from "./display_cotizaciones_rechazadas";
 
-function EstatusCotization() {
+function CotizacionesRechazadas() {
     return (
         <ProtectedRoute>
             <PageWithNavbar>
-                <DisplayCotizacion />
+                <DisplayCotizacionesRechazadas />
             </PageWithNavbar>
         </ProtectedRoute>
     );
 }
 
-export default EstatusCotization;
+export default CotizacionesRechazadas;

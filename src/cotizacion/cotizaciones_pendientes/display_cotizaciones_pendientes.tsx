@@ -7,7 +7,7 @@ import { MasterQuoteFields } from "../campos_cotizacion";
 import { QuoteDetail } from "../cotizacion_card";
 import FullQuoteDetail from "./modal_full_info";
 
-function DisplayCotizacion() {
+function DisplayCotizacionesPendientes() {
     const [quotes, setQuotes] = useState<MasterQuoteFields[]>([]);
     const [selectedQuoteId, setSelectedQuoteId] = useState<string>();
     const [showDetail, setShowDetail] = useState(false);
@@ -49,7 +49,7 @@ function DisplayCotizacion() {
 
     return (
         <div className="box">
-            <h4 className="title is-4">Cotizaciones</h4>
+            <h4 className="title is-4">Cotizaciones Pendientes</h4>
             <Tabla cols={[
                 'Folio',
                 'Descripción',
@@ -134,4 +134,4 @@ function DisplayCotizacion() {
     );
 }
 
-export default DisplayCotizacion
+export default DisplayCotizacionesPendientes

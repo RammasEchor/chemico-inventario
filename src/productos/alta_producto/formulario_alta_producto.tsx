@@ -2,13 +2,15 @@ import { Formik } from "formik";
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router";
 import * as Yup from "yup";
-import { getPlants, PlantasAPI } from "../../apis/api_plantas";
+import { PlantasAPI, getPlants } from "../../apis/api_plantas";
 import { insertProduct } from "../../apis/api_productos";
 import { SelectWithLabel } from "../../form_components/select_with_label";
 import ShadowedForm from "../../form_components/shadowed_form";
 import SubmitButton from "../../form_components/submit_button";
-import TextArea from "../../form_components/textarea";
 import TextInputLabelWarning from "../../form_components/text_input_label_warning";
+import TextArea from "../../form_components/textarea";
+import { appendFieldRequiredSpanish } from "../../utilities/error_messages";
+import { ProductFields } from "../campos_producto";
 
 
 function FormularioAltaProducto() {
@@ -41,19 +43,19 @@ function FormularioAltaProducto() {
                 ubicacion: ''
             }}
             validationSchema={Yup.object({
-                plant: Yup.string(),
-                partNumber: Yup.string(),
+                plant: Yup.string().required(appendFieldRequiredSpanish('Planta')),
+                partNumber: Yup.string().required(appendFieldRequiredSpanish('No. Parte')),
                 description: Yup.string(),
-                max: Yup.string(),
-                min: Yup.string(),
-                unitPrice: Yup.string(),
-                measurementUnit: Yup.string(),
+                max: Yup.string().required(appendFieldRequiredSpanish('Máximo')),
+                min: Yup.string().required(appendFieldRequiredSpanish('Mínimo')),
+                unitPrice: Yup.string().required(appendFieldRequiredSpanish('Precio Unitario')),
+                measurementUnit: Yup.string().required(appendFieldRequiredSpanish('Unidad de Medida')),
                 expirationDate: Yup.string(),
-                warehouseLocation: Yup.string(),
+                warehouseLocation: Yup.string().required(appendFieldRequiredSpanish('Ubicación')),
             })}
             onSubmit={(values, { setSubmitting }) => {
                 setSubmitting(false);
-                insertProduct(values)
+                insertProduct(values as ProductFields)
                     .then(response => {
                         if (response.ok)
                             setProductSubmitted(true)
