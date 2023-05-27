@@ -80,7 +80,10 @@ function DisplayCotizacionesListas() {
                                 {quote.fechaAprob2 ? quote.fechaAprob2 : "Faltante"}
                             </td>
                             <td key={quote.id}>
-                                <a href={`https://javaclusters-95554-0.cloudclusters.net/pdfs/COT_${quote.id}`}>PDF</a>
+                                <div className="is-flex is-flex-direction-column">
+                                    <a className="is-underlined" href={`https://javaclusters-95554-0.cloudclusters.net/pdfs/COT_${quote.id}`}>PDF</a>
+                                    <a className="is-underlined" href={`https://javaclusters-95554-0.cloudclusters.net/pdfs/HOJA_SEG_${quote.id}`}>Hoja de Seguridad</a>
+                                </div>
                             </td>
                             <td key={quote.id}>
                                 <div className="block">

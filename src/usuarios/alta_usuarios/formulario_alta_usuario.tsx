@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Navigate } from "react-router";
 import * as Yup from 'yup';
 import { PlantasAPI, getPlants } from "../../apis/api_plantas";
-import { createUser, getAprobadores, getRoles } from "../../apis/api_usuarios";
+import { createUser, getAprobadores, getAprobadores2, getRoles } from "../../apis/api_usuarios";
 import { SelectWithLabel } from "../../form_components/select_with_label";
 import ShadowedForm from "../../form_components/shadowed_form";
 import SubmitButton from "../../form_components/submit_button";
@@ -67,11 +67,21 @@ function FormularioAltaUsuario() {
                 .then(response => response.json())
                 .then(data => {
                     setAprobadores1(data)
+                    setIntialValues(initialValues => {
+                        return {
+                            ...initialValues,
+                            aprobador1: data[0]
+                        }
+                    })
+                })
+
+            getAprobadores2(currentPlant)
+                .then(response => response.json())
+                .then(data => {
                     setAprobadores2(data)
                     setIntialValues(initialValues => {
                         return {
                             ...initialValues,
-                            aprobador1: data[0],
                             aprobador2: data[0]
                         }
                     })

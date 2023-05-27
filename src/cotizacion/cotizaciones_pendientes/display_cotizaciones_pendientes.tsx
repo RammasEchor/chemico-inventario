@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getMasterQuotes, uploadPDF } from "../../apis/api_cotizacion";
+import { getMasterQuotes, uploadPDF, uploadSecurityFile } from "../../apis/api_cotizacion";
 import { Modal } from "../../form_components/modal";
 import Tabla from "../../form_components/table";
 import { useAuth } from "../../login/auth-provider/auth_provider";
@@ -14,7 +14,7 @@ function DisplayCotizacionesPendientes() {
     const [showDescriptionModal, setShowDescriptionModal] = useState(false);
     const [tituloDescModal, setTituloDescModal] = useState('Vacio');
     const [detailQuoteId, setDetailQuoteId] = useState<string>();
-    const [updatedQuote, setUpdatedQuote] = useState(false);
+    const [bothFilesUploaded, setBothFilesUploaded] = useState(0);
 
     const { userRole, userKey } = useAuth();
 
@@ -24,14 +24,26 @@ function DisplayCotizacionesPendientes() {
             .then((data: MasterQuoteFields[]) => {
                 setQuotes(data);
             });
-    }, [updatedQuote, userRole, userKey]);
+    }, [bothFilesUploaded, userRole, userKey]);
 
-    function startUpload(file: File) {
+    function startUpload(file: File, securityFile: File) {
         uploadPDF(file, detailQuoteId)
             .then(response => response.text())
             .then(data => {
                 if (data) {
-                    setUpdatedQuote(updatedQuote => !updatedQuote);
+                    setBothFilesUploaded(bothFilesUploaded => bothFilesUploaded + 1);
+                    setShowDetail(false);
+                }
+            })
+            .catch(error => {
+                console.log(error)
+            })
+
+        uploadSecurityFile(securityFile, detailQuoteId)
+            .then(response => response.text())
+            .then(data => {
+                if (data) {
+                    setBothFilesUploaded(bothFilesUploaded => bothFilesUploaded + 1);
                     setShowDetail(false);
                 }
             })

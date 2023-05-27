@@ -113,6 +113,24 @@ function uploadPDF(file: File, folio: string | undefined) {
     });
 }
 
+function uploadSecurityFile(file: File, folio: string | undefined) {
+    if (!checkQuoteEnvironURLS()) {
+        return (failedPromise(envErrorMsg));
+    }
+
+    const formData = new FormData();
+
+    formData.append("archivos", file);
+    formData.append("folio", folio as string);
+
+    let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
+    api_url += process.env.REACT_APP_BACKEND_INSERT_SECURITY_FILE;
+    return fetch(api_url, {
+        method: 'POST',
+        body: formData
+    });
+}
+
 function getMasterQuotes() {
     if (!checkQuoteEnvironURLS()) {
         return (failedPromise(envErrorMsg));
@@ -265,7 +283,8 @@ export {
     getInfoCot,
     postContpaq,
     sendOneDecline,
-    getQuotesDeclined
+    getQuotesDeclined,
+    uploadSecurityFile
 };
 
 

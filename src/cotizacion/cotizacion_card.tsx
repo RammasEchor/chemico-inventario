@@ -7,7 +7,7 @@ interface CotizacionCardProps {
     quoteId?: string
     onClickX?: () => void
     onClickCancel?: () => void
-    onClickAprobar: (file: File) => void
+    onClickAprobar: (file: File, file2: File) => void
 }
 
 function QuoteDetail(props: CotizacionCardProps) {
@@ -23,7 +23,7 @@ function QuoteDetail(props: CotizacionCardProps) {
         area: string
     }[]>([]);
     const [file, setFile] = useState<File>(new File([], 'dummy'));
-
+    const [securityFile, setSecurityFile] = useState<File>(new File([], 'dummy'));
 
     useEffect(() => {
         getQuoteDetail(props.quoteId)
@@ -83,10 +83,17 @@ function QuoteDetail(props: CotizacionCardProps) {
                         );
                     })}
                 </Tabla>
-                <FileForm onChange={setFile} />
+                <div className="box">
+                    <label className="label">Adjuntar Cotización</label>
+                    <FileForm onChange={setFile} />
+                </div>
+                <div className='box'>
+                    <label className="label">Adjuntar Hoja de Seguridad</label>
+                    <FileForm onChange={setSecurityFile} />
+                </div>
             </section>
             <footer className="modal-card-foot is-flex is-justify-content-flex-end">
-                <button className="button is-success" onClick={() => props.onClickAprobar(file)}>Enviar</button>
+                <button className="button is-success" onClick={() => props.onClickAprobar(file, securityFile)}>Enviar</button>
                 <button className="button" onClick={props.onClickX}>Cancelar</button>
             </footer>
         </div>

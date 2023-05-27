@@ -91,7 +91,10 @@ function DisplayAprobacionesListas() {
                             </td>
                             <td key={quote.id}>
                                 <div className="is-flex is-justify-content-space-between is-align-items-center is-flex-wrap-wrap">
-                                    <a href={`https://javaclusters-95554-0.cloudclusters.net/pdfs/COT_${quote.id}`}>PDF</a>
+                                    <div className="is-flex is-flex-direction-column">
+                                        <a className="is-underlined" href={`https://javaclusters-95554-0.cloudclusters.net/pdfs/COT_${quote.id}`}>PDF</a>
+                                        <a className="is-underlined" href={`https://javaclusters-95554-0.cloudclusters.net/pdfs/HOJA_SEG_${quote.id}`}>Hoja de Seguridad</a>
+                                    </div>
                                     {quote.aprobador2 && quote.aprobador1 &&
                                         <button
                                             className={selectedQuoteId === quote.id ?

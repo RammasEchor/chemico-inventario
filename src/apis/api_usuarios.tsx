@@ -65,6 +65,17 @@ function getAprobadores(planta: string) {
     return fetch(api_url);
 }
 
+function getAprobadores2(planta: string) {
+    if (!checkUserEnvironURLS()) {
+        return (failedPromise(envErrorMsg));
+    }
+
+    let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
+    api_url += process.env.REACT_APP_BACKEND_GET_APROBADORES2
+    api_url += `${planta}/`
+    return fetch(api_url);
+}
+
 function modifyUser(user: UserFields) {
     if (!checkUserEnvironURLS()) {
         return (failedPromise(envErrorMsg));
@@ -82,5 +93,5 @@ function modifyUser(user: UserFields) {
     });
 }
 
-export { createUser, getRoles, getUsers, getAprobadores, modifyUser };
+export { createUser, getRoles, getUsers, getAprobadores, getAprobadores2, modifyUser };
 

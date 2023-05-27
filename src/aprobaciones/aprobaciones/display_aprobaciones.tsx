@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Navigate } from "react-router";
+import { useNavigate } from "react-router";
 import { getPendingApproves, sendOneApproves, sendOneDecline } from "../../apis/api_cotizacion";
 import { MasterQuoteFields } from "../../cotizacion/campos_cotizacion";
 import FullQuoteDetail from "../../cotizacion/cotizaciones_pendientes/modal_full_info";
@@ -14,6 +14,8 @@ function DisplayAprobaciones() {
     const [showDescriptionModal, setShowDescriptionModal] = useState(false);
     const [tituloDescModal, setTituloDescModal] = useState('Vacio');
     const { userKey } = useAuth();
+    const navigate = useNavigate();
+
 
     useEffect(() => {
         getPendingApproves(userKey as string)
@@ -31,29 +33,31 @@ function DisplayAprobaciones() {
     }
 
     if (anyApproved) {
-        return (<Navigate to="/" />);
+        navigate(0);
     }
 
     function startApproved(folio: string | undefined) {
         sendOneApproves(userKey as string, folio)
             .then(response => response.text())
             .then(data => {
+                alert(data);
                 if (data) {
                     setAnyApproved(true);
                 }
             })
-            .catch(error => console.log(error))
+            .catch(error => alert(error))
     }
 
     function startDecline(folio: string | undefined) {
         sendOneDecline(folio)
             .then(response => response.text())
             .then(data => {
+                alert(data);
                 if (data) {
                     setAnyApproved(true);
                 }
             })
-            .catch(error => console.log(error))
+            .catch(error => alert(error))
     }
 
     return (
@@ -108,7 +112,10 @@ function DisplayAprobaciones() {
                                 {quote.fechaAprob2 ? quote.fechaAprob2 : "Faltante"}
                             </td>
                             <td key={quote.id}>
-                                <a className="is-underlined" href={`https://javaclusters-95554-0.cloudclusters.net/pdfs/COT_${quote.id}`}>PDF</a>
+                                <div className="is-flex is-flex-direction-column">
+                                    <a className="is-underlined" href={`https://javaclusters-95554-0.cloudclusters.net/pdfs/COT_${quote.id}`}>PDF</a>
+                                    <a className="is-underlined" href={`https://javaclusters-95554-0.cloudclusters.net/pdfs/HOJA_SEG_${quote.id}`}>Hoja de Seguridad</a>
+                                </div>
                             </td>
                             <td key={quote.id}>
                                 <div className="block">

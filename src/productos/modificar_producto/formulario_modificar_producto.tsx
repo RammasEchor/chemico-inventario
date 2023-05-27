@@ -74,7 +74,7 @@ function FormularioModificarProducto() {
                                     button 
                                     is-normal 
                                     is-info 
-                                    ${productIdtoModify === product.id ? 'is-inverted' : 'is-outlined'}`}
+                                    ${productIdtoModify === product.idProd ? 'is-inverted' : 'is-outlined'}`}
                                     onClick={() => {
                                         setProductToModify(product)
                                         setShowModifyProductModal(true)
@@ -85,7 +85,7 @@ function FormularioModificarProducto() {
                     );
                 })}
             </Tabla>
-            <Modal key={productToModify.id} showModal={showModifyProductModal} onClick={() => setShowModifyProductModal(false)}>
+            <Modal key={productIdtoModify} showModal={showModifyProductModal} onClick={() => setShowModifyProductModal(false)}>
                 <ModalModificarProducto
                     onClickClose={() => setShowModifyProductModal(false)}
                     onClickModify={startModifyProduct}
