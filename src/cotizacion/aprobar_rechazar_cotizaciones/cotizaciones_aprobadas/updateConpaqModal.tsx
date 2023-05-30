@@ -1,7 +1,7 @@
-import { Formik } from "formik"
-import { ComponentPropsWithoutRef, useState } from "react"
-import { postContpaq } from "../../apis/api_cotizacion"
-import TextInputLabelWarning from "../../form_components/text_input_label_warning"
+import { Formik } from "formik";
+import { ComponentPropsWithoutRef, useState } from "react";
+import { postContpaq } from "../../../apis/api_cotizacion";
+import TextInputLabelWarning from "../../../form_components/text_input_label_warning";
 
 interface Props extends ComponentPropsWithoutRef<'div'> {
     folio: string,

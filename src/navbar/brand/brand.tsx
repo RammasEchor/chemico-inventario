@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import logo from "../../../images/logo.jpg";
+import logo from "../../images/logo.jpg";
 
 interface props {
     onClick: () => void;
@@ -22,9 +22,9 @@ function Brand(props: props) {
 
             <span onClick={burgerSelected} role="button" className={
                 isBurgerSelected
-                ? "has-background-info-light mr-5 mt-5 navbar-burger"
-                : "has-background-white mr-5 mt-5 navbar-burger"
-                } aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                    ? "has-background-info-light mr-5 mt-5 navbar-burger"
+                    : "has-background-white mr-5 mt-5 navbar-burger"
+            } aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>

@@ -2,7 +2,7 @@ import ProtectedRoute from "../../login/protected-route/protected_route";
 import PageWithNavbar from "../../mainpage/pageWithNavbar/page_with_navbar";
 import FormularioModificarUsuarios from "./formulario_modificar_usuarios";
 
-function ModificarUsuarios() {
+function ModificarUsuario() {
     return (
         <ProtectedRoute>
             <PageWithNavbar>
@@ -12,4 +12,4 @@ function ModificarUsuarios() {
     );
 }
 
-export default ModificarUsuarios
+export default ModificarUsuario

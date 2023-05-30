@@ -1,4 +1,4 @@
-import { Role } from "../../usuarios/campos_usuario"
+import { Role } from "../apis/api_usuarios"
 
 const menu_layout = [
     {
@@ -22,13 +22,13 @@ const menu_layout = [
     {
         title: "Cotización", children: [
             { title: "Crear cotización", link: "/crear_cotizacion", visibility: [Role.Cliente, Role.Aprobador, Role.Chemico, Role.Admin] },
-            { title: "Pendientes de cotizar", link: "/status_cotizacion", visibility: [Role.Chemico, Role.Admin] },
+            { title: "Pendientes de cotizar", link: "/cotizaciones_pendientes", visibility: [Role.Chemico, Role.Admin] },
             { title: "Cotizaciones rechazadas", link: "/cotizaciones_rechazadas", visibility: [Role.Admin] },
-            { title: "Cotizaciones enviadas", link: "/cotizaciones_listas", visibility: [Role.Cliente, Role.Aprobador, Role.Chemico, Role.Admin] },
+            { title: "Cotizaciones enviadas", link: "/cotizaciones_enviadas", visibility: [Role.Cliente, Role.Aprobador, Role.Chemico, Role.Admin] },
             {
                 title: "Aprobar/Rechazar Cotizaciones", children: [
-                    { title: "Por aprobar", link: "/aprobaciones", visibility: [Role.Aprobador, Role.Chemico, Role.Admin] },
-                    { title: "Aprobadas", link: "/aprobaciones_listas", visibility: [Role.Aprobador, Role.Chemico, Role.Admin] },
+                    { title: "Por aprobar", link: "/cotizaciones_por_aprobar", visibility: [Role.Aprobador, Role.Chemico, Role.Admin] },
+                    { title: "Aprobadas", link: "/cotizaciones_aprobadas", visibility: [Role.Aprobador, Role.Chemico, Role.Admin] },
                 ],
                 visibility: [Role.Aprobador, Role.Chemico, Role.Admin]
             },

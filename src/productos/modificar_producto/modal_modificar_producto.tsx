@@ -1,9 +1,9 @@
 import { PropsWithChildren, useEffect, useState } from "react";
 import { PlantasAPI, getPlants } from "../../apis/api_plantas";
+import { ProductFields } from "../../apis/api_productos";
 import SelectModifyModal from "../../form_components/select_modify_modal";
 import Tabla from "../../form_components/table";
 import TextInputModifyModal from "../../form_components/text_input_modify_modal";
-import { ProductFields } from "../campos_producto";
 
 interface Props extends PropsWithChildren {
     onClickClose: () => void

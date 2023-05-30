@@ -1,11 +1,11 @@
-import { Dispatch, SetStateAction, useState } from "react";
-import { Submenu } from "../../form_components/submenu";
-import { useAuth } from "../../login/auth-provider/auth_provider";
-import { getUserRoleFromString } from "../../usuarios/campos_usuario";
+import React, { Dispatch, SetStateAction, useState } from "react";
+import { getUserRoleFromString } from "../apis/api_usuarios";
+import { Submenu } from "../form_components/submenu";
+import { useAuth } from "../login/auth-provider/auth_provider";
+import menu_layout from "../menus/menu_struct";
 import Brand from "./brand/brand";
 import DropMenu from "./dropmenu/dropmenu";
 import DropMenuItem from "./dropmenu/dropmenuitem";
-import menu_layout from "./menu_struct";
 import UserIcon from "./user_icon/user_icon";
 import VerticalMenu from "./verticalmenu/verticalmenu";
 
@@ -48,7 +48,7 @@ function NavBar(props: NavBarProps) {
                 </DropMenu>
             );
 
-        return <></>
+        return <React.Fragment key={topic.title}/>
     });
 
     return (

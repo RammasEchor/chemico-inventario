@@ -1,29 +1,55 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
-import { getPendingApproves, sendOneApproves, sendOneDecline } from "../../apis/api_cotizacion";
-import { MasterQuoteFields } from "../../cotizacion/campos_cotizacion";
-import FullQuoteDetail from "../../cotizacion/cotizaciones_pendientes/modal_full_info";
+import { MasterQuoteFields, getMasterQuotes, uploadPDF, uploadSecurityFile } from "../../apis/api_cotizacion";
 import { Modal } from "../../form_components/modal";
 import Tabla from "../../form_components/table";
 import { useAuth } from "../../login/auth-provider/auth_provider";
+import { QuoteDetail } from "../cotizacion_card";
+import FullQuoteDetail from "./modal_full_info";
 
-function DisplayAprobaciones() {
+function DisplayCotizacionesPendientes() {
     const [quotes, setQuotes] = useState<MasterQuoteFields[]>([]);
     const [selectedQuoteId, setSelectedQuoteId] = useState<string>();
-    const [anyApproved, setAnyApproved] = useState(false);
+    const [showDetail, setShowDetail] = useState(false);
     const [showDescriptionModal, setShowDescriptionModal] = useState(false);
     const [tituloDescModal, setTituloDescModal] = useState('Vacio');
-    const { userKey } = useAuth();
-    const navigate = useNavigate();
+    const [detailQuoteId, setDetailQuoteId] = useState<string>();
+    const [bothFilesUploaded, setBothFilesUploaded] = useState(0);
 
+    const { userRole, userKey } = useAuth();
 
     useEffect(() => {
-        getPendingApproves(userKey as string)
+        getMasterQuotes()
             .then(response => response.json())
             .then((data: MasterQuoteFields[]) => {
                 setQuotes(data);
             });
-    }, [anyApproved, userKey]);
+    }, [bothFilesUploaded, userRole, userKey]);
+
+    function startUpload(file: File, securityFile: File) {
+        uploadPDF(file, detailQuoteId)
+            .then(response => response.text())
+            .then(data => {
+                if (data) {
+                    setBothFilesUploaded(bothFilesUploaded => bothFilesUploaded + 1);
+                    setShowDetail(false);
+                }
+            })
+            .catch(error => {
+                console.log(error)
+            })
+
+        uploadSecurityFile(securityFile, detailQuoteId)
+            .then(response => response.text())
+            .then(data => {
+                if (data) {
+                    setBothFilesUploaded(bothFilesUploaded => bothFilesUploaded + 1);
+                    setShowDetail(false);
+                }
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
 
     function redIfNull(toCheck: string | undefined) {
         if (!toCheck)
@@ -32,37 +58,9 @@ function DisplayAprobaciones() {
         return ""
     }
 
-    if (anyApproved) {
-        navigate(0);
-    }
-
-    function startApproved(folio: string | undefined) {
-        sendOneApproves(userKey as string, folio)
-            .then(response => response.text())
-            .then(data => {
-                alert(data);
-                if (data) {
-                    setAnyApproved(true);
-                }
-            })
-            .catch(error => alert(error))
-    }
-
-    function startDecline(folio: string | undefined) {
-        sendOneDecline(folio)
-            .then(response => response.text())
-            .then(data => {
-                alert(data);
-                if (data) {
-                    setAnyApproved(true);
-                }
-            })
-            .catch(error => alert(error))
-    }
-
     return (
         <div className="box">
-            <h4 className="title is-4">Cotizaciones</h4>
+            <h4 className="title is-4">Cotizaciones Pendientes</h4>
             <Tabla cols={[
                 'Folio',
                 'Descripción',
@@ -70,15 +68,14 @@ function DisplayAprobaciones() {
                 'Aprobador 2',
                 'Fecha Aprobación 1',
                 'Fecha Aprobación 2',
-                'Revisar',
-                'Acción'
+                'Detalle'
             ]}>
                 {quotes.map(quote => {
                     return (
                         <tr id={quote.id}
                             key={quote.id}
                             onClick={() => setSelectedQuoteId(quote.id)}
-                            className={(selectedQuoteId === quote.id ? 'is-selected' : '')}
+                            className={selectedQuoteId === quote.id ? 'is-selected' : ''}
                         >
                             <td key={quote.id} className={redIfNull(quote.id)}>
                                 {quote.id ? quote.id : "Sin Descripción"}
@@ -111,38 +108,31 @@ function DisplayAprobaciones() {
                             <td key={quote.fechaAprob2} className={redIfNull(quote.fechaAprob2)}>
                                 {quote.fechaAprob2 ? quote.fechaAprob2 : "Faltante"}
                             </td>
-                            <td key={quote.id}>
-                                <div className="is-flex is-flex-direction-column">
-                                    <a className="is-underlined" href={`https://javaclusters-95554-0.cloudclusters.net/pdfs/COT_${quote.id}`}>PDF</a>
-                                    <a className="is-underlined" href={`https://javaclusters-95554-0.cloudclusters.net/pdfs/HOJA_SEG_${quote.id}`}>Hoja de Seguridad</a>
-                                </div>
-                            </td>
-                            <td key={quote.id}>
+                            <td key={quote.id + (quote.fechaAprob1 as string)}>
                                 <div className="block">
                                     <button
                                         className={selectedQuoteId === quote.id ?
-                                            "button is-success is-inverted mr-2 mb-2" :
-                                            "button is-success is-outlined mr-2 mb-2"
+                                            "button is-info is-inverted" :
+                                            "button is-info is-outlined"
                                         }
                                         onClick={() => {
-                                            startApproved(quote.id)
+                                            setShowDetail(true)
+                                            setDetailQuoteId(quote.id)
                                         }}
-                                    >Aprobar</button>
-                                    <button
-                                        className={selectedQuoteId === quote.id ?
-                                            "button is-danger is-inverted" :
-                                            "button is-danger is-outlined"
-                                        }
-                                        onClick={() => {
-                                            startDecline(quote.id)
-                                        }}
-                                    >Rechazar</button>
+                                    >Adjuntar PDF</button>
                                 </div>
                             </td>
                         </tr>
                     );
                 })}
             </Tabla>
+            <Modal showModal={showDetail} onClick={() => setShowDetail(false)}>
+                <QuoteDetail
+                    quoteId={detailQuoteId}
+                    onClickX={() => setShowDetail(false)}
+                    onClickAprobar={startUpload}
+                />
+            </Modal>
             <Modal showModal={showDescriptionModal} onClick={() => setShowDescriptionModal(false)}>
                 <FullQuoteDetail
                     cotId={selectedQuoteId}
@@ -155,5 +145,4 @@ function DisplayAprobaciones() {
     );
 }
 
-export { DisplayAprobaciones };
-
+export default DisplayCotizacionesPendientes

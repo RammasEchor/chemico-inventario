@@ -1,5 +1,5 @@
 import { PropsWithChildren, useState } from "react";
-import NavBar from "../navbar/navbar";
+import NavBar from "../../navbar/navbar";
 
 function PageWithNavbar(props: PropsWithChildren) {
     const [burgerMenuOpen, setBurgerMenuOpen] = useState(false);

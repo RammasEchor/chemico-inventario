@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import { getQuotesDeclined } from "../../apis/api_cotizacion";
+import { MasterQuoteFields, getQuotesDeclined } from "../../apis/api_cotizacion";
 import Tabla from "../../form_components/table";
 import { useAuth } from "../../login/auth-provider/auth_provider";
-import { MasterQuoteFields } from "../campos_cotizacion";
 
 function DisplayCotizacionesRechazadas() {
     const { userKey } = useAuth();

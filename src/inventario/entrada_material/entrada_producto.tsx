@@ -12,5 +12,5 @@ function EntradaMaterial() {
     );
 }
 
-export { EntradaMaterial as EntradaProducto };
+export default EntradaMaterial;
 

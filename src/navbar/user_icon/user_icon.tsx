@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { BiUserCircle } from "react-icons/bi";
 import { MdCircleNotifications } from "react-icons/md";
-import "../../../css/inventario.css";
-import { useAuth } from "../../../login/auth-provider/auth_provider";
-import { Role, getUserRoleFromString } from "../../../usuarios/campos_usuario";
+import { Role, getUserRoleFromString } from "../../apis/api_usuarios";
+import "../../css/inventario.css";
+import { useAuth } from "../../login/auth-provider/auth_provider";
 import DropMenuItem from "../dropmenu/dropmenuitem";
 import { getPendingQuotes } from "./api_notificaciones";
 

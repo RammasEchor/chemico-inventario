@@ -8,10 +8,10 @@ interface loginValues {
 
 interface loginReturn {
     loginSuccess: string,
-    rolUsuario: string | null,
-    cveUsuario: string | null,
-    nuevo: number | null,
-    planta: string | null
+    rolUsuario: string,
+    cveUsuario: string,
+    nuevo: number,
+    planta: string
 }
 
 interface AuthContextInterface {
@@ -30,36 +30,9 @@ function useAuth() {
 
 function AuthProvider(props: PropsWithChildren) {
     let localToken = localStorage.getItem('token');
-    if (localToken && localToken !== "null" && localToken !== "undefined") {
-        localToken = JSON.parse(localToken);
-    }
-    else {
-        localToken = null;
-    }
-
     let cachedRole = localStorage.getItem('role');
-    if (cachedRole && cachedRole !== "null" && cachedRole !== "undefined") {
-        cachedRole = JSON.parse(cachedRole);
-    }
-    else {
-        cachedRole = null;
-    }
-
     let cachedUserKey = localStorage.getItem('userKey');
-    if (cachedUserKey && cachedUserKey !== "null" && cachedUserKey !== "undefined") {
-        cachedUserKey = JSON.parse(cachedUserKey);
-    }
-    else {
-        cachedUserKey = null;
-    }
-
     let cachedUserPlant = localStorage.getItem('userPlant');
-    if (cachedUserPlant && cachedUserPlant !== "null" && cachedUserPlant !== "undefined") {
-        cachedUserPlant = JSON.parse(cachedUserPlant);
-    }
-    else {
-        cachedUserPlant = null;
-    }
 
     const [token, setToken] = useState<string | null>(localToken);
     const [role, setRole] = useState<string | null>(cachedRole);
@@ -69,15 +42,16 @@ function AuthProvider(props: PropsWithChildren) {
     const location = useLocation();
 
     useEffect(() => {
-        localStorage.setItem('token', JSON.stringify(token));
-        localStorage.setItem('role', JSON.stringify(role));
-        localStorage.setItem('userKey', JSON.stringify(userKey));
-        localStorage.setItem('userPlant', JSON.stringify(userPlant));
+        if (token) { localStorage.setItem('token', token) }
+        if (role) { localStorage.setItem('role', role) }
+        if (userKey) { localStorage.setItem('userKey', userKey) }
+        if (userPlant) { localStorage.setItem('userPlant', userPlant) }
     }, [token, role, userKey, userPlant]);
 
     const handleLogin = (values: loginValues) => {
         let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
         api_url += `login/${values.username}/${values.password}/`
+
         return (
             fetch(api_url)
                 .then(response => response.json())
@@ -108,8 +82,8 @@ function AuthProvider(props: PropsWithChildren) {
         setToken(null);
     };
 
-    const value = {
-        token,
+    const values = {
+        token: token,
         onLogin: handleLogin,
         onLogout: handleLogout,
         userRole: role,
@@ -118,7 +92,7 @@ function AuthProvider(props: PropsWithChildren) {
     };
 
     return (
-        <AuthContext.Provider value={value}>
+        <AuthContext.Provider value={values}>
             {props.children}
         </AuthContext.Provider>
     );

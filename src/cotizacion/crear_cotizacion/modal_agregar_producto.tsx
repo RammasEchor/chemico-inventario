@@ -1,11 +1,10 @@
 import { Form, Formik } from "formik";
-import { useState } from "react";
 import * as Yup from "yup";
+import { QuoteFields } from "../../apis/api_cotizacion";
 import { SelectWithLabel } from "../../form_components/select_with_label";
 import TextInputLabelWarning from "../../form_components/text_input_label_warning";
 import TextArea from "../../form_components/textarea";
 import { useAuth } from "../../login/auth-provider/auth_provider";
-import { QuoteFields } from "../campos_cotizacion";
 
 interface AddProductProps {
     onClickX: () => void
@@ -15,42 +14,20 @@ interface AddProductProps {
 
 function AddProduct(props: AddProductProps) {
     const { userPlant } = useAuth();
-    const [plantas, setPlantas] = useState<string[]>([userPlant as string]);
-    const [initialValues, setInitialValues] = useState({
-        nombre: '',
-        parte: '',
-        fabricante: '',
-        cant: '',
-        presentacion: '',
-        unidad: '',
-        planta: userPlant as string,
-        area: '',
-        additionalInfo: '',
-    });
-
-    // useEffect(() => {
-    //     getPlants()
-    //         .then(response => response.json())
-    //         .then((data: PlantasAPI[]) => {
-    //             setPlantas(data.map(planta => planta.nombre));
-    //             setInitialValues({
-    //                 nombre: '',
-    //                 parte: '',
-    //                 fabricante: '',
-    //                 cant: '',
-    //                 presentacion: '',
-    //                 unidad: '',
-    //                 planta: data[0].nombre,
-    //                 area: '',
-    //                 additionalInfo: '',
-    //             })
-    //         });
-    // }, []);
 
     return (
         <Formik
-            enableReinitialize={true}
-            initialValues={initialValues}
+            initialValues={{
+                nombre: '',
+                parte: '',
+                fabricante: '',
+                cant: '',
+                presentacion: '',
+                unidad: '',
+                planta: userPlant as string,
+                area: '',
+                additionalInfo: '',
+            }}
             validationSchema={Yup.object({
                 nombre: Yup.string().required(),
                 parte: Yup.string(),
@@ -82,7 +59,7 @@ function AddProduct(props: AddProductProps) {
                         <TextInputLabelWarning name='presentacion' label='Presentación' />
                         <TextInputLabelWarning name='unidad' label='Unidad de Medida' />
                         <SelectWithLabel name="planta" label="Planta">
-                            {plantas.map(planta => <option value={planta} key={planta}>{planta}</option>)}
+                            <option value={userPlant as string} key={userPlant}>{userPlant}</option>
                         </SelectWithLabel>
                         <TextInputLabelWarning name='area' label='Área de Utilización' />
                         <div className="mt-5">

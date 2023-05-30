@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
-import { getCotAprobadas } from "../../apis/api_cotizacion";
-import { MasterQuoteFields } from "../../cotizacion/campos_cotizacion";
-import FullQuoteDetail from "../../cotizacion/cotizaciones_pendientes/modal_full_info";
-import { Modal } from "../../form_components/modal";
-import Tabla from "../../form_components/table";
-import { useAuth } from "../../login/auth-provider/auth_provider";
+import { MasterQuoteFields, getCotAprobadas } from "../../../apis/api_cotizacion";
+import { Modal } from "../../../form_components/modal";
+import Tabla from "../../../form_components/table";
+import { useAuth } from "../../../login/auth-provider/auth_provider";
+import FullQuoteDetail from "../../pendientes_de_cotizar/modal_full_info";
 import ConpaqModal from "./updateConpaqModal";
 
-function DisplayAprobacionesListas() {
+function DisplayCotizacionesAprobadas() {
     const [quotes, setQuotes] = useState<MasterQuoteFields[]>([]);
     const [selectedQuoteId, setSelectedQuoteId] = useState<string>();
     const [showDescriptionModal, setShowDescriptionModal] = useState(false);
@@ -131,5 +130,5 @@ function DisplayAprobacionesListas() {
     );
 }
 
-export { DisplayAprobacionesListas };
+export { DisplayCotizacionesAprobadas };
 

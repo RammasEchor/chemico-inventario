@@ -1,5 +1,5 @@
-import { checkRootEnvironURL, envErrorMsg } from "../../../utilities/check_env";
-import { failedPromise } from "../../../utilities/failed_promise";
+import { checkRootEnvironURL, envErrorMsg } from "../../utilities/check_env";
+import { failedPromise } from "../../utilities/failed_promise";
 
 function checkNotificationsEnvironURLS() {
     if (!checkRootEnvironURL() ||

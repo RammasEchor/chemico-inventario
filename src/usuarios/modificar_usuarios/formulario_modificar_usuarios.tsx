@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { getUsers, modifyUser } from "../../apis/api_usuarios";
+import { UserFields, getUsers, modifyUser } from "../../apis/api_usuarios";
 import { Modal } from "../../form_components/modal";
 import Tabla from "../../form_components/table";
-import { UserFields } from "../campos_usuario";
 import ModalModificarUsuario from "./modal_modificar_usuario";
 
 function FormularioModificarUsuarios() {

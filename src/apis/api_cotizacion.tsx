@@ -1,44 +1,58 @@
-import { QuoteFields } from "../cotizacion/campos_cotizacion";
-import { checkRootEnvironURL, envErrorMsg } from "../utilities/check_env";
-import { failedPromise } from "../utilities/failed_promise";
+import { APIStringArg } from "./api_func_args_types";
 
-function checkQuoteEnvironURLS() {
-    if (!checkRootEnvironURL() ||
-        !process.env.REACT_APP_BACKEND_INSERT_QUOTE ||
-        !process.env.REACT_APP_BACKEND_GET_PENDING_QUOTES ||
-        !process.env.REACT_APP_BACKEND_GET_QUOTES) {
-        return false;
+interface QuoteFields {
+    id?: string,
+    nombre: string,
+    parte: string,
+    fabricante: string,
+    cant: string,
+    presentacion: string,
+    unidad: string,
+    planta: string,
+    area: string,
+    additionalInfo?: string,
+    status?: string
+}
+
+interface MasterQuoteFields {
+    id?: string,
+    descripcion?: string,
+    aprobador1?: string,
+    aprobador2?: string,
+    fechaAprob1?: string,
+    fechaAprob2?: string,
+    fechaEstimada?: string,
+    orden?: string,
+    total?: string
+}
+
+enum QuoteStatus {
+    Pendiente,
+    Aprobada,
+}
+
+function getQuoteStatusFromString(rawString: string | undefined) {
+    switch (rawString) {
+        case "Aprobada": return QuoteStatus.Aprobada
+        default: return QuoteStatus.Pendiente
     }
-
-    return true;
 }
 
 function getNextQuote() {
-    if (!checkQuoteEnvironURLS()) {
-        return (failedPromise(envErrorMsg));
-    }
-
     let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
+    api_url += process.env.REACT_APP_BACKEND_NEXT_QUOTE;
 
-    return fetch(api_url + process.env.REACT_APP_BACKEND_NEXT_QUOTE);
+    return fetch(api_url);
 }
 
-function getQuoteDetail(id: string | undefined) {
-    if (!checkQuoteEnvironURLS()) {
-        return (failedPromise(envErrorMsg));
-    }
-
+function getQuoteDetail(id: APIStringArg) {
     let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
     api_url += process.env.REACT_APP_BACKEND_QUOTE_DETAIL;
 
     return fetch(api_url + id);
 }
 
-function createQuote(products: QuoteFields[], userKey: string | null, quoteId: string) {
-    if (!checkQuoteEnvironURLS()) {
-        return (failedPromise(envErrorMsg));
-    }
-
+function createQuote(products: QuoteFields[], userKey: APIStringArg, quoteId: APIStringArg) {
     let promiseArray: Promise<void>[] = [];
     let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
     products.forEach(product => {
@@ -60,11 +74,8 @@ function createQuote(products: QuoteFields[], userKey: string | null, quoteId: s
     return Promise.all(promiseArray);
 }
 
-function createMasterQuote(description: string, userKey: string | null) {
-    if (!checkQuoteEnvironURLS()) {
-        return (failedPromise(envErrorMsg));
-    }
-    let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
+function createMasterQuote(description: APIStringArg, userKey: APIStringArg) {
+    let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string
     api_url += process.env.REACT_APP_BACKEND_INSERT_MASTER_QUOTE;
     api_url += `${description}/`
     api_url += `${userKey}/`
@@ -72,11 +83,7 @@ function createMasterQuote(description: string, userKey: string | null) {
     return fetch(api_url);
 }
 
-function getQuotes(rol: string | null, cveUsuario: string | null) {
-    if (!checkQuoteEnvironURLS()) {
-        return (failedPromise(envErrorMsg));
-    }
-
+function getQuotes(rol: APIStringArg, cveUsuario: APIStringArg) {
     let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
     api_url += process.env.REACT_APP_BACKEND_GET_PENDING_QUOTES
     api_url += `${rol}/`
@@ -84,22 +91,14 @@ function getQuotes(rol: string | null, cveUsuario: string | null) {
     return fetch(api_url);
 }
 
-function approveQuote(id: string | undefined) {
-    if (!checkQuoteEnvironURLS() || !id) {
-        return (failedPromise(envErrorMsg));
-    }
-
+function approveQuote(id: APIStringArg) {
     let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
     api_url += process.env.REACT_APP_BACKEND_APPROVE_QUOTE;
     api_url += `${id}/`
     return fetch(api_url);
 }
 
-function uploadPDF(file: File, folio: string | undefined) {
-    if (!checkQuoteEnvironURLS()) {
-        return (failedPromise(envErrorMsg));
-    }
-
+function uploadPDF(file: File, folio: APIStringArg) {
     const formData = new FormData();
 
     formData.append("archivos", file);
@@ -113,11 +112,7 @@ function uploadPDF(file: File, folio: string | undefined) {
     });
 }
 
-function uploadSecurityFile(file: File, folio: string | undefined) {
-    if (!checkQuoteEnvironURLS()) {
-        return (failedPromise(envErrorMsg));
-    }
-
+function uploadSecurityFile(file: File, folio: APIStringArg) {
     const formData = new FormData();
 
     formData.append("archivos", file);
@@ -132,32 +127,20 @@ function uploadSecurityFile(file: File, folio: string | undefined) {
 }
 
 function getMasterQuotes() {
-    if (!checkQuoteEnvironURLS()) {
-        return (failedPromise(envErrorMsg));
-    }
-
     let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
     api_url += process.env.REACT_APP_BACKEND_GET_QUOTES;
 
     return fetch(api_url);
 }
 
-function getToApproves(userKey: string) {
-    if (!checkQuoteEnvironURLS()) {
-        return (failedPromise(envErrorMsg));
-    }
-
+function getToApproves() {
     let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
     api_url += process.env.REACT_APP_BACKEND_GET_APPROVES;
 
     return fetch(api_url);
 }
 
-function insertToApprove(folio: string | undefined) {
-    if (!checkQuoteEnvironURLS()) {
-        return (failedPromise(envErrorMsg));
-    }
-
+function insertToApprove(folio: APIStringArg) {
     let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
     api_url += process.env.REACT_APP_BACKEND_INSERT_APPROVE;
     api_url += `${folio}/`
@@ -165,11 +148,7 @@ function insertToApprove(folio: string | undefined) {
     return fetch(api_url);
 }
 
-function getPendingApproves(userKey: string) {
-    if (!checkQuoteEnvironURLS()) {
-        return (failedPromise(envErrorMsg));
-    }
-
+function getPendingApproves(userKey: APIStringArg) {
     let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
     api_url += process.env.REACT_APP_BACKEND_GET_PENDING_APPROVES;
     api_url += `${userKey}/`
@@ -177,11 +156,7 @@ function getPendingApproves(userKey: string) {
     return fetch(api_url);
 }
 
-function sendOneApproves(userKey: string | undefined, folio: string | undefined) {
-    if (!checkQuoteEnvironURLS()) {
-        return (failedPromise(envErrorMsg));
-    }
-
+function sendOneApproves(userKey: APIStringArg, folio: APIStringArg) {
     let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
     api_url += process.env.REACT_APP_BACKEND_INSERT_ONE_APPROV;
     api_url += `${userKey}/`
@@ -190,11 +165,7 @@ function sendOneApproves(userKey: string | undefined, folio: string | undefined)
     return fetch(api_url);
 }
 
-function getCotAprobadas(userKey: string | undefined) {
-    if (!checkQuoteEnvironURLS()) {
-        return (failedPromise(envErrorMsg));
-    }
-
+function getCotAprobadas(userKey: APIStringArg) {
     let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
     api_url += process.env.REACT_APP_BACKEND_GET_APPROV_READY;
     api_url += `${userKey}/`
@@ -202,11 +173,7 @@ function getCotAprobadas(userKey: string | undefined) {
     return fetch(api_url);
 }
 
-function getInfoCot(id: string | undefined) {
-    if (!checkQuoteEnvironURLS()) {
-        return (failedPromise(envErrorMsg));
-    }
-
+function getInfoCot(id: APIStringArg) {
     let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
     api_url += process.env.REACT_APP_BACKEND_QUOTE_FULL_DETAIL;
     api_url += `${id}/`
@@ -214,11 +181,7 @@ function getInfoCot(id: string | undefined) {
     return fetch(api_url);
 }
 
-function postContpaq({ comment, fecha, folio }: { comment: number, fecha: string, folio: string }) {
-    if (!checkQuoteEnvironURLS()) {
-        return (failedPromise(envErrorMsg));
-    }
-
+function postContpaq({ comment, fecha, folio }: { comment: number, fecha: APIStringArg, folio: APIStringArg }) {
     let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
     api_url += process.env.REACT_APP_BACKEND_QUOTE_CONTPAQ;
 
@@ -235,11 +198,7 @@ function postContpaq({ comment, fecha, folio }: { comment: number, fecha: string
     });
 }
 
-function sendOneDecline(folio: string | undefined) {
-    if (!checkQuoteEnvironURLS()) {
-        return (failedPromise(envErrorMsg));
-    }
-
+function sendOneDecline(folio: APIStringArg) {
     let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
     api_url += process.env.REACT_APP_BACKEND_QUOTE_DECLINE;
 
@@ -254,11 +213,7 @@ function sendOneDecline(folio: string | undefined) {
     });
 }
 
-function getQuotesDeclined(userKey: string) {
-    if (!checkQuoteEnvironURLS()) {
-        return (failedPromise(envErrorMsg));
-    }
-
+function getQuotesDeclined(userKey: APIStringArg) {
     let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
     api_url += process.env.REACT_APP_BACKEND_GET_QUOTES_DECLINED;
     api_url += `${userKey}/`
@@ -267,6 +222,7 @@ function getQuotesDeclined(userKey: string) {
 }
 
 export {
+    getQuoteStatusFromString,
     createQuote,
     getQuotes,
     approveQuote,
@@ -286,5 +242,5 @@ export {
     getQuotesDeclined,
     uploadSecurityFile
 };
-
+export type { QuoteFields, MasterQuoteFields };
 

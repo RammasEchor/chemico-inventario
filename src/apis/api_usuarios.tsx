@@ -1,41 +1,51 @@
-import { UserFields } from "../usuarios/campos_usuario";
-import { checkRootEnvironURL, envErrorMsg } from "../utilities/check_env";
-import { failedPromise } from "../utilities/failed_promise";
+import { APIStringArg } from "./api_func_args_types"
 
-function checkUserEnvironURLS() {
-    if (!checkRootEnvironURL() ||
-        !process.env.REACT_APP_BACKEND_INSERT_USER ||
-        !process.env.REACT_APP_BACKEND_GET_USERS ||
-        !process.env.REACT_APP_BACKEND_GET_ROLES) {
-        return false;
+interface UserFields {
+    [index: string]: string | undefined,
+    id: string,
+    nombre: string,
+    contraseña: string,
+    rol: string,
+    email: string,
+    planta: string,
+    cveUsuario: string,
+    aprobador1: string,
+    aprobador2: string,
+    monto_aprobador: string
+}
+
+enum Role {
+    UsuarioGen,
+    Cliente,
+    Aprobador,
+    Chemico,
+    Admin
+};
+
+function getUserRoleFromString(rawString: APIStringArg) {
+    switch (rawString) {
+        case "Admin": return Role.Admin
+        case "Chemico": return Role.Chemico
+        case "Aprobador": return Role.Aprobador
+        case "Cliente": return Role.Cliente
+        default: return Role.UsuarioGen
     }
-
-    return true;
 }
 
 function getUsers() {
-    if (!checkUserEnvironURLS()) {
-        return (failedPromise(envErrorMsg));
-    }
-
     let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
     api_url += process.env.REACT_APP_BACKEND_GET_USERS
     return fetch(api_url);
 }
 
 function createUser(user: UserFields) {
-    if (!checkUserEnvironURLS()) {
-        return (failedPromise(envErrorMsg));
-    }
-
-    // Before this we checked that the env variables exist
     let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
     api_url += process.env.REACT_APP_BACKEND_INSERT_USER
-    api_url += `${user.name}/`
-    api_url += `${user.userKey}/`
-    api_url += `${user.password}/`
+    api_url += `${user.nombre}/`
+    api_url += `${user.cveUsuario}/`
+    api_url += `${user.contraseña}/`
     api_url += `${user.email}/`
-    api_url += `${user.plant}/`
+    api_url += `${user.planta}/`
     api_url += `${user.rol}/`
     api_url += `${user.aprobador1}/`
     api_url += `${user.aprobador2}/`
@@ -45,31 +55,19 @@ function createUser(user: UserFields) {
 }
 
 function getRoles() {
-    if (!checkUserEnvironURLS()) {
-        return (failedPromise(envErrorMsg));
-    }
-
     let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
     api_url += process.env.REACT_APP_BACKEND_GET_ROLES
     return fetch(api_url);
 }
 
-function getAprobadores(planta: string) {
-    if (!checkUserEnvironURLS()) {
-        return (failedPromise(envErrorMsg));
-    }
-
+function getAprobadores(planta: APIStringArg) {
     let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
     api_url += process.env.REACT_APP_BACKEND_GET_APROBADORES
     api_url += `${planta}/`
     return fetch(api_url);
 }
 
-function getAprobadores2(planta: string) {
-    if (!checkUserEnvironURLS()) {
-        return (failedPromise(envErrorMsg));
-    }
-
+function getAprobadores2(planta: APIStringArg) {
     let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
     api_url += process.env.REACT_APP_BACKEND_GET_APROBADORES2
     api_url += `${planta}/`
@@ -77,10 +75,6 @@ function getAprobadores2(planta: string) {
 }
 
 function modifyUser(user: UserFields) {
-    if (!checkUserEnvironURLS()) {
-        return (failedPromise(envErrorMsg));
-    }
-
     let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
     api_url += process.env.REACT_APP_BACKEND_MODIFY_USER
 
@@ -93,5 +87,16 @@ function modifyUser(user: UserFields) {
     });
 }
 
-export { createUser, getRoles, getUsers, getAprobadores, getAprobadores2, modifyUser };
+export {
+    Role,
+    getUserRoleFromString,
+    createUser,
+    getRoles,
+    getUsers,
+    getAprobadores,
+    getAprobadores2,
+    modifyUser
+}
+export type { UserFields }
+
 

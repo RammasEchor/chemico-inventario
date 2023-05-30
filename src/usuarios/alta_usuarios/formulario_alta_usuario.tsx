@@ -3,13 +3,12 @@ import { useEffect, useState } from "react";
 import { Navigate } from "react-router";
 import * as Yup from 'yup';
 import { PlantasAPI, getPlants } from "../../apis/api_plantas";
-import { createUser, getAprobadores, getAprobadores2, getRoles } from "../../apis/api_usuarios";
+import { UserFields, createUser, getAprobadores, getAprobadores2, getRoles } from "../../apis/api_usuarios";
 import { SelectWithLabel } from "../../form_components/select_with_label";
 import ShadowedForm from "../../form_components/shadowed_form";
 import SubmitButton from "../../form_components/submit_button";
 import TextInputLabelWarning from "../../form_components/text_input_label_warning";
 import { appendFieldRequiredSpanish } from "../../utilities/error_messages";
-import { UserFields } from "../campos_usuario";
 
 interface RolAPIReturn {
     id: string,
@@ -119,19 +118,22 @@ function FormularioAltaUsuario() {
             enableReinitialize={true}
             initialValues={initialValues}
             validationSchema={Yup.object({
-                name: Yup.string()
+                nombre: Yup.string()
                     .required(appendFieldRequiredSpanish('Nombre')),
-                password: Yup.string()
+                contraseña: Yup.string()
                     .required(appendFieldRequiredSpanish('Contraseña')),
                 rol: Yup.string()
                     .required(appendFieldRequiredSpanish('Rol')),
                 email: Yup.string()
                     .email('Email inválido')
                     .required(appendFieldRequiredSpanish('Email')),
-                plant: Yup.string()
+                planta: Yup.string()
                     .required(appendFieldRequiredSpanish('Planta')),
-                userKey: Yup.string()
-                    .required(appendFieldRequiredSpanish('Clave de Usuario'))
+                cveUsuario: Yup.string()
+                    .required(appendFieldRequiredSpanish('Clave de Usuario')),
+                aprobador1: Yup.string(),
+                aprobador2: Yup.string(),
+                monto_aprobador: Yup.string()
             })}
             onSubmit={(values, { setSubmitting }) => {
                 setSubmitting(false);
@@ -143,7 +145,12 @@ function FormularioAltaUsuario() {
                     values.monto_aprobador = '-'
                 }
                 createUser(values as UserFields)
-                    .then(() => setUserSubmitted(true))
+                    .then(response => {
+                        if (!response.ok)
+                            return Promise.reject(response)
+
+                        setUserSubmitted(true)
+                    })
                     .catch(error => console.error(error))
             }}
         >

@@ -1,23 +1,21 @@
-import { ProductFields } from "../productos/campos_producto";
-import { checkRootEnvironURL, envErrorMsg } from "../utilities/check_env";
 import { failedPromise } from "../utilities/failed_promise";
+import { APIStringArg } from "./api_func_args_types";
 
-function checkProductEnvironURLS() {
-    if (!checkRootEnvironURL() ||
-        !process.env.REACT_APP_BACKEND_GET_PRODUCTS ||
-        !process.env.REACT_APP_BACKEND_INSERT_PRODUCT ||
-        !process.env.REACT_APP_BACKEND_DELETE_PRODUCT) {
-        return false;
-    }
-
-    return true;
+interface ProductFields {
+    [index: string]: string,
+    idProd: string,
+    planta: string,
+    noParte: string,
+    descripcion: string,
+    maximo: string,
+    minimo: string,
+    precio: string,
+    uni_medida: string,
+    fecha_exp: string,
+    ubicacion: string
 }
 
 function insertProduct(product: ProductFields) {
-    if (!checkProductEnvironURLS()) {
-        return (failedPromise(envErrorMsg));
-    }
-
     let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
     api_url += process.env.REACT_APP_BACKEND_INSERT_PRODUCT
 
@@ -35,20 +33,12 @@ function insertProduct(product: ProductFields) {
 }
 
 function getProducts() {
-    if (!checkProductEnvironURLS()) {
-        return (failedPromise(envErrorMsg));
-    }
-
     let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
     api_url += process.env.REACT_APP_BACKEND_GET_PRODUCTS
     return fetch(api_url);
 }
 
-function deleteProduct(productId: string | undefined) {
-    if (!checkProductEnvironURLS()) {
-        return (failedPromise(envErrorMsg));
-    }
-
+function deleteProduct(productId: APIStringArg) {
     if (productId === undefined) {
         return (failedPromise("The productd ID to delete is undefined"));
     }
@@ -60,10 +50,6 @@ function deleteProduct(productId: string | undefined) {
 }
 
 function modifyProduct(product: ProductFields) {
-    if (!checkProductEnvironURLS()) {
-        return (failedPromise(envErrorMsg));
-    }
-
     let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
     api_url += process.env.REACT_APP_BACKEND_MODIFY_PRODUCT
 
@@ -77,4 +63,5 @@ function modifyProduct(product: ProductFields) {
 }
 
 export { insertProduct, getProducts, deleteProduct, modifyProduct };
+export type { ProductFields };
 

@@ -2,14 +2,13 @@ import { Form, Formik } from "formik";
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router";
 import * as Yup from "yup";
-import { createMasterQuote, createQuote, getNextQuote } from "../../apis/api_cotizacion";
+import { QuoteFields, createMasterQuote, createQuote, getNextQuote } from "../../apis/api_cotizacion";
 import "../../css/inventario.css";
 import { Modal } from "../../form_components/modal";
 import SubmitButton from "../../form_components/submit_button";
 import Tabla from "../../form_components/table";
 import TextArea from "../../form_components/textarea";
 import { useAuth } from "../../login/auth-provider/auth_provider";
-import { QuoteFields } from "../campos_cotizacion";
 import { AddProduct } from "./modal_agregar_producto";
 
 function FormularioCotizacion() {

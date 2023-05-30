@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useAuth } from "../../../login/auth-provider/auth_provider";
-import menu_layout from "../menu_struct";
+import { useAuth } from "../../login/auth-provider/auth_provider";
+import menu_layout from "../../menus/menu_struct";
 
 function VerticalMenu() {
     const { onLogout } = useAuth();

@@ -1,5 +1,5 @@
 import emailjs from '@emailjs/browser';
-import { QuoteFields } from "../campos_cotizacion";
+import { QuoteFields } from '../../apis/api_cotizacion';
 
 function emailQuote(quote: QuoteFields) {
     if (process.env.NODE_ENV === 'production') {
@@ -22,8 +22,8 @@ function emailQuote(quote: QuoteFields) {
             'H51r8KvhSQF6bf2AO'
         );
     }
-    
-    return Promise.resolve(); 
+
+    return Promise.resolve();
 }
 
 export default emailQuote

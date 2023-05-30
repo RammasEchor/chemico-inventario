@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { getProducts, modifyProduct } from "../../apis/api_productos";
+import { ProductFields, getProducts, modifyProduct } from "../../apis/api_productos";
 import { Modal } from "../../form_components/modal";
 import Tabla from "../../form_components/table";
-import { ProductFields } from "../campos_producto";
 import ModalModificarProducto from "./modal_modificar_producto";
 
 function FormularioModificarProducto() {
