@@ -25,17 +25,6 @@ function ModalModificarUsuario(props: Props) {
     const [aprobadores1, setAprobadores1] = useState([])
     const [aprobadores2, setAprobadores2] = useState([])
 
-    const [initialValues, setIntialValues] = useState({
-        nombre: props.user.nombre,
-        rol: props.user.rol,
-        email: props.user.email,
-        planta: props.user.planta,
-        cveUsuario: props.user.cveUsuario,
-        aprobador1: props.user.aprobador1,
-        aprobador2: props.user.aprobador2,
-        monto_aprobador: props.user.monto_aprobador
-    })
-
     useEffect(() => {
         setCurrentPlant(props.user.planta)
         setCurrentRole(props.user.rol)
@@ -61,24 +50,12 @@ function ModalModificarUsuario(props: Props) {
                 .then(response => response.json())
                 .then(data => {
                     setAprobadores1(data)
-                    setIntialValues(initialValues => {
-                        return {
-                            ...initialValues,
-                            aprobador1: data[0]
-                        }
-                    })
                 })
 
             getAprobadores2(currentPlant)
                 .then(response => response.json())
                 .then(data => {
                     setAprobadores2(data)
-                    setIntialValues(initialValues => {
-                        return {
-                            ...initialValues,
-                            aprobador2: data[0]
-                        }
-                    })
                 })
         }
     }, [currentPlant])
@@ -87,36 +64,56 @@ function ModalModificarUsuario(props: Props) {
     if (currentRole === 'Cliente') {
         extra_items = (
             <div className="px-3">
-                <SelectWithLabel name='aprobador1' label='Aprobador 1'>
-                    {aprobadores1.map(ap1 => <option value={ap1} key={ap1}>{ap1}</option>)}
+                <SelectWithLabel name='aprob1' label='Aprobador 1'>
+                    {
+                        props.user.aprob1 === "-" &&
+                        <option selected disabled value={"-"}>{"-"}</option>
+                    }
+                    {aprobadores1.map(ap1 => {
+                        if (ap1 === props.user.aprob1)
+                            return <option selected value={ap1} key={ap1}>{ap1}</option>
+
+                        return <option value={ap1} key={ap1}>{ap1}</option>
+                    })}
                 </SelectWithLabel>
-                <SelectWithLabel name='aprobador2' label='Aprobador 2'>
-                    {aprobadores2.map(ap2 => <option value={ap2} key={ap2}>{ap2}</option>)}
+                <SelectWithLabel name='aprob2' label='Aprobador 2'>
+                    {
+                        props.user.aprob2 === "-" &&
+                        <option selected disabled value={"-"}>{"-"}</option>
+                    }
+                    {aprobadores2.map(ap2 => {
+                        if (ap2 === props.user.aprob2)
+                            return <option selected value={ap2} key={ap2}>{ap2}</option>
+
+                        return <option value={ap2} key={ap2}>{ap2}</option>
+                    })}
                 </SelectWithLabel>
-            </div>
-        )
-    }
-    else if (currentRole === 'Aprobador') {
-        extra_items = (
-            <div className="px-3">
-                <TextInputLabelWarning name='monto_aprobador' label='Monto' />
             </div>
         )
     }
 
     return (
         <Formik
-            enableReinitialize={true}
-            initialValues={initialValues}
+            initialValues={{
+                id: props.user.id,
+                nombre: props.user.nombre,
+                rol: props.user.rol,
+                email: props.user.email,
+                planta: props.user.planta,
+                cveUsuario: props.user.cveUsuario,
+                aprob1: props.user.aprob1,
+                aprob2: props.user.aprob2,
+                monto: props.user.monto
+            }}
             isInitialValid={true}
             onSubmit={(values, { setSubmitting }) => {
                 setSubmitting(false);
                 if (currentRole !== 'Cliente') {
-                    values.aprobador1 = '-'
-                    values.aprobador2 = '-'
+                    values.aprob1 = '-'
+                    values.aprob2 = '-'
                 }
                 if (currentRole !== 'Aprobador') {
-                    values.monto_aprobador = '-'
+                    values.monto = '-'
                 }
 
                 props.onClickModify(values as UserFields)
@@ -161,6 +158,12 @@ function ModalModificarUsuario(props: Props) {
                                         {roles.map(rol => <option value={rol} key={rol}>{rol}</option>)}
                                     </SelectWithLabel>
                                     {extra_items}
+                                    {
+                                        currentRole === 'Aprobador' &&
+                                        <div className="px-3">
+                                            <TextInputLabelWarning value={formikProps.values.monto} name='monto' label='Monto' />
+                                        </div>
+                                    }
                                 </td>
                             </tr>
                             <tr>
@@ -199,10 +202,12 @@ function ModalModificarUsuario(props: Props) {
                     <footer className="modal-card-foot is-flex-direction-row-reverse">
                         <button
                             className="button is-success mx-1"
+                            type="submit"
                             onClick={() => formikProps.handleSubmit()}
                         >Modificar</button>
                         <button
                             className="button mx-1"
+                            type="button"
                             onClick={props.onClickClose}
                         >Cancelar</button>
                     </footer>

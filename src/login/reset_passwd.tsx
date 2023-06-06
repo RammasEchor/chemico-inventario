@@ -31,7 +31,9 @@ function ResetPassword() {
                     onSubmit={(values, { setSubmitting }) => {
                         setSubmitting(false);
                         sendNewPassw(values.passw1, userKey as string)
-                            .then(data => data.text())
+                            .then(data => {
+                                data.text()
+                            })
                             .then(res => {
                                 navigate('/');
                             })

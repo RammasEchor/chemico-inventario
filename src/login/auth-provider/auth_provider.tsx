@@ -54,7 +54,9 @@ function AuthProvider(props: PropsWithChildren) {
 
         return (
             fetch(api_url)
-                .then(response => response.json())
+                .then(response => {
+                    return response.json()
+                })
                 .then((data: loginReturn) => {
                     if (data.loginSuccess !== "No") {
                         setToken('12345');

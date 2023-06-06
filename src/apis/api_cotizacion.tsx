@@ -221,6 +221,22 @@ function getQuotesDeclined(userKey: APIStringArg) {
     return fetch(api_url);
 }
 
+function updateCotTotal(total: APIStringArg, folio: APIStringArg) {
+    let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
+    api_url += process.env.REACT_APP_BACKEND_QUOTES_UPDATE_TOTAL
+
+    return fetch(api_url, {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            'folio': folio,
+            'total': total
+        })
+    });
+}
+
 export {
     getQuoteStatusFromString,
     createQuote,
@@ -240,7 +256,8 @@ export {
     postContpaq,
     sendOneDecline,
     getQuotesDeclined,
-    uploadSecurityFile
+    uploadSecurityFile,
+    updateCotTotal
 };
 export type { QuoteFields, MasterQuoteFields };
 

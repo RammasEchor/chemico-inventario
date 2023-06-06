@@ -9,9 +9,9 @@ interface UserFields {
     email: string,
     planta: string,
     cveUsuario: string,
-    aprobador1: string,
-    aprobador2: string,
-    monto_aprobador: string
+    aprob1: string,
+    aprob2: string,
+    monto: string
 }
 
 enum Role {
@@ -47,9 +47,9 @@ function createUser(user: UserFields) {
     api_url += `${user.email}/`
     api_url += `${user.planta}/`
     api_url += `${user.rol}/`
-    api_url += `${user.aprobador1}/`
-    api_url += `${user.aprobador2}/`
-    api_url += `${user.monto_aprobador}/`
+    api_url += `${user.aprob1}/`
+    api_url += `${user.aprob2}/`
+    api_url += `${user.monto}/`
 
     return fetch(api_url);
 }

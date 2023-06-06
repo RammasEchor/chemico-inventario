@@ -8,10 +8,11 @@ import FullQuoteDetail from "../../pendientes_de_cotizar/modal_full_info";
 
 function DisplayCotizacionesPorAprobar() {
     const [quotes, setQuotes] = useState<MasterQuoteFields[]>([]);
-    const [selectedQuoteId, setSelectedQuoteId] = useState<string>();
+    const [selectedQuoteId, setSelectedQuoteId] = useState<string>("");
     const [anyApproved, setAnyApproved] = useState(false);
     const [showDescriptionModal, setShowDescriptionModal] = useState(false);
     const [tituloDescModal, setTituloDescModal] = useState('Vacio');
+    const [currentTotal, setCurrentTotal] = useState<string>("");
     const { userKey } = useAuth();
     const navigate = useNavigate();
 
@@ -76,7 +77,7 @@ function DisplayCotizacionesPorAprobar() {
                     return (
                         <tr id={quote.id}
                             key={quote.id}
-                            onClick={() => setSelectedQuoteId(quote.id)}
+                            onClick={() => setSelectedQuoteId(quote.id as string)}
                             className={(selectedQuoteId === quote.id ? 'is-selected' : '')}
                         >
                             <td key={quote.id} className={redIfNull(quote.id)}>
@@ -87,8 +88,9 @@ function DisplayCotizacionesPorAprobar() {
                                     <button
                                         className='button is-ghost'
                                         onClick={() => {
-                                            setSelectedQuoteId(quote.id)
+                                            setSelectedQuoteId(quote.id as string)
                                             setTituloDescModal(quote.descripcion as string)
+                                            setCurrentTotal(quote.total as string)
                                             setShowDescriptionModal(true)
                                         }}
                                     >
@@ -146,6 +148,7 @@ function DisplayCotizacionesPorAprobar() {
                 <FullQuoteDetail
                     cotId={selectedQuoteId}
                     titulo={tituloDescModal}
+                    total={currentTotal}
                     onClickCancelar={() => setShowDescriptionModal(false)}
                     show={showDescriptionModal}
                 />

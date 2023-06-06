@@ -4,6 +4,7 @@ import { Navigate } from "react-router";
 import * as Yup from 'yup';
 import { PlantasAPI, getPlants } from "../../apis/api_plantas";
 import { UserFields, createUser, getAprobadores, getAprobadores2, getRoles } from "../../apis/api_usuarios";
+import LoadingModal from "../../form_components/loading_modal";
 import { SelectWithLabel } from "../../form_components/select_with_label";
 import ShadowedForm from "../../form_components/shadowed_form";
 import SubmitButton from "../../form_components/submit_button";
@@ -17,6 +18,7 @@ interface RolAPIReturn {
 
 function FormularioAltaUsuario() {
     const [userSubmitted, setUserSubmitted] = useState(false);
+    const [showModal, setShowModal] = useState(2);
 
     const [roles, setRoles] = useState<string[]>([]);
     const [plantas, setPlantas] = useState<string[]>([]);
@@ -33,9 +35,9 @@ function FormularioAltaUsuario() {
         email: '',
         planta: '',
         cveUsuario: '',
-        aprobador1: '',
-        aprobador2: '',
-        monto_aprobador: ''
+        aprob1: '',
+        aprob2: '',
+        monto: ''
     })
 
     useEffect(() => {
@@ -45,6 +47,7 @@ function FormularioAltaUsuario() {
                 setRoles(data.map(rol => rol.nombre));
                 setCurrentRole(data[0].nombre)
                 setIntialValues(initialValues => {
+                    setShowModal(showModal => showModal - 1)
                     return { ...initialValues, rol: data[0].nombre }
                 })
             });
@@ -55,6 +58,7 @@ function FormularioAltaUsuario() {
                 setPlantas(data.map(planta => planta.nombre));
                 setCurrentPlant(data[0].nombre)
                 setIntialValues(initialValues => {
+                    setShowModal(showModal => showModal - 1)
                     return { ...initialValues, planta: data[0].nombre }
                 })
             });
@@ -69,7 +73,7 @@ function FormularioAltaUsuario() {
                     setIntialValues(initialValues => {
                         return {
                             ...initialValues,
-                            aprobador1: data[0]
+                            aprob1: data[0]
                         }
                     })
                 })
@@ -81,7 +85,7 @@ function FormularioAltaUsuario() {
                     setIntialValues(initialValues => {
                         return {
                             ...initialValues,
-                            aprobador2: data[0]
+                            aprob2: data[0]
                         }
                     })
                 })
@@ -96,10 +100,10 @@ function FormularioAltaUsuario() {
     if (currentRole === 'Cliente') {
         extra_items = (
             <div className="px-3">
-                <SelectWithLabel name='aprobador1' label='Aprobador 1'>
+                <SelectWithLabel name='aprob1' label='Aprobador 1'>
                     {aprobadores1.map(ap1 => <option value={ap1} key={ap1}>{ap1}</option>)}
                 </SelectWithLabel>
-                <SelectWithLabel name='aprobador2' label='Aprobador 2'>
+                <SelectWithLabel name='aprob2' label='Aprobador 2'>
                     {aprobadores2.map(ap2 => <option value={ap2} key={ap2}>{ap2}</option>)}
                 </SelectWithLabel>
             </div>
@@ -108,14 +112,13 @@ function FormularioAltaUsuario() {
     else if (currentRole === 'Aprobador') {
         extra_items = (
             <div className="px-3">
-                <TextInputLabelWarning name='monto_aprobador' label='Monto' />
+                <TextInputLabelWarning name='monto' label='Monto' />
             </div>
         )
     }
 
     return (
         <Formik
-            enableReinitialize={true}
             initialValues={initialValues}
             validationSchema={Yup.object({
                 nombre: Yup.string()
@@ -131,18 +134,18 @@ function FormularioAltaUsuario() {
                     .required(appendFieldRequiredSpanish('Planta')),
                 cveUsuario: Yup.string()
                     .required(appendFieldRequiredSpanish('Clave de Usuario')),
-                aprobador1: Yup.string(),
-                aprobador2: Yup.string(),
-                monto_aprobador: Yup.string()
+                aprob1: Yup.string(),
+                aprob2: Yup.string(),
+                monto: Yup.string()
             })}
             onSubmit={(values, { setSubmitting }) => {
                 setSubmitting(false);
                 if (currentRole !== 'Cliente') {
-                    values.aprobador1 = '-'
-                    values.aprobador2 = '-'
+                    values.aprob1 = '-'
+                    values.aprob2 = '-'
                 }
                 if (currentRole !== 'Aprobador') {
-                    values.monto_aprobador = '-'
+                    values.monto = '-'
                 }
                 createUser(values as UserFields)
                     .then(response => {
@@ -154,16 +157,16 @@ function FormularioAltaUsuario() {
                     .catch(error => console.error(error))
             }}
         >
-            {props =>
+            {formikProps =>
                 <ShadowedForm>
                     <h4 className="title is-4">Alta de Usuario</h4>
                     <div className="is-flex is-flex-direction-column">
                         <TextInputLabelWarning name='nombre' label='Nombre' />
                         <TextInputLabelWarning name='contraseña' label='Contraseña' type='password' />
                         <SelectWithLabel
-                            onChange={(e) => {
+                            onChange={e => {
                                 setCurrentPlant(e.currentTarget.value)
-                                props.setFieldValue('planta', e.currentTarget.value)
+                                formikProps.setFieldValue('planta', e.currentTarget.value)
                             }}
                             value={currentPlant}
                             name="planta"
@@ -174,7 +177,7 @@ function FormularioAltaUsuario() {
                         <SelectWithLabel
                             onChange={e => {
                                 setCurrentRole(e.currentTarget.value)
-                                props.setFieldValue('rol', e.currentTarget.value)
+                                formikProps.setFieldValue('rol', e.currentTarget.value)
                             }}
                             value={currentRole}
                             name='rol'
@@ -187,6 +190,7 @@ function FormularioAltaUsuario() {
                         <TextInputLabelWarning name='cveUsuario' label='Clave de Usuario' />
                     </div>
                     <SubmitButton text='Crear Usuario' />
+                    <LoadingModal show={showModal > 0} />
                 </ShadowedForm>
             }
         </Formik>

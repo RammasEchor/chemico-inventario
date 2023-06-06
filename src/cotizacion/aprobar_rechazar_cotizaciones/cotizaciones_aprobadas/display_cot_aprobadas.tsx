@@ -8,10 +8,11 @@ import ConpaqModal from "./updateConpaqModal";
 
 function DisplayCotizacionesAprobadas() {
     const [quotes, setQuotes] = useState<MasterQuoteFields[]>([]);
-    const [selectedQuoteId, setSelectedQuoteId] = useState<string>();
+    const [selectedQuoteId, setSelectedQuoteId] = useState<string>("");
     const [showDescriptionModal, setShowDescriptionModal] = useState(false);
     const [tituloDescModal, setTituloDescModal] = useState('Vacio');
     const [showModalConpaq, setShowModalConpaq] = useState(false);
+    const [currentTotal, setCurrentTotal] = useState<string>("");
 
     const { userKey } = useAuth();
 
@@ -48,7 +49,7 @@ function DisplayCotizacionesAprobadas() {
                     return (
                         <tr id={quote.id}
                             key={quote.id}
-                            onClick={() => setSelectedQuoteId(quote.id)}
+                            onClick={() => setSelectedQuoteId(quote.id as string)}
                             className={selectedQuoteId === quote.id ? 'is-selected' : ''}
                         >
                             <td key={quote.id} className={redIfNull(quote.id)}>
@@ -59,8 +60,9 @@ function DisplayCotizacionesAprobadas() {
                                     <button
                                         className='button is-ghost'
                                         onClick={() => {
-                                            setSelectedQuoteId(quote.id)
+                                            setSelectedQuoteId(quote.id as string)
                                             setTituloDescModal(quote.descripcion as string)
+                                            setCurrentTotal(quote.total as string)
                                             setShowDescriptionModal(true)
                                         }}
                                     >
@@ -101,7 +103,7 @@ function DisplayCotizacionesAprobadas() {
                                                 "button is-success is-outlined"
                                             }
                                             onClick={() => {
-                                                setSelectedQuoteId(quote.id)
+                                                setSelectedQuoteId(quote.id  as string)
                                                 setShowModalConpaq(true)
                                             }}
                                         >Procesada</button>
@@ -118,6 +120,7 @@ function DisplayCotizacionesAprobadas() {
                     titulo={tituloDescModal}
                     onClickCancelar={() => setShowDescriptionModal(false)}
                     show={showDescriptionModal}
+                    total={currentTotal}
                 />
             </Modal>
             <Modal showModal={showModalConpaq} onClick={() => setShowModalConpaq(false)}>

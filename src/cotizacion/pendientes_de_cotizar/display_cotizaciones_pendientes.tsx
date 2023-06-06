@@ -8,12 +8,13 @@ import FullQuoteDetail from "./modal_full_info";
 
 function DisplayCotizacionesPendientes() {
     const [quotes, setQuotes] = useState<MasterQuoteFields[]>([]);
-    const [selectedQuoteId, setSelectedQuoteId] = useState<string>();
+    const [selectedQuoteId, setSelectedQuoteId] = useState<string>("");
     const [showDetail, setShowDetail] = useState(false);
     const [showDescriptionModal, setShowDescriptionModal] = useState(false);
     const [tituloDescModal, setTituloDescModal] = useState('Vacio');
     const [detailQuoteId, setDetailQuoteId] = useState<string>();
     const [bothFilesUploaded, setBothFilesUploaded] = useState(0);
+    const [currentTotal, setCurrentTotal] = useState<string>("");
 
     const { userRole, userKey } = useAuth();
 
@@ -74,7 +75,7 @@ function DisplayCotizacionesPendientes() {
                     return (
                         <tr id={quote.id}
                             key={quote.id}
-                            onClick={() => setSelectedQuoteId(quote.id)}
+                            onClick={() => setSelectedQuoteId(quote.id as string)}
                             className={selectedQuoteId === quote.id ? 'is-selected' : ''}
                         >
                             <td key={quote.id} className={redIfNull(quote.id)}>
@@ -85,8 +86,9 @@ function DisplayCotizacionesPendientes() {
                                     <button
                                         className='button is-ghost'
                                         onClick={() => {
-                                            setSelectedQuoteId(quote.id)
+                                            setSelectedQuoteId(quote.id as string)
                                             setTituloDescModal(quote.descripcion as string)
+                                            setCurrentTotal(quote.total as string)
                                             setShowDescriptionModal(true)
                                         }}
                                     >
@@ -137,6 +139,7 @@ function DisplayCotizacionesPendientes() {
                 <FullQuoteDetail
                     cotId={selectedQuoteId}
                     titulo={tituloDescModal}
+                    total={currentTotal}
                     onClickCancelar={() => setShowDescriptionModal(false)}
                     show={showDescriptionModal}
                 />

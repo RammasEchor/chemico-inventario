@@ -24,7 +24,7 @@ function FormularioModificarUsuarios() {
     function startModifyUser(user: UserFields) {
         modifyUser(user)
             .then(response => {
-                response.json()
+                response.text()
             })
             .then(data => {
                 console.log(data)
