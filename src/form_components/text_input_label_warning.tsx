@@ -6,12 +6,12 @@ interface TextInputLabelWarningProps extends ComponentPropsWithoutRef<'input'> {
     name: string
 }
 
-function TextInputLabelWarning({ label, name, ...rest }: TextInputLabelWarningProps) {
+function TextInputLabelWarning({ label, name, className, ...rest }: TextInputLabelWarningProps) {
     const [field, meta] = useField(name);
     return (
         <div className="is-flex is-flex-direction-column mb-3">
             <label className="is-size-5" htmlFor={name}>{label}</label>
-            <input className="input" {...field} {...rest} />
+            <input className={`input ${className}`} {...field} {...rest} />
             {meta.touched && meta.error ? (
                 <div className="has-text-danger">{`${meta.error}`}</div>
             ) : null}
