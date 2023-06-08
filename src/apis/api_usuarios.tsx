@@ -1,17 +1,21 @@
-import { APIStringArg } from "./api_func_args_types"
+import { APIStringArg } from "./api_func_args_types";
 
-interface UserFields {
-    [index: string]: string | undefined,
+class User {
+    id = "";
+    nombre = "";
+    contraseña = "";
+    rol = "";
+    email = "";
+    planta = "";
+    cveUsuario = "";
+    aprob1 = "";
+    aprob2 = "";
+    monto = "";
+}
+
+interface RolAPIReturn {
     id: string,
-    nombre: string,
-    contraseña: string,
-    rol: string,
-    email: string,
-    planta: string,
-    cveUsuario: string,
-    aprob1: string,
-    aprob2: string,
-    monto: string
+    nombre: string
 }
 
 enum Role {
@@ -19,7 +23,8 @@ enum Role {
     Cliente,
     Aprobador,
     Chemico,
-    Admin
+    Admin,
+    Ninguno
 };
 
 function getUserRoleFromString(rawString: APIStringArg) {
@@ -38,7 +43,7 @@ function getUsers() {
     return fetch(api_url);
 }
 
-function createUser(user: UserFields) {
+function createUser(user: User) {
     let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
     api_url += process.env.REACT_APP_BACKEND_INSERT_USER
     api_url += `${user.nombre}/`
@@ -74,7 +79,7 @@ function getAprobadores2(planta: APIStringArg) {
     return fetch(api_url);
 }
 
-function modifyUser(user: UserFields) {
+function modifyUser(user: User) {
     let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
     api_url += process.env.REACT_APP_BACKEND_MODIFY_USER
 
@@ -88,6 +93,7 @@ function modifyUser(user: UserFields) {
 }
 
 export {
+    User,
     Role,
     getUserRoleFromString,
     createUser,
@@ -96,7 +102,6 @@ export {
     getAprobadores,
     getAprobadores2,
     modifyUser
-}
-export type { UserFields }
-
+};
+export type { RolAPIReturn };
 

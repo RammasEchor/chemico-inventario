@@ -2,7 +2,7 @@ import { Form, Formik } from "formik";
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router";
 import * as Yup from "yup";
-import { QuoteFields, createMasterQuote, createQuote, getNextQuote } from "../../apis/api_cotizacion";
+import { ProductInQuote, createMasterQuote, createQuote, getNextQuote } from "../../apis/api_cotizacion";
 import "../../css/inventario.css";
 import { Modal } from "../../form_components/modal";
 import SubmitButton from "../../form_components/submit_button";
@@ -15,7 +15,7 @@ function FormularioCotizacion() {
     const [quoteSubmitted, setQuoteSubmitted] = useState(false);
     const { userKey } = useAuth();
     const [showDetail, setShowDetail] = useState(false);
-    const [products, setProducts] = useState<QuoteFields[]>([]);
+    const [products, setProducts] = useState<ProductInQuote[]>([]);
     const [selectedProduct, setSelectedProduct] = useState<string>();
     const [folio, setFolio] = useState("Cargando...");
 
@@ -30,7 +30,7 @@ function FormularioCotizacion() {
         return (<Navigate to="/" />);
     }
 
-    function AgregarProducto(product: QuoteFields) {
+    function AgregarProducto(product: ProductInQuote) {
         setProducts(products => [
             ...products,
             product
@@ -54,7 +54,7 @@ function FormularioCotizacion() {
                 setSubmitting(false);
                 getNextQuote()
                     .then(response => response.text())
-                    .then(data => createQuote(products, userKey, data))
+                    .then(data => createQuote(products, data))
                     .then(() => createMasterQuote(values.masterDesc, userKey))
                     .then(response => response.text())
                     .then(data => {
@@ -82,20 +82,19 @@ function FormularioCotizacion() {
                             ]}>
                                 {products.map(product => {
                                     return (
-                                        <tr id={product.id}
-                                            key={product.id}
-                                            onClick={() => setSelectedProduct(product.nombre)}
-                                            className={selectedProduct === product.nombre ? 'is-selected' : ''}
+                                        <tr id={product.idProd}
+                                            key={product.idProd}
+                                            onClick={() => setSelectedProduct(product.descripcion)}
+                                            className={selectedProduct === product.descripcion ? 'is-selected' : ''}
                                         >
-                                            <td key={product.nombre}>{product.nombre}</td>
-                                            <td key={product.parte}>{product.parte}</td>
-                                            <td key={product.fabricante}>{product.fabricante}</td>
-                                            <td key={product.cant}>{product.cant}</td>
-                                            <td key={product.presentacion}>{product.presentacion}</td>
-                                            <td key={product.unidad}>{product.unidad}</td>
-                                            <td key={product.planta}>{product.planta}</td>
-                                            <td key={product.area}>{product.area}</td>
-                                            <td key={product.area + product.nombre}></td>
+                                            <td>{product.descripcion}</td>
+                                            <td>{product.noParte}</td>
+                                            <td>{product.fabricante}</td>
+                                            <td>{product.cant}</td>
+                                            <td>{product.presentacion}</td>
+                                            <td>{product.unidad}</td>
+                                            <td>{product.planta}</td>
+                                            <td>{product.area}</td>
                                         </tr>
                                     );
                                 })}

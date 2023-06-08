@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { MasterQuoteFields, getMasterQuotes, uploadPDF, uploadSecurityFile } from "../../apis/api_cotizacion";
+import GhostButton from "../../form_components/ghost_button";
 import { Modal } from "../../form_components/modal";
 import Tabla from "../../form_components/table";
 import { useAuth } from "../../login/auth-provider/auth_provider";
+import { dateParser } from "../../utilities/date_parser";
 import { QuoteDetail } from "../cotizacion_card";
 import FullQuoteDetail from "./modal_full_info";
 
@@ -83,8 +85,7 @@ function DisplayCotizacionesPendientes() {
                             </td>
                             <td key={quote.descripcion} className={redIfNull(quote.descripcion)}>
                                 {quote.descripcion ?
-                                    <button
-                                        className='button is-ghost'
+                                    <GhostButton
                                         onClick={() => {
                                             setSelectedQuoteId(quote.id as string)
                                             setTituloDescModal(quote.descripcion as string)
@@ -93,7 +94,7 @@ function DisplayCotizacionesPendientes() {
                                         }}
                                     >
                                         {quote.descripcion}
-                                    </button>
+                                    </GhostButton>
                                     :
                                     "Sin Descripción"
                                 }
@@ -105,10 +106,10 @@ function DisplayCotizacionesPendientes() {
                                 {quote.aprobador2 ? quote.aprobador2 : "Faltante"}
                             </td>
                             <td key={quote.fechaAprob1} className={redIfNull(quote.fechaAprob1)}>
-                                {quote.fechaAprob1 ? quote.fechaAprob1 : "Faltante"}
+                                {quote.fechaAprob1 ? dateParser(quote.fechaAprob1) : "Faltante"}
                             </td>
                             <td key={quote.fechaAprob2} className={redIfNull(quote.fechaAprob2)}>
-                                {quote.fechaAprob2 ? quote.fechaAprob2 : "Faltante"}
+                                {quote.fechaAprob2 ? dateParser(quote.fechaAprob2) : "Faltante"}
                             </td>
                             <td key={quote.id + (quote.fechaAprob1 as string)}>
                                 <div className="block">

@@ -1,3 +1,4 @@
+import 'react-datepicker/dist/react-datepicker.css';
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import CotizacionesAprobadas from "./cotizacion/aprobar_rechazar_cotizaciones/cotizaciones_aprobadas/cotizaciones_aprobadas";

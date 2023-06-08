@@ -99,7 +99,7 @@ function FullQuoteDetail({ titulo, cotId, total, onClickCancelar, show }: Props)
                                 </tbody>
                             </table>
                         </div>
-                        <TextInputLabelWarning value={formikProps.values.total} label="Total" name="total" />
+                        <TextInputLabelWarning value={formikProps.values.total ?? "0"} label="Total" name="total" />
                     </div>
                     <footer className="modal-card-foot is-flex is-justify-content-flex-end">
                         <button className="button is-danger is-outlined" onClick={onClickCancelar}>Cerrar</button>

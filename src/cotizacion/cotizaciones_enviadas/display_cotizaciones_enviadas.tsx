@@ -3,6 +3,7 @@ import { Navigate } from "react-router";
 import { MasterQuoteFields, getToApproves, insertToApprove } from "../../apis/api_cotizacion";
 import Tabla from "../../form_components/table";
 import { useAuth } from "../../login/auth-provider/auth_provider";
+import { dateParser } from "../../utilities/date_parser";
 
 function DisplayCotizacionesEnviadas() {
     const [quotes, setQuotes] = useState<MasterQuoteFields[]>([]);
@@ -42,7 +43,7 @@ function DisplayCotizacionesEnviadas() {
 
     return (
         <div className="box">
-            <h4 className="title is-4">Cotizaciones</h4>
+            <h4 className="title is-4">Cotizaciones Enviadas</h4>
             <Tabla cols={[
                 'Folio',
                 'Descripción',
@@ -73,10 +74,10 @@ function DisplayCotizacionesEnviadas() {
                                 {quote.aprobador2 ? quote.aprobador2 : "Faltante"}
                             </td>
                             <td key={quote.fechaAprob1} className={redIfNull(quote.fechaAprob1)}>
-                                {quote.fechaAprob1 ? quote.fechaAprob1 : "Faltante"}
+                                {quote.fechaAprob1 ? dateParser(quote.fechaAprob1) : "Faltante"}
                             </td>
                             <td key={quote.fechaAprob2} className={redIfNull(quote.fechaAprob2)}>
-                                {quote.fechaAprob2 ? quote.fechaAprob2 : "Faltante"}
+                                {quote.fechaAprob2 ? dateParser(quote.fechaAprob2) : "Faltante"}
                             </td>
                             <td key={quote.id}>
                                 <div className="is-flex is-flex-direction-column">

@@ -1,15 +1,17 @@
 import { Formik } from "formik";
 import { PropsWithChildren, useEffect, useState } from "react";
+import * as Yup from 'yup';
 import { PlantasAPI, getPlants } from "../../apis/api_plantas";
-import { UserFields, getAprobadores, getAprobadores2, getRoles } from "../../apis/api_usuarios";
+import { User, getAprobadores, getAprobadores2, getRoles } from "../../apis/api_usuarios";
 import { SelectWithLabel } from "../../form_components/select_with_label";
 import Tabla from "../../form_components/table";
 import TextInputLabelWarning from "../../form_components/text_input_label_warning";
+import { appendFieldRequiredSpanish } from "../../utilities/error_messages";
 
 interface Props extends PropsWithChildren {
     onClickClose: () => void
-    onClickModify: (user: UserFields) => void
-    user: UserFields
+    onClickModify: (user: User) => void
+    user: User
 }
 
 interface RolAPIReturn {
@@ -20,15 +22,10 @@ interface RolAPIReturn {
 function ModalModificarUsuario(props: Props) {
     const [roles, setRoles] = useState<string[]>([]);
     const [plantas, setPlantas] = useState<string[]>([]);
-    const [currentPlant, setCurrentPlant] = useState('');
-    const [currentRole, setCurrentRole] = useState('')
+    const [currentPlant, setCurrentPlant] = useState(props.user.planta);
+    const [currentRole, setCurrentRole] = useState(props.user.rol)
     const [aprobadores1, setAprobadores1] = useState([])
     const [aprobadores2, setAprobadores2] = useState([])
-
-    useEffect(() => {
-        setCurrentPlant(props.user.planta)
-        setCurrentRole(props.user.rol)
-    }, [props.user.planta, props.user.rol])
 
     useEffect(() => {
         getRoles()
@@ -94,18 +91,24 @@ function ModalModificarUsuario(props: Props) {
 
     return (
         <Formik
-            initialValues={{
-                id: props.user.id,
-                nombre: props.user.nombre,
-                rol: props.user.rol,
-                email: props.user.email,
-                planta: props.user.planta,
-                cveUsuario: props.user.cveUsuario,
-                aprob1: props.user.aprob1,
-                aprob2: props.user.aprob2,
-                monto: props.user.monto
-            }}
-            isInitialValid={true}
+            initialValues={props.user}
+            validateOnMount={true}
+            validationSchema={Yup.object({
+                nombre: Yup.string()
+                    .required(appendFieldRequiredSpanish('Nombre')),
+                rol: Yup.string()
+                    .required(appendFieldRequiredSpanish('Rol')),
+                email: Yup.string()
+                    .email('Email inválido')
+                    .required(appendFieldRequiredSpanish('Email')),
+                planta: Yup.string()
+                    .required(appendFieldRequiredSpanish('Planta')),
+                cveUsuario: Yup.string()
+                    .required(appendFieldRequiredSpanish('Clave de Usuario')),
+                aprob1: Yup.string(),
+                aprob2: Yup.string(),
+                monto: Yup.string()
+            })}
             onSubmit={(values, { setSubmitting }) => {
                 setSubmitting(false);
                 if (currentRole !== 'Cliente') {
@@ -116,7 +119,7 @@ function ModalModificarUsuario(props: Props) {
                     values.monto = '-'
                 }
 
-                props.onClickModify(values as UserFields)
+                props.onClickModify(values)
             }}
         >
             {formikProps =>
@@ -139,7 +142,12 @@ function ModalModificarUsuario(props: Props) {
                                 <td className='has-text-weight-bold'>Nombre</td>
                                 <td>{props.user.nombre}</td>
                                 <td>
-                                    <TextInputLabelWarning value={formikProps.values.nombre} name='nombre' label='' />
+                                    <TextInputLabelWarning
+                                        value={formikProps.values.nombre}
+                                        name='nombre'
+                                        label=''
+                                        className={formikProps.initialValues.nombre !== formikProps.values.nombre ? "is-warning" : undefined}
+                                    />
                                 </td>
                             </tr>
                             <tr>
@@ -154,6 +162,7 @@ function ModalModificarUsuario(props: Props) {
                                         value={formikProps.values.rol}
                                         name='rol'
                                         label=''
+                                        bulmaColor={formikProps.initialValues.rol !== formikProps.values.rol ? "is-warning" : undefined}
                                     >
                                         {roles.map(rol => <option value={rol} key={rol}>{rol}</option>)}
                                     </SelectWithLabel>
@@ -161,7 +170,9 @@ function ModalModificarUsuario(props: Props) {
                                     {
                                         currentRole === 'Aprobador' &&
                                         <div className="px-3">
-                                            <TextInputLabelWarning value={formikProps.values.monto} name='monto' label='Monto' />
+                                            <TextInputLabelWarning value={formikProps.values.monto} name='monto' label='Monto'
+                                                className={formikProps.initialValues.monto !== formikProps.values.monto ? "is-warning" : undefined}
+                                            />
                                         </div>
                                     }
                                 </td>
@@ -170,7 +181,9 @@ function ModalModificarUsuario(props: Props) {
                                 <td className='has-text-weight-bold'>Email</td>
                                 <td>{props.user.email}</td>
                                 <td>
-                                    <TextInputLabelWarning value={formikProps.values.email} name='email' label='' />
+                                    <TextInputLabelWarning value={formikProps.values.email} name='email' label=''
+                                        className={formikProps.initialValues.email !== formikProps.values.email ? "is-warning" : undefined}
+                                    />
                                 </td>
                             </tr>
                             <tr>
@@ -185,6 +198,7 @@ function ModalModificarUsuario(props: Props) {
                                         value={formikProps.values.planta}
                                         name="planta"
                                         label=""
+                                        bulmaColor={formikProps.initialValues.planta !== formikProps.values.planta ? "is-warning" : undefined}
                                     >
                                         {plantas.map(planta => <option value={planta} key={planta}>{planta}</option>)}
                                     </SelectWithLabel>
@@ -194,7 +208,9 @@ function ModalModificarUsuario(props: Props) {
                                 <td className='has-text-weight-bold'>Cve. Usuario</td>
                                 <td>{props.user.cveUsuario}</td>
                                 <td>
-                                    <TextInputLabelWarning value={formikProps.values.cveUsuario} name='cveUsuario' label='' />
+                                    <TextInputLabelWarning value={formikProps.values.cveUsuario} name='cveUsuario' label=''
+                                        className={formikProps.initialValues.cveUsuario !== formikProps.values.cveUsuario ? "is-warning" : undefined}
+                                    />
                                 </td>
                             </tr>
                         </Tabla>

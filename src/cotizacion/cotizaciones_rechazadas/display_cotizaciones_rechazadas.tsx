@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { MasterQuoteFields, getQuotesDeclined } from "../../apis/api_cotizacion";
 import Tabla from "../../form_components/table";
 import { useAuth } from "../../login/auth-provider/auth_provider";
+import { dateParser } from "../../utilities/date_parser";
 
 function DisplayCotizacionesRechazadas() {
     const { userKey } = useAuth();
@@ -59,10 +60,10 @@ function DisplayCotizacionesRechazadas() {
                                 {cot.aprobador2 ? cot.aprobador2 : "Sin Descripción"}
                             </td>
                             <td key={cot.fechaAprob1} className={redIfNull(cot.fechaAprob1)}>
-                                {cot.fechaAprob1 ? cot.fechaAprob1 : "Sin Descripción"}
+                                {cot.fechaAprob1 ? dateParser(cot.fechaAprob1) : "Sin Descripción"}
                             </td>
                             <td key={cot.fechaAprob2} className={redIfNull(cot.fechaAprob2)}>
-                                {cot.fechaAprob2 ? cot.fechaAprob2 : "Sin Descripción"}
+                                {cot.fechaAprob2 ? dateParser(cot.fechaAprob2) : "Sin Descripción"}
                             </td>
                             <td key={cot.orden} className={redIfNull(cot.orden)}>
                                 {cot.orden ? cot.orden : "Sin Descripción"}

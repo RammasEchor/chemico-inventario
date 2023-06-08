@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { MasterQuoteFields, getPendingApproves, sendOneApproves, sendOneDecline } from "../../../apis/api_cotizacion";
+import GhostButton from "../../../form_components/ghost_button";
 import { Modal } from "../../../form_components/modal";
 import Tabla from "../../../form_components/table";
 import { useAuth } from "../../../login/auth-provider/auth_provider";
+import { dateParser } from "../../../utilities/date_parser";
 import FullQuoteDetail from "../../pendientes_de_cotizar/modal_full_info";
 
 function DisplayCotizacionesPorAprobar() {
@@ -62,7 +64,7 @@ function DisplayCotizacionesPorAprobar() {
 
     return (
         <div className="box">
-            <h4 className="title is-4">Cotizaciones</h4>
+            <h4 className="title is-4">Cotizaciones por Aprobar</h4>
             <Tabla cols={[
                 'Folio',
                 'Descripción',
@@ -78,15 +80,14 @@ function DisplayCotizacionesPorAprobar() {
                         <tr id={quote.id}
                             key={quote.id}
                             onClick={() => setSelectedQuoteId(quote.id as string)}
-                            className={(selectedQuoteId === quote.id ? 'is-selected' : '')}
+                            className={selectedQuoteId === quote.id ? 'is-selected' : ''}
                         >
-                            <td key={quote.id} className={redIfNull(quote.id)}>
+                            <td className={redIfNull(quote.id)}>
                                 {quote.id ? quote.id : "Sin Descripción"}
                             </td>
-                            <td key={quote.descripcion} className={redIfNull(quote.descripcion)}>
+                            <td style={{ width: "15%" }} className={redIfNull(quote.descripcion)}>
                                 {quote.descripcion ?
-                                    <button
-                                        className='button is-ghost'
+                                    <GhostButton
                                         onClick={() => {
                                             setSelectedQuoteId(quote.id as string)
                                             setTituloDescModal(quote.descripcion as string)
@@ -95,30 +96,30 @@ function DisplayCotizacionesPorAprobar() {
                                         }}
                                     >
                                         {quote.descripcion}
-                                    </button>
+                                    </GhostButton>
                                     :
                                     "Sin Descripción"
                                 }
                             </td>
-                            <td key={quote.aprobador1} className={redIfNull(quote.aprobador1)}>
+                            <td className={redIfNull(quote.aprobador1)}>
                                 {quote.aprobador1 ? quote.aprobador1 : "Faltante"}
                             </td>
-                            <td key={quote.aprobador2} className={redIfNull(quote.aprobador2)}>
+                            <td className={redIfNull(quote.aprobador2)}>
                                 {quote.aprobador2 ? quote.aprobador2 : "Faltante"}
                             </td>
-                            <td key={quote.fechaAprob1} className={redIfNull(quote.fechaAprob1)}>
-                                {quote.fechaAprob1 ? quote.fechaAprob1 : "Faltante"}
+                            <td className={redIfNull(quote.fechaAprob1)}>
+                                {quote.fechaAprob1 ? dateParser(quote.fechaAprob1) : "Faltante"}
                             </td>
-                            <td key={quote.fechaAprob2} className={redIfNull(quote.fechaAprob2)}>
-                                {quote.fechaAprob2 ? quote.fechaAprob2 : "Faltante"}
+                            <td className={redIfNull(quote.fechaAprob2)}>
+                                {quote.fechaAprob2 ? dateParser(quote.fechaAprob2) : "Faltante"}
                             </td>
-                            <td key={quote.id}>
+                            <td>
                                 <div className="is-flex is-flex-direction-column">
                                     <a className="is-underlined" href={`https://javaclusters-95554-0.cloudclusters.net/pdfs/COT_${quote.id}`}>PDF</a>
                                     <a className="is-underlined" href={`https://javaclusters-95554-0.cloudclusters.net/pdfs/HOJA_SEG_${quote.id}`}>Hoja de Seguridad</a>
                                 </div>
                             </td>
-                            <td key={quote.id}>
+                            <td>
                                 <div className="block">
                                     <button
                                         className={selectedQuoteId === quote.id ?

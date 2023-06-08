@@ -2,21 +2,22 @@ import { Form, Formik } from "formik";
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router";
 import * as Yup from "yup";
-import { ProductFields, deleteProduct, getProducts } from "../../apis/api_productos";
+import { Producto, deleteProduct, getProducts } from "../../apis/api_productos";
 import "../../css/inventario.css";
 import Checkbox from "../../form_components/checkbox";
 import Tabla from "../../form_components/table";
 import WithdrawButton from "../../form_components/withdraw_button";
+import { dateParser } from "../../utilities/date_parser";
 
 function FormularioBajaProducto() {
-    const [products, setProducts] = useState<ProductFields[]>([]);
+    const [products, setProducts] = useState<Producto[]>([]);
     const [prodIdToDelete, setProdIdToDelete] = useState<string>();
     const [deleted, setDeleted] = useState(false);
 
     useEffect(() => {
         getProducts()
             .then(response => response.json())
-            .then((data: ProductFields[]) => {
+            .then((data: Producto[]) => {
                 setProducts(data);
             });
     }, []);
@@ -98,15 +99,15 @@ function FormularioBajaProducto() {
                                 onClick={() => setProdIdToDelete(product.idProd)}
                                 className={prodIdToDelete === product.idProd ? 'is-selected' : ''}
                             >
-                                <td key={product.planta}>{product.planta}</td>
-                                <td key={product.noParte}>{product.noParte}</td>
-                                <td key={product.descripcion}>{product.descripcion}</td>
-                                <td key={product.maximo}>{product.maximo}</td>
-                                <td key={product.minimo}>{product.minimo}</td>
-                                <td key={product.precio}>{product.precio}</td>
-                                <td key={product.uni_medida}>{product.uni_medida}</td>
-                                <td key={product.fecha_exp}>{product.fecha_exp}</td>
-                                <td key={product.ubicacion}>{product.ubicacion}</td>
+                                <td>{product.planta}</td>
+                                <td>{product.noParte}</td>
+                                <td>{product.descripcion}</td>
+                                <td>{product.maximo}</td>
+                                <td>{product.minimo}</td>
+                                <td>{product.precio}</td>
+                                <td>{product.uni_medida}</td>
+                                <td>{dateParser(product.fecha_exp)}</td>
+                                <td>{product.ubicacion}</td>
                             </tr>
                         );
                     })}

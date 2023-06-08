@@ -54,7 +54,7 @@ const menu_layout = [
             { title: "Reporte On hand/stock", link: "/", visibility: [Role.Aprobador, Role.Chemico, Role.Admin] },
             { title: "Listado de usuarios", link: "/", visibility: [Role.Admin] },
         ],
-        visibility: [Role.Aprobador, Role.Chemico, Role.Admin]
+        visibility: [Role.Ninguno]
     },
 
 ]

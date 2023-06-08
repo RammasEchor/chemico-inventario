@@ -1,9 +1,9 @@
 import { Formik } from "formik";
 import { useEffect, useState } from "react";
-import { Navigate } from "react-router";
+import { useNavigate } from "react-router";
 import * as Yup from 'yup';
 import { PlantasAPI, getPlants } from "../../apis/api_plantas";
-import { UserFields, createUser, getAprobadores, getAprobadores2, getRoles } from "../../apis/api_usuarios";
+import { RolAPIReturn, User, createUser, getAprobadores, getAprobadores2, getRoles } from "../../apis/api_usuarios";
 import LoadingModal from "../../form_components/loading_modal";
 import { SelectWithLabel } from "../../form_components/select_with_label";
 import ShadowedForm from "../../form_components/shadowed_form";
@@ -11,13 +11,7 @@ import SubmitButton from "../../form_components/submit_button";
 import TextInputLabelWarning from "../../form_components/text_input_label_warning";
 import { appendFieldRequiredSpanish } from "../../utilities/error_messages";
 
-interface RolAPIReturn {
-    id: string,
-    nombre: string
-}
-
 function FormularioAltaUsuario() {
-    const [userSubmitted, setUserSubmitted] = useState(false);
     const [showModal, setShowModal] = useState(2);
 
     const [roles, setRoles] = useState<string[]>([]);
@@ -28,17 +22,8 @@ function FormularioAltaUsuario() {
     const [aprobadores1, setAprobadores1] = useState([])
     const [aprobadores2, setAprobadores2] = useState([])
 
-    const [initialValues, setIntialValues] = useState({
-        nombre: '',
-        contraseña: '',
-        rol: '',
-        email: '',
-        planta: '',
-        cveUsuario: '',
-        aprob1: '',
-        aprob2: '',
-        monto: ''
-    })
+    const [initialValues, setIntialValues] = useState<User>(new User());
+    const navigate = useNavigate();
 
     useEffect(() => {
         getRoles()
@@ -92,10 +77,6 @@ function FormularioAltaUsuario() {
         }
     }, [currentPlant])
 
-    if (userSubmitted) {
-        return (<Navigate to="/" />);
-    }
-
     let extra_items = <></>
     if (currentRole === 'Cliente') {
         extra_items = (
@@ -147,12 +128,12 @@ function FormularioAltaUsuario() {
                 if (currentRole !== 'Aprobador') {
                     values.monto = '-'
                 }
-                createUser(values as UserFields)
+                createUser(values)
                     .then(response => {
                         if (!response.ok)
                             return Promise.reject(response)
 
-                        setUserSubmitted(true)
+                        navigate(0);
                     })
                     .catch(error => console.error(error))
             }}

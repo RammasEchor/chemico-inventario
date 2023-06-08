@@ -1,24 +1,26 @@
 import { PropsWithChildren, useEffect, useState } from "react";
 import { PlantasAPI, getPlants } from "../../apis/api_plantas";
-import { ProductFields } from "../../apis/api_productos";
+import { Producto } from "../../apis/api_productos";
 import SelectModifyModal from "../../form_components/select_modify_modal";
 import Tabla from "../../form_components/table";
 import TextInputModifyModal from "../../form_components/text_input_modify_modal";
 
 interface Props extends PropsWithChildren {
     onClickClose: () => void
-    onClickModify: (user: ProductFields) => void
-    product: ProductFields
+    onClickModify: (user: Producto) => void
+    product: Producto
 }
 
 function ModalModificarProducto(props: Props) {
-    const [modifiedProduct, setModifiedProduct] = useState<ProductFields>({ ...props.product })
+    const [modifiedProduct, setModifiedProduct] = useState<Producto>({ ...props.product })
     const [plantas, setPlantas] = useState<string[]>([]);
 
     function updateProduct(field: string, value: string) {
         setModifiedProduct(modifiedProduct => {
-            modifiedProduct[field] = value
-            return modifiedProduct
+            return {
+                ...modifiedProduct,
+                [field]: value
+            }
         })
     }
 

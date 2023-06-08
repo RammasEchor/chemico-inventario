@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { UserFields, getUsers, modifyUser } from "../../apis/api_usuarios";
+import { User, getUsers, modifyUser } from "../../apis/api_usuarios";
 import { Modal } from "../../form_components/modal";
 import Tabla from "../../form_components/table";
 import ModalModificarUsuario from "./modal_modificar_usuario";
 
 function FormularioModificarUsuarios() {
-    const [users, setUsers] = useState<UserFields[]>([]);
+    const [users, setUsers] = useState<User[]>([]);
     const [userIdtoModify, setUserIdtoModify] = useState<string>();
-    const [userToModify, setUserToModify] = useState<UserFields>({} as UserFields);
+    const [userToModify, setUserToModify] = useState<User>(new User());
     const [showModifyUserModal, setShowModifyUserModal] = useState(false);
     const [userWasModified, setUserWasModified] = useState(false);
     const navigate = useNavigate();
@@ -16,12 +16,15 @@ function FormularioModificarUsuarios() {
     useEffect(() => {
         getUsers()
             .then(response => response.json())
-            .then((data: UserFields[]) => {
-                setUsers(data);
+            .then((users: User[]) => {
+                setUsers(users.map(user => {
+                    user.contraseña = ""
+                    return user
+                }));
             });
     }, []);
 
-    function startModifyUser(user: UserFields) {
+    function startModifyUser(user: User) {
         modifyUser(user)
             .then(response => {
                 response.text()
@@ -55,11 +58,11 @@ function FormularioModificarUsuarios() {
                             onClick={() => setUserIdtoModify(user.id)}
                             className={userIdtoModify === user.id ? 'is-selected' : ''}
                         >
-                            <td key={user.nombre}>{user.nombre}</td>
-                            <td key={user.rol}>{user.rol}</td>
-                            <td key={user.email}>{user.email}</td>
-                            <td key={user.planta}>{user.planta}</td>
-                            <td key={user.cveUsuario}>{user.cveUsuario}</td>
+                            <td>{user.nombre}</td>
+                            <td>{user.rol}</td>
+                            <td>{user.email}</td>
+                            <td>{user.planta}</td>
+                            <td>{user.cveUsuario}</td>
                             <td>
                                 <button className={`
                                     button 

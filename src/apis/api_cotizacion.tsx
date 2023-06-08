@@ -1,17 +1,13 @@
 import { APIStringArg } from "./api_func_args_types";
+import { Producto } from "./api_productos";
 
-interface QuoteFields {
-    id?: string,
-    nombre: string,
-    parte: string,
-    fabricante: string,
-    cant: string,
-    presentacion: string,
-    unidad: string,
-    planta: string,
-    area: string,
-    additionalInfo?: string,
-    status?: string
+class ProductInQuote extends Producto {
+    fabricante = "";
+    cant = "";
+    presentacion = "";
+    unidad = "";
+    area = "";
+    datos_adicionales = "";
 }
 
 interface MasterQuoteFields {
@@ -52,20 +48,20 @@ function getQuoteDetail(id: APIStringArg) {
     return fetch(api_url + id);
 }
 
-function createQuote(products: QuoteFields[], userKey: APIStringArg, quoteId: APIStringArg) {
+function createQuote(products: ProductInQuote[], quoteId: APIStringArg) {
     let promiseArray: Promise<void>[] = [];
     let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
     products.forEach(product => {
         let productUrl = api_url + process.env.REACT_APP_BACKEND_INSERT_QUOTE
-        productUrl += `${product.nombre}/`
-        productUrl += `${product.parte}/`
+        productUrl += `${product.descripcion}/`
+        productUrl += `${product.noParte}/`
         productUrl += `${product.fabricante}/`
         productUrl += `${product.cant}/`
         productUrl += `${product.presentacion}/`
         productUrl += `${product.unidad}/`
         productUrl += `${product.planta}/`
         productUrl += `${product.area}/`
-        productUrl += `${userKey}/`
+        productUrl += `${product.idProd}/`
         productUrl += `${quoteId}/`
 
         promiseArray.push(fetch(productUrl).then());
@@ -181,7 +177,7 @@ function getInfoCot(id: APIStringArg) {
     return fetch(api_url);
 }
 
-function postContpaq({ comment, fecha, folio }: { comment: number, fecha: APIStringArg, folio: APIStringArg }) {
+function postContpaq({ comment, fecha, folio }: { comment: APIStringArg, fecha: APIStringArg, folio: APIStringArg }) {
     let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
     api_url += process.env.REACT_APP_BACKEND_QUOTE_CONTPAQ;
 
@@ -191,7 +187,7 @@ function postContpaq({ comment, fecha, folio }: { comment: number, fecha: APIStr
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            'folio': folio,
+            'folio': (folio?.toString()),
             'orden': comment,
             'fecha': fecha
         })
@@ -238,6 +234,7 @@ function updateCotTotal(total: APIStringArg, folio: APIStringArg) {
 }
 
 export {
+    ProductInQuote,
     getQuoteStatusFromString,
     createQuote,
     getQuotes,
@@ -259,5 +256,5 @@ export {
     uploadSecurityFile,
     updateCotTotal
 };
-export type { QuoteFields, MasterQuoteFields };
+export type { MasterQuoteFields };
 

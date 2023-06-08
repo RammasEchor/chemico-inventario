@@ -1,14 +1,23 @@
 import { Field } from "formik";
 import { ComponentPropsWithoutRef } from "react";
 
-function TextInput({...props}: ComponentPropsWithoutRef<'input'>) {
+interface TextInputProps extends ComponentPropsWithoutRef<'input'> {
+    name: string,
+    type?: string,
+    className?: string,
+    placeholder?: string,
+    value?: string
+}
+
+function TextInput({ name, type, className, placeholder, value, ...rest }: TextInputProps) {
     return (
         <Field
-            name={props.name}
-            type={props.type ? props.type : 'text'}
-            className='input'
-            placeholder={props.placeholder}
-            value={props.value}
+            name={name}
+            type={type ? type : 'text'}
+            className={`input ${className}`}
+            placeholder={placeholder}
+            value={value}
+            {...rest}
         />
     );
 }

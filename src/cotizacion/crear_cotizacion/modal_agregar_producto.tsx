@@ -1,43 +1,45 @@
 import { Form, Formik } from "formik";
+import { useEffect, useState } from "react";
 import * as Yup from "yup";
-import { QuoteFields } from "../../apis/api_cotizacion";
+import { ProductInQuote } from "../../apis/api_cotizacion";
+import { getProducts } from "../../apis/api_productos";
 import { SelectWithLabel } from "../../form_components/select_with_label";
 import TextInputLabelWarning from "../../form_components/text_input_label_warning";
 import TextArea from "../../form_components/textarea";
-import { useAuth } from "../../login/auth-provider/auth_provider";
 
 interface AddProductProps {
     onClickX: () => void
     onClickCancel?: () => void
-    onClickAprobar: (values: QuoteFields) => void
+    onClickAprobar: (values: ProductInQuote) => void
 }
 
 function AddProduct(props: AddProductProps) {
-    const { userPlant } = useAuth();
+    const [products, setProducts] = useState<ProductInQuote[]>([]);
+    const [initialValues, setIntialValues] = useState(new ProductInQuote())
+
+    useEffect(() => {
+        getProducts()
+            .then(response => response.json())
+            .then((data: ProductInQuote[]) => {
+                setProducts(data);
+                setIntialValues(data[0]);
+            });
+    }, []);
 
     return (
         <Formik
-            initialValues={{
-                nombre: '',
-                parte: '',
-                fabricante: '',
-                cant: '',
-                presentacion: '',
-                unidad: '',
-                planta: userPlant as string,
-                area: '',
-                additionalInfo: '',
-            }}
+            initialValues={initialValues}
+            enableReinitialize={true}
             validationSchema={Yup.object({
-                nombre: Yup.string().required(),
-                parte: Yup.string(),
+                descripcion: Yup.string().required(),
+                noParte: Yup.string(),
                 fabricante: Yup.string(),
                 cant: Yup.string(),
                 presentacion: Yup.string(),
                 unidad: Yup.string(),
                 planta: Yup.string(),
                 area: Yup.string(),
-                additionalInfo: Yup.string(),
+                datos_adicionales: Yup.string(),
             })}
             onSubmit={(values, { setSubmitting }) => {
                 setSubmitting(false);
@@ -52,15 +54,17 @@ function AddProduct(props: AddProductProps) {
                         <button className="delete" aria-label="close" onClick={props.onClickX} />
                     </header>
                     <div className="modal-card-body">
-                        <TextInputLabelWarning name='nombre' label='Nombre de Producto' />
-                        <TextInputLabelWarning name='parte' label='Número de parte' />
+                        <SelectWithLabel name="nombre" label="Nombre">
+                            {products.map(product =>
+                                <option value={product.descripcion} key={product.idProd}>{product.descripcion}</option>
+                            )}
+                        </SelectWithLabel>
+                        <TextInputLabelWarning readOnly={true} name='noParte' label='Número de parte' />
                         <TextInputLabelWarning name='fabricante' label='Fabricante' />
                         <TextInputLabelWarning name='cant' label='Cantidad a solicitar' />
                         <TextInputLabelWarning name='presentacion' label='Presentación' />
                         <TextInputLabelWarning name='unidad' label='Unidad de Medida' />
-                        <SelectWithLabel name="planta" label="Planta">
-                            <option value={userPlant as string} key={userPlant}>{userPlant}</option>
-                        </SelectWithLabel>
+                        <TextInputLabelWarning name='planta' label='Planta' />
                         <TextInputLabelWarning name='area' label='Área de Utilización' />
                         <div className="mt-5">
                             <TextArea name='additionalInfo' placeholder="Datos Adicionales" />

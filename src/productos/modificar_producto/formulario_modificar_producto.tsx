@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { ProductFields, getProducts, modifyProduct } from "../../apis/api_productos";
+import { Producto, getProducts, modifyProduct } from "../../apis/api_productos";
 import { Modal } from "../../form_components/modal";
 import Tabla from "../../form_components/table";
+import { dateParser } from "../../utilities/date_parser";
 import ModalModificarProducto from "./modal_modificar_producto";
 
 function FormularioModificarProducto() {
-    const [products, setProducts] = useState<ProductFields[]>([]);
+    const [products, setProducts] = useState<Producto[]>([]);
     const [productIdtoModify, setProductIdtoModify] = useState<string>("");
-    const [productToModify, setProductToModify] = useState<ProductFields>({} as ProductFields);
+    const [productToModify, setProductToModify] = useState(new Producto());
     const [showModifyProductModal, setShowModifyProductModal] = useState(false);
     const [productWasModified, setProductWasModified] = useState(false);
     const navigate = useNavigate();
@@ -16,12 +17,12 @@ function FormularioModificarProducto() {
     useEffect(() => {
         getProducts()
             .then(response => response.json())
-            .then((data: ProductFields[]) => {
+            .then((data: Producto[]) => {
                 setProducts(data);
             });
     }, []);
 
-    function startModifyProduct(product: ProductFields) {
+    function startModifyProduct(product: Producto) {
         modifyProduct(product)
             .then(response => {
                 response.json()
@@ -59,15 +60,15 @@ function FormularioModificarProducto() {
                             onClick={() => setProductIdtoModify(product.idProd)}
                             className={productIdtoModify === product.idProd ? 'is-selected' : ''}
                         >
-                            <td key={product.planta}>{product.planta}</td>
-                            <td key={product.noParte}>{product.noParte}</td>
-                            <td key={product.descripcion}>{product.descripcion}</td>
-                            <td key={product.maximo}>{product.maximo}</td>
-                            <td key={product.minimo}>{product.minimo}</td>
-                            <td key={product.precio}>{product.precio}</td>
-                            <td key={product.uni_medida}>{product.uni_medida}</td>
-                            <td key={product.fecha_exp}>{product.fecha_exp}</td>
-                            <td key={product.ubicacion}>{product.ubicacion}</td>
+                            <td>{product.planta}</td>
+                            <td>{product.noParte}</td>
+                            <td>{product.descripcion}</td>
+                            <td>{product.maximo}</td>
+                            <td>{product.minimo}</td>
+                            <td>{product.precio}</td>
+                            <td>{product.uni_medida}</td>
+                            <td>{dateParser(product.fecha_exp)}</td>
+                            <td>{product.ubicacion}</td>
                             <td>
                                 <button className={`
                                     button 

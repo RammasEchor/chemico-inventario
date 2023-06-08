@@ -1,7 +1,11 @@
 import { Formik } from "formik";
 import { ComponentPropsWithoutRef, useState } from "react";
+import { useNavigate } from "react-router";
+import * as Yup from "yup";
 import { postContpaq } from "../../../apis/api_cotizacion";
+import DatePickerField from "../../../form_components/datepicker";
 import TextInputLabelWarning from "../../../form_components/text_input_label_warning";
+import { appendFieldRequiredSpanish } from "../../../utilities/error_messages";
 
 interface Props extends ComponentPropsWithoutRef<'div'> {
     folio: string,
@@ -9,24 +13,26 @@ interface Props extends ComponentPropsWithoutRef<'div'> {
 }
 
 function ConpaqModal(props: Props) {
-    const [conpaqSubmitted, setConpaqSubmitted] = useState(false);
-
-    if (conpaqSubmitted) {
-        props.onClickCancelar();
-    }
+    const [date, setDate] = useState(new Date());
+    const navigate = useNavigate();
 
     return (
         <Formik
             initialValues={{
                 comment: '',
-                fecha: ''
+                fecha: date.toISOString()
             }}
+            validationSchema={Yup.object({
+                comment: Yup.string()
+                    .required(appendFieldRequiredSpanish('No. Orden de Compra'))
+            })}
             onSubmit={(values, { setSubmitting }) => {
                 setSubmitting(false);
-                postContpaq({ comment: parseInt(values.comment), fecha: values.fecha, folio: props.folio })
+                values.fecha = date.toISOString();
+                postContpaq({ ...values, folio: props.folio })
                     .then(response => {
                         if (response.ok)
-                            setConpaqSubmitted(true)
+                            navigate(0);
                     })
                     .catch(error => console.log(error))
             }}
@@ -41,7 +47,7 @@ function ConpaqModal(props: Props) {
                     <div className='card-content'>
                         <div className="mt-5 mb-5">
                             <TextInputLabelWarning name='comment' label='No. Orden de Compra' />
-                            <TextInputLabelWarning name='fecha' label='Fecha' />
+                            <DatePickerField label="Fecha" selected={date} onChange={setDate} popperPlacement="top-start" />
                         </div>
                     </div>
                     <footer className="modal-card-foot is-flex is-justify-content-flex-end">

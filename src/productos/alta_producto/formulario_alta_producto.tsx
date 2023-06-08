@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import { Navigate } from "react-router";
 import * as Yup from "yup";
 import { PlantasAPI, getPlants } from "../../apis/api_plantas";
-import { ProductFields, insertProduct } from "../../apis/api_productos";
+import { Producto, insertProduct } from "../../apis/api_productos";
+import DatePickerField from "../../form_components/datepicker";
 import { SelectWithLabel } from "../../form_components/select_with_label";
 import ShadowedForm from "../../form_components/shadowed_form";
 import SubmitButton from "../../form_components/submit_button";
@@ -14,12 +15,15 @@ import { appendFieldRequiredSpanish } from "../../utilities/error_messages";
 function FormularioAltaProducto() {
     const [productSubmitted, setProductSubmitted] = useState(false);
     const [plantas, setPlantas] = useState<string[]>([]);
+    const [date, setDate] = useState(new Date());
+    const [initialValues, setIntialValues] = useState(new Producto())
 
     useEffect(() => {
         getPlants()
             .then(response => response.json())
             .then((data: PlantasAPI[]) => {
                 setPlantas(data.map(planta => planta.nombre));
+                setIntialValues(initialValues => ({ ...initialValues, planta: data[0].nombre }))
             });
     }, []);
 
@@ -29,31 +33,23 @@ function FormularioAltaProducto() {
 
     return (
         <Formik
-            initialValues={{
-                planta: 'Planta 1',
-                noParte: '',
-                descripcion: '',
-                maximo: '',
-                minimo: '',
-                precio: '',
-                uni_medida: '',
-                fecha_exp: '',
-                ubicacion: ''
-            }}
+            initialValues={initialValues}
+            enableReinitialize={true}
             validationSchema={Yup.object({
-                plant: Yup.string().required(appendFieldRequiredSpanish('Planta')),
-                partNumber: Yup.string().required(appendFieldRequiredSpanish('No. Parte')),
-                description: Yup.string(),
-                max: Yup.string().required(appendFieldRequiredSpanish('Máximo')),
-                min: Yup.string().required(appendFieldRequiredSpanish('Mínimo')),
-                unitPrice: Yup.string().required(appendFieldRequiredSpanish('Precio Unitario')),
-                measurementUnit: Yup.string().required(appendFieldRequiredSpanish('Unidad de Medida')),
-                expirationDate: Yup.string(),
-                warehouseLocation: Yup.string().required(appendFieldRequiredSpanish('Ubicación')),
+                planta: Yup.string().required(appendFieldRequiredSpanish('Planta')),
+                noParte: Yup.string().required(appendFieldRequiredSpanish('No. Parte')),
+                descripcion: Yup.string().required(appendFieldRequiredSpanish('Descripción')),
+                maximo: Yup.string().required(appendFieldRequiredSpanish('Máximo')),
+                minimo: Yup.string().required(appendFieldRequiredSpanish('Mínimo')),
+                precio: Yup.string().required(appendFieldRequiredSpanish('Precio Unitario')),
+                uni_medida: Yup.string().required(appendFieldRequiredSpanish('Unidad de Medida')),
+                fecha_exp: Yup.string(),
+                ubicacion: Yup.string().required(appendFieldRequiredSpanish('Ubicación')),
             })}
             onSubmit={(values, { setSubmitting }) => {
                 setSubmitting(false);
-                insertProduct(values as ProductFields)
+                values.fecha_exp = date.toISOString()
+                insertProduct(values as Producto)
                     .then(response => {
                         if (response.ok)
                             setProductSubmitted(true)
@@ -63,19 +59,19 @@ function FormularioAltaProducto() {
             <ShadowedForm>
                 <h4 className="title is-4">Alta de Producto</h4>
                 <div className="is-flex is-flex-direction-column">
-                    <SelectWithLabel name="plant" label="Planta">
+                    <SelectWithLabel name="planta" label="Planta">
                         {plantas.map(planta => <option value={planta} key={planta}>{planta}</option>)}
                     </SelectWithLabel>
-                    <TextInputLabelWarning name='partNumber' label='Número de parte' />
+                    <TextInputLabelWarning name='noParte' label='Número de parte' />
                     <div className="mt-5 mb-5">
-                        <TextArea name='description' placeholder='Descripción del producto' />
+                        <TextArea name='descripcion' placeholder='Descripción del producto' />
                     </div>
-                    <TextInputLabelWarning name='max' label='Máximo' />
-                    <TextInputLabelWarning name='min' label='Mínimo' />
-                    <TextInputLabelWarning name='unitPrice' label='Precio unitario' />
-                    <TextInputLabelWarning name='measurementUnit' label='Unidad de medida' />
-                    <TextInputLabelWarning name='expirationDate' label='Fecha de expiración' />
-                    <TextInputLabelWarning name='warehouseLocation' label='Ubicación almacén' />
+                    <TextInputLabelWarning name='maximo' label='Máximo' />
+                    <TextInputLabelWarning name='minimo' label='Mínimo' />
+                    <TextInputLabelWarning name='precio' label='Precio unitario' />
+                    <TextInputLabelWarning name='uni_medida' label='Unidad de medida' />
+                    <DatePickerField label="Fecha de Expiración" selected={date} onChange={setDate} />
+                    <TextInputLabelWarning name='ubicacion' label='Ubicación almacén' />
                 </div>
                 <SubmitButton text='Agregar Producto' />
             </ShadowedForm>

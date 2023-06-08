@@ -1,21 +1,20 @@
 import { failedPromise } from "../utilities/failed_promise";
 import { APIStringArg } from "./api_func_args_types";
 
-interface ProductFields {
-    [index: string]: string,
-    idProd: string,
-    planta: string,
-    noParte: string,
-    descripcion: string,
-    maximo: string,
-    minimo: string,
-    precio: string,
-    uni_medida: string,
-    fecha_exp: string,
-    ubicacion: string
+class Producto {
+    idProd = "";
+    planta = "";
+    noParte = "";
+    descripcion = "";
+    maximo = "";
+    minimo = "";
+    uni_medida = "";
+    fecha_exp = "";
+    ubicacion = "";
+    precio = "";
 }
 
-function insertProduct(product: ProductFields) {
+function insertProduct(product: Producto) {
     let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
     api_url += process.env.REACT_APP_BACKEND_INSERT_PRODUCT
 
@@ -49,7 +48,7 @@ function deleteProduct(productId: APIStringArg) {
     return fetch(api_url);
 }
 
-function modifyProduct(product: ProductFields) {
+function modifyProduct(product: Producto) {
     let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
     api_url += process.env.REACT_APP_BACKEND_MODIFY_PRODUCT
 
@@ -62,6 +61,11 @@ function modifyProduct(product: ProductFields) {
     });
 }
 
-export { insertProduct, getProducts, deleteProduct, modifyProduct };
-export type { ProductFields };
+export {
+    Producto,
+    insertProduct,
+    getProducts,
+    deleteProduct,
+    modifyProduct
+};
 
