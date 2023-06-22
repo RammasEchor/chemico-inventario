@@ -1,9 +1,11 @@
 import { PropsWithChildren, useEffect, useState } from "react";
 import { PlantasAPI, getPlants } from "../../apis/api_plantas";
 import { Producto } from "../../apis/api_productos";
+import DatePickerField from "../../form_components/datepicker";
 import SelectModifyModal from "../../form_components/select_modify_modal";
 import Tabla from "../../form_components/table";
 import TextInputModifyModal from "../../form_components/text_input_modify_modal";
+import { dateParser } from "../../utilities/date_parser";
 
 interface Props extends PropsWithChildren {
     onClickClose: () => void
@@ -14,6 +16,13 @@ interface Props extends PropsWithChildren {
 function ModalModificarProducto(props: Props) {
     const [modifiedProduct, setModifiedProduct] = useState<Producto>({ ...props.product })
     const [plantas, setPlantas] = useState<string[]>([]);
+
+    let productBeforeDate = new Date()
+    if (props.product.fecha_exp) {
+        productBeforeDate = new Date(props.product.fecha_exp)
+    }
+
+    const [date, setDate] = useState<Date>(new Date(productBeforeDate));
 
     function updateProduct(field: string, value: string) {
         setModifiedProduct(modifiedProduct => {
@@ -128,13 +137,9 @@ function ModalModificarProducto(props: Props) {
                     </tr>
                     <tr>
                         <td className='has-text-weight-bold'>Fecha de expiración</td>
-                        <td>{props.product.fecha_exp}</td>
+                        <td>{dateParser(props.product.fecha_exp)}</td>
                         <td>
-                            <TextInputModifyModal
-                                initialValue={props.product.fecha_exp}
-                                fieldName="fecha_exp"
-                                setCurrentValue={updateProduct}
-                            />
+                            <DatePickerField label="Fecha de Expiración" selected={date} onChange={setDate} />
                         </td>
                     </tr>
                     <tr>
@@ -153,7 +158,10 @@ function ModalModificarProducto(props: Props) {
             <footer className="modal-card-foot is-flex-direction-row-reverse">
                 <button
                     className="button is-success mx-1"
-                    onClick={() => props.onClickModify(modifiedProduct)}
+                    onClick={() => props.onClickModify({
+                        ...modifiedProduct,
+                        fecha_exp: date.toISOString()
+                    })}
                 >Modificar</button>
                 <button
                     className="button mx-1"

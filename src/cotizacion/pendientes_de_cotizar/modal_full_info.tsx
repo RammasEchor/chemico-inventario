@@ -2,7 +2,9 @@ import { Formik } from "formik";
 import { ComponentPropsWithoutRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { getInfoCot, updateCotTotal } from "../../apis/api_cotizacion";
+import { Role, getUserRoleFromString } from "../../apis/api_usuarios";
 import TextInputLabelWarning from "../../form_components/text_input_label_warning";
+import { useAuth } from "../../login/auth-provider/auth_provider";
 
 interface Props extends ComponentPropsWithoutRef<'div'> {
     titulo: string
@@ -27,6 +29,8 @@ function FullQuoteDetail({ titulo, cotId, total, onClickCancelar, show }: Props)
     }
     const [info, setInfo] = useState([])
     const navigate = useNavigate();
+    const { userRole } = useAuth();
+    const userRoleType = getUserRoleFromString(userRole);
 
     useEffect(() => {
         if (show) {
@@ -103,11 +107,15 @@ function FullQuoteDetail({ titulo, cotId, total, onClickCancelar, show }: Props)
                     </div>
                     <footer className="modal-card-foot is-flex is-justify-content-flex-end">
                         <button className="button is-danger is-outlined" onClick={onClickCancelar}>Cerrar</button>
-                        <button
-                            className="button is-success mx-1"
-                            type="submit"
-                            onClick={() => formikProps.handleSubmit()}
-                        >Modificar Total</button>
+                        {
+                            userRoleType !== Role.Cliente
+                            &&
+                            <button
+                                className="button is-success mx-1"
+                                type="submit"
+                                onClick={() => formikProps.handleSubmit()}
+                            >Modificar Total</button>
+                        }
                     </footer>
                 </div>
             }

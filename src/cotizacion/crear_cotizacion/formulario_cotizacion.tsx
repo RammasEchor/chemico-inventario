@@ -1,6 +1,6 @@
 import { Form, Formik } from "formik";
 import { useEffect, useState } from "react";
-import { Navigate } from "react-router";
+import { useNavigate } from "react-router";
 import * as Yup from "yup";
 import { ProductInQuote, createMasterQuote, createQuote, getNextQuote } from "../../apis/api_cotizacion";
 import "../../css/inventario.css";
@@ -10,6 +10,7 @@ import Tabla from "../../form_components/table";
 import TextArea from "../../form_components/textarea";
 import { useAuth } from "../../login/auth-provider/auth_provider";
 import { AddProduct } from "./modal_agregar_producto";
+import ModalModificarProductoCotizacion from "./modal_modificar_producto_cot";
 
 function FormularioCotizacion() {
     const [quoteSubmitted, setQuoteSubmitted] = useState(false);
@@ -18,6 +19,10 @@ function FormularioCotizacion() {
     const [products, setProducts] = useState<ProductInQuote[]>([]);
     const [selectedProduct, setSelectedProduct] = useState<string>();
     const [folio, setFolio] = useState("Cargando...");
+    const [productIdtoModify, setProductIdtoModify] = useState<string>("");
+    const [productToModify, setProductToModify] = useState({} as ProductInQuote);
+    const [showModifyProductModal, setShowModifyProductModal] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         getNextQuote()
@@ -27,7 +32,7 @@ function FormularioCotizacion() {
     }, []);
 
     if (quoteSubmitted) {
-        return (<Navigate to="/" />);
+        navigate(0);
     }
 
     function AgregarProducto(product: ProductInQuote) {
@@ -39,6 +44,19 @@ function FormularioCotizacion() {
 
     function ClearProducts() {
         setProducts([]);
+    }
+
+    function DeleteProduct(noParte: string) {
+        setProducts(products => products.filter(p => p.noParte !== noParte))
+    }
+
+    function ModifyProduct(modified: ProductInQuote) {
+        const indexToModify = products.findIndex(p => p.noParte === modified.noParte)
+        setProducts(products => {
+            products[indexToModify] = modified
+            return products
+        })
+        setShowModifyProductModal(false)
     }
 
     return (
@@ -54,7 +72,7 @@ function FormularioCotizacion() {
                 setSubmitting(false);
                 getNextQuote()
                     .then(response => response.text())
-                    .then(data => createQuote(products, data))
+                    .then(data => createQuote(products, data, userKey))
                     .then(() => createMasterQuote(values.masterDesc, userKey))
                     .then(response => response.text())
                     .then(data => {
@@ -66,8 +84,8 @@ function FormularioCotizacion() {
         >
             {({ errors, touched }) => (
                 <>
-                    <div className="columns is-centered p-4">
-                        <Form className="is-flex is-flex-direction-column box column is-10">
+                    <div className="columns is-centered p-3">
+                        <Form className="is-flex is-flex-direction-column box column is-11">
                             <h4 className="title is-4">Crear Cotización</h4>
                             <h5 className="subtitle is-5">Folio: {folio}</h5>
                             <Tabla cols={[
@@ -79,22 +97,34 @@ function FormularioCotizacion() {
                                 'Unidad',
                                 'Planta',
                                 'Área',
+                                'Acción'
                             ]}>
                                 {products.map(product => {
                                     return (
-                                        <tr id={product.idProd}
-                                            key={product.idProd}
-                                            onClick={() => setSelectedProduct(product.descripcion)}
-                                            className={selectedProduct === product.descripcion ? 'is-selected' : ''}
+                                        <tr key={product.noParte}
+                                            onClick={() => setSelectedProduct(product.noParte)}
+                                            className={selectedProduct === product.noParte ? 'is-selected' : ''}
                                         >
                                             <td>{product.descripcion}</td>
                                             <td>{product.noParte}</td>
                                             <td>{product.fabricante}</td>
                                             <td>{product.cant}</td>
                                             <td>{product.presentacion}</td>
-                                            <td>{product.unidad}</td>
+                                            <td>{product.uni_medida}</td>
                                             <td>{product.planta}</td>
                                             <td>{product.area}</td>
+                                            <div className="buttons are-small mt-1">
+                                                <button className="button is-warning" onClick={() => {
+                                                    setProductIdtoModify(product.noParte)
+                                                    setProductToModify(product)
+                                                    setShowModifyProductModal(true)
+                                                }}>
+                                                    Modificar
+                                                </button>
+                                                <button className="button is-danger" onClick={() => DeleteProduct(product.noParte)}>
+                                                    Eliminar
+                                                </button>
+                                            </div>
                                         </tr>
                                     );
                                 })}
@@ -106,7 +136,7 @@ function FormularioCotizacion() {
                                         className="is-flex-grow-1 button is-danger is-outlined"
                                         type="button"
                                         onClick={() => ClearProducts()}
-                                    >Cancelar</button>
+                                    >Eliminar todos los Productos</button>
                                 </div>
                                 <div className="column is-flex is-3">
                                     <button
@@ -134,8 +164,16 @@ function FormularioCotizacion() {
                             onClickAprobar={AgregarProducto}
                         />
                     </Modal>
+                    <Modal key={productIdtoModify} showModal={showModifyProductModal} onClick={() => setShowModifyProductModal(false)}>
+                        <ModalModificarProductoCotizacion
+                            onClickClose={() => setShowModifyProductModal(false)}
+                            onClickModify={ModifyProduct}
+                            product={productToModify}
+                        />
+                    </Modal >
                 </>
             )}
+
         </Formik >
     );
 }

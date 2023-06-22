@@ -12,7 +12,7 @@ function DisplayCotizacionesEnviadas() {
     const [anyApproved, setAnyApproved] = useState(false);
 
     useEffect(() => {
-        getToApproves()
+        getToApproves(userKey)
             .then(response => response.json())
             .then((data: MasterQuoteFields[]) => {
                 setQuotes(data);
@@ -61,31 +61,31 @@ function DisplayCotizacionesEnviadas() {
                             onClick={() => setSelectedQuoteId(quote.id)}
                             className={selectedQuoteId === quote.id ? 'is-selected' : ''}
                         >
-                            <td key={quote.id} className={redIfNull(quote.id)}>
+                            <td className={redIfNull(quote.id)}>
                                 {quote.id ? quote.id : "Sin Descripción"}
                             </td>
-                            <td key={quote.descripcion} className={redIfNull(quote.descripcion)}>
+                            <td className={redIfNull(quote.descripcion)}>
                                 {quote.descripcion ? quote.descripcion : "Sin Descripción"}
                             </td>
-                            <td key={quote.aprobador1} className={redIfNull(quote.aprobador1)}>
+                            <td className={redIfNull(quote.aprobador1)}>
                                 {quote.aprobador1 ? quote.aprobador1 : "Faltante"}
                             </td>
-                            <td key={quote.aprobador2} className={redIfNull(quote.aprobador2)}>
+                            <td className={redIfNull(quote.aprobador2)}>
                                 {quote.aprobador2 ? quote.aprobador2 : "Faltante"}
                             </td>
-                            <td key={quote.fechaAprob1} className={redIfNull(quote.fechaAprob1)}>
+                            <td className={redIfNull(quote.fechaAprob1)}>
                                 {quote.fechaAprob1 ? dateParser(quote.fechaAprob1) : "Faltante"}
                             </td>
-                            <td key={quote.fechaAprob2} className={redIfNull(quote.fechaAprob2)}>
+                            <td className={redIfNull(quote.fechaAprob2)}>
                                 {quote.fechaAprob2 ? dateParser(quote.fechaAprob2) : "Faltante"}
                             </td>
-                            <td key={quote.id}>
+                            <td>
                                 <div className="is-flex is-flex-direction-column">
                                     <a className="is-underlined" href={`https://javaclusters-95554-0.cloudclusters.net/pdfs/COT_${quote.id}`}>PDF</a>
                                     <a className="is-underlined" href={`https://javaclusters-95554-0.cloudclusters.net/pdfs/HOJA_SEG_${quote.id}`}>Hoja de Seguridad</a>
                                 </div>
                             </td>
-                            <td key={quote.id}>
+                            <td>
                                 <div className="block">
                                     <button
                                         className={selectedQuoteId === quote.id ?

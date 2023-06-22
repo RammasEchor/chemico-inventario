@@ -2,10 +2,19 @@ import { APIStringArg } from "./api_func_args_types";
 import { Producto } from "./api_productos";
 
 class ProductInQuote extends Producto {
+    idProd = "";
+    planta = "";
+    noParte = "";
+    descripcion = "";
+    maximo = "";
+    minimo = "";
+    uni_medida = "";
+    fecha_exp = "";
+    ubicacion = "";
+    precio = "";
     fabricante = "";
     cant = "";
     presentacion = "";
-    unidad = "";
     area = "";
     datos_adicionales = "";
 }
@@ -48,7 +57,7 @@ function getQuoteDetail(id: APIStringArg) {
     return fetch(api_url + id);
 }
 
-function createQuote(products: ProductInQuote[], quoteId: APIStringArg) {
+function createQuote(products: ProductInQuote[], quoteId: APIStringArg, userKey: APIStringArg) {
     let promiseArray: Promise<void>[] = [];
     let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
     products.forEach(product => {
@@ -58,10 +67,10 @@ function createQuote(products: ProductInQuote[], quoteId: APIStringArg) {
         productUrl += `${product.fabricante}/`
         productUrl += `${product.cant}/`
         productUrl += `${product.presentacion}/`
-        productUrl += `${product.unidad}/`
+        productUrl += `${product.uni_medida}/`
         productUrl += `${product.planta}/`
         productUrl += `${product.area}/`
-        productUrl += `${product.idProd}/`
+        productUrl += `${userKey}/`
         productUrl += `${quoteId}/`
 
         promiseArray.push(fetch(productUrl).then());
@@ -122,16 +131,18 @@ function uploadSecurityFile(file: File, folio: APIStringArg) {
     });
 }
 
-function getMasterQuotes() {
+function getMasterQuotes(userKey: APIStringArg) {
     let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
     api_url += process.env.REACT_APP_BACKEND_GET_QUOTES;
+    api_url += `${userKey}/`
 
     return fetch(api_url);
 }
 
-function getToApproves() {
+function getToApproves(userKey: APIStringArg) {
     let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
     api_url += process.env.REACT_APP_BACKEND_GET_APPROVES;
+    api_url += `${userKey}/`
 
     return fetch(api_url);
 }
@@ -141,6 +152,7 @@ function insertToApprove(folio: APIStringArg) {
     api_url += process.env.REACT_APP_BACKEND_INSERT_APPROVE;
     api_url += `${folio}/`
 
+    console.log(api_url);
     return fetch(api_url);
 }
 
@@ -234,27 +246,9 @@ function updateCotTotal(total: APIStringArg, folio: APIStringArg) {
 }
 
 export {
-    ProductInQuote,
-    getQuoteStatusFromString,
-    createQuote,
-    getQuotes,
-    approveQuote,
-    getNextQuote,
-    createMasterQuote,
-    uploadPDF,
-    getMasterQuotes,
-    getQuoteDetail,
-    getToApproves,
-    insertToApprove,
-    getPendingApproves,
-    sendOneApproves,
-    getCotAprobadas,
-    getInfoCot,
-    postContpaq,
-    sendOneDecline,
-    getQuotesDeclined,
-    uploadSecurityFile,
-    updateCotTotal
+    ProductInQuote, approveQuote, createMasterQuote, createQuote, getCotAprobadas,
+    getInfoCot, getMasterQuotes, getNextQuote, getPendingApproves, getQuoteDetail, getQuoteStatusFromString, getQuotes, getQuotesDeclined, getToApproves,
+    insertToApprove, postContpaq, sendOneApproves, sendOneDecline, updateCotTotal, uploadPDF, uploadSecurityFile
 };
 export type { MasterQuoteFields };
 

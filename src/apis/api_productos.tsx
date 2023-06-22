@@ -62,10 +62,6 @@ function modifyProduct(product: Producto) {
 }
 
 export {
-    Producto,
-    insertProduct,
-    getProducts,
-    deleteProduct,
-    modifyProduct
+    Producto, deleteProduct, getProducts, insertProduct, modifyProduct
 };
 

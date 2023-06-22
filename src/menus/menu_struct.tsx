@@ -25,15 +25,16 @@ const menu_layout = [
             { title: "Pendientes de cotizar", link: "/cotizaciones_pendientes", visibility: [Role.Chemico, Role.Admin] },
             { title: "Cotizaciones rechazadas", link: "/cotizaciones_rechazadas", visibility: [Role.Admin] },
             { title: "Cotizaciones enviadas", link: "/cotizaciones_enviadas", visibility: [Role.Cliente, Role.Aprobador, Role.Chemico, Role.Admin] },
+            { title: "Aprobaciones HS", link: "/aprobaciones_hs", visibility: [Role.AprobSeguridad] },
             {
                 title: "Aprobar/Rechazar Cotizaciones", children: [
                     { title: "Por aprobar", link: "/cotizaciones_por_aprobar", visibility: [Role.Aprobador, Role.Chemico, Role.Admin] },
-                    { title: "Aprobadas", link: "/cotizaciones_aprobadas", visibility: [Role.Aprobador, Role.Chemico, Role.Admin] },
+                    { title: "Aprobadas", link: "/cotizaciones_aprobadas", visibility: [Role.Cliente, Role.Aprobador, Role.Chemico, Role.Admin] },
                 ],
-                visibility: [Role.Aprobador, Role.Chemico, Role.Admin]
+                visibility: [Role.Cliente, Role.Aprobador, Role.Chemico, Role.Admin]
             },
         ],
-        visibility: [Role.Aprobador, Role.Chemico, Role.Admin, Role.Cliente]
+        visibility: [Role.Aprobador, Role.Chemico, Role.Admin, Role.Cliente, Role.AprobSeguridad]
     },
     {
         title: "Inventarios", children: [

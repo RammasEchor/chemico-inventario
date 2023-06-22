@@ -101,6 +101,7 @@ function FormularioAltaUsuario() {
     return (
         <Formik
             initialValues={initialValues}
+            enableReinitialize={true}
             validationSchema={Yup.object({
                 nombre: Yup.string()
                     .required(appendFieldRequiredSpanish('Nombre')),

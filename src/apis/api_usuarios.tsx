@@ -24,6 +24,7 @@ enum Role {
     Aprobador,
     Chemico,
     Admin,
+    AprobSeguridad,
     Ninguno
 };
 
@@ -33,6 +34,7 @@ function getUserRoleFromString(rawString: APIStringArg) {
         case "Chemico": return Role.Chemico
         case "Aprobador": return Role.Aprobador
         case "Cliente": return Role.Cliente
+        case "Aprob. Seguridad": return Role.AprobSeguridad
         default: return Role.UsuarioGen
     }
 }
@@ -93,15 +95,8 @@ function modifyUser(user: User) {
 }
 
 export {
-    User,
-    Role,
-    getUserRoleFromString,
-    createUser,
-    getRoles,
-    getUsers,
-    getAprobadores,
-    getAprobadores2,
-    modifyUser
+    Role, User, createUser, getAprobadores,
+    getAprobadores2, getRoles, getUserRoleFromString, getUsers, modifyUser
 };
 export type { RolAPIReturn };
 

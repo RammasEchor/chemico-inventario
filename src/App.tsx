@@ -1,6 +1,7 @@
 import 'react-datepicker/dist/react-datepicker.css';
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
+import AprobacionesHS from './cotizacion/aprobaciones_hs/aprobaciones_hs';
 import CotizacionesAprobadas from "./cotizacion/aprobar_rechazar_cotizaciones/cotizaciones_aprobadas/cotizaciones_aprobadas";
 import CotizationesPorAprobar from "./cotizacion/aprobar_rechazar_cotizaciones/cotizaciones_por_aprobar/cotizaciones_por_aprobar";
 import CotizacionesEnviadas from "./cotizacion/cotizaciones_enviadas/cotizaciones_enviadas";
@@ -15,6 +16,7 @@ import MainPage from "./mainpage/mainpage";
 import AltaProducto from "./productos/alta_producto/alta_producto";
 import BajaProducto from "./productos/baja_producto/baja_producto";
 import ModificarProducto from "./productos/modificar_producto/modificar_producto";
+import QrOrdenCompra from './qr/qr_orden_compra';
 import AltaUsuario from "./usuarios/alta_usuarios/alta_usuarios";
 import BajaUsuario from "./usuarios/baja_usuarios/baja_usuarios";
 import ModificarUsuario from "./usuarios/modificar_usuarios/modificar_usuarios";
@@ -37,6 +39,7 @@ function App() {
       <Route path="/cotizaciones_pendientes" element={<CotizacionesPendientes />} />
       <Route path="/cotizaciones_rechazadas" element={<CotizacionesRechazadas />} />
       <Route path="/cotizaciones_enviadas" element={<CotizacionesEnviadas />} />
+      <Route path="/aprobaciones_hs" element={<AprobacionesHS />} />
       <Route path="/cotizaciones_por_aprobar" element={<CotizationesPorAprobar />} />
       <Route path="/cotizaciones_aprobadas" element={<CotizacionesAprobadas />} />
       <Route path="/entrada_material" element={<EntradaMaterial />} />
@@ -49,7 +52,9 @@ function App() {
       <Route path="/" element={<MainPage />} />
       <Route path="/" element={<MainPage />} />
       <Route path="/" element={<MainPage />} />
-      <Route path="/" element={<MainPage />} />
+      <Route path="/qr_orden_compra">
+        <Route path=":id" element={<QrOrdenCompra />} />
+      </Route>
     </Routes>
   );
 }

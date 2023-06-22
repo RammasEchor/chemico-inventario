@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { BiUserCircle } from "react-icons/bi";
 import { MdCircleNotifications } from "react-icons/md";
+import { getPendingQuotes } from "../../apis/api_notificaciones";
 import { Role, getUserRoleFromString } from "../../apis/api_usuarios";
 import "../../css/inventario.css";
 import { useAuth } from "../../login/auth-provider/auth_provider";
 import DropMenuItem from "../dropmenu/dropmenuitem";
-import { getPendingQuotes } from "./api_notificaciones";
 
 interface UserIconState {
     activeIconBadge: boolean,
@@ -19,22 +19,20 @@ function UserIcon() {
     });
     const { userKey, userRole, onLogout } = useAuth();
 
-    function checkForPendingQuotes() {
-        getPendingQuotes()
-            .then(response => response.json())
-            .then(pending => setIconState({
-                activeIconBadge: true,
-                numberOfQuotes: pending
-            }));
-    }
-
     useEffect(() => {
         const role = getUserRoleFromString(userRole);
         if (role !== Role.Cliente) {
-            const interval = setInterval(checkForPendingQuotes, 10000);
+            const interval = setInterval(() => {
+                getPendingQuotes(userKey)
+                    .then(response => response.json())
+                    .then(pending => setIconState({
+                        activeIconBadge: true,
+                        numberOfQuotes: pending
+                    }));
+            }, 10000);
             return () => clearInterval(interval);
         }
-    }, [userRole]);
+    }, [userRole, userKey]);
 
     return (
         <div className={`

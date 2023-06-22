@@ -24,9 +24,7 @@ function FormularioModificarProducto() {
 
     function startModifyProduct(product: Producto) {
         modifyProduct(product)
-            .then(response => {
-                response.json()
-            })
+            .then(response => response.json())
             .then(data => {
                 console.log(data)
                 setProductWasModified(true)

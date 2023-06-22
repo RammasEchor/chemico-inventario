@@ -21,7 +21,7 @@ function DisplayCotizacionesPendientes() {
     const { userRole, userKey } = useAuth();
 
     useEffect(() => {
-        getMasterQuotes()
+        getMasterQuotes(userKey)
             .then(response => response.json())
             .then((data: MasterQuoteFields[]) => {
                 setQuotes(data);

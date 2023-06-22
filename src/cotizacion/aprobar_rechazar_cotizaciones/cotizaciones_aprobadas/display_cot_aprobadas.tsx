@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { MasterQuoteFields, getCotAprobadas } from "../../../apis/api_cotizacion";
+import { Role, getUserRoleFromString } from "../../../apis/api_usuarios";
 import GhostButton from "../../../form_components/ghost_button";
 import { Modal } from "../../../form_components/modal";
 import Tabla from "../../../form_components/table";
@@ -16,7 +17,7 @@ function DisplayCotizacionesAprobadas() {
     const [showModalConpaq, setShowModalConpaq] = useState(false);
     const [currentTotal, setCurrentTotal] = useState<string>("");
 
-    const { userKey } = useAuth();
+    const { userKey, userRole } = useAuth();
 
     useEffect(() => {
         getCotAprobadas(userKey as string)
@@ -97,7 +98,7 @@ function DisplayCotizacionesAprobadas() {
                                         <a className="is-underlined" href={`https://javaclusters-95554-0.cloudclusters.net/pdfs/COT_${quote.id}`}>PDF</a>
                                         <a className="is-underlined" href={`https://javaclusters-95554-0.cloudclusters.net/pdfs/HOJA_SEG_${quote.id}`}>Hoja de Seguridad</a>
                                     </div>
-                                    {quote.aprobador2 && quote.aprobador1 &&
+                                    {quote.aprobador2 && quote.aprobador1 && getUserRoleFromString(userRole) !== Role.Cliente &&
                                         <button
                                             className={selectedQuoteId === quote.id ?
                                                 "button is-success is-inverted" :
