@@ -108,7 +108,8 @@ function FullQuoteDetail({ titulo, cotId, total, onClickCancelar, show }: Props)
                     <footer className="modal-card-foot is-flex is-justify-content-flex-end">
                         <button className="button is-danger is-outlined" onClick={onClickCancelar}>Cerrar</button>
                         {
-                            userRoleType !== Role.Cliente
+                            (userRoleType === Role.Chemico ||
+                            userRoleType === Role.Admin)
                             &&
                             <button
                                 className="button is-success mx-1"
