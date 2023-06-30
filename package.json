@@ -37,7 +37,7 @@
   }, 
   "scripts": {
     "start": "react-scripts start", 
-    "build": "react-scripts build && powershell Copy-Item -Path build\\* -Destination \"C:\\Users\\lenovo\\Documents\\Repos\\apache-tomcat-9.0.48\\webapps\\chemico-front\" -Recurse -Force", 
+    "build": "react-scripts build && cp -r build/* chemico-front/",
     "test": "react-scripts test", 
     "eject": "react-scripts eject"
   }, 
@@ -53,7 +53,6 @@
   "devDependencies": {
     "@babel/preset-env"                                : "^7.22.5", 
     "@babel/preset-react"                              : "^7.22.5", 
-    "@types/react-datepicker"                          : "^4.8.0" , 
-    "@babel/plugin-proposal-private-property-in-object": "^1.0.0"   
+    "@types/react-datepicker"                          : "^4.8.0"
   }
 }

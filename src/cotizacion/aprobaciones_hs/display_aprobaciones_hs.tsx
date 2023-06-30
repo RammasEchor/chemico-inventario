@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { sendOneDecline } from "../../apis/api_cotizacion";
 import { SecuritySheet, getPendingSecuritySheets, startApprovingSecuritySheet } from "../../apis/api_hoja_seguridad";
 import Tabla from "../../form_components/table";
 import { useAuth } from "../../login/auth-provider/auth_provider";
@@ -102,6 +103,18 @@ function DisplayAprobacionesHS() {
                                                 .catch(error => console.log(error))
                                         }}
                                     >Aprobar</button>
+                                    <button
+                                        className={selectedQuoteId === securitySheet.id ?
+                                            "button is-danger is-inverted mr-2 mb-2" :
+                                            "button is-danger is-outlined mr-2 mb-2"
+                                        }
+                                        onClick={() => {
+                                            sendOneDecline(securitySheet.id)
+                                                .then(response => response.text())
+                                                .then(() => navigate(0))
+                                                .catch(error => console.log(error))
+                                        }}
+                                    >Rechazar</button>
                                 </div>
                             </td>
                         </tr>

@@ -23,7 +23,7 @@ const menu_layout = [
         title: "Cotización", children: [
             { title: "Crear cotización", link: "/crear_cotizacion", visibility: [Role.Cliente, Role.Aprobador, Role.Chemico, Role.Admin] },
             { title: "Pendientes de cotizar", link: "/cotizaciones_pendientes", visibility: [Role.Chemico, Role.Admin] },
-            { title: "Cotizaciones rechazadas", link: "/cotizaciones_rechazadas", visibility: [Role.Admin] },
+            { title: "Cotizaciones rechazadas", link: "/cotizaciones_rechazadas", visibility: [Role.Admin, Role.Chemico] },
             { title: "Cotizaciones enviadas", link: "/cotizaciones_enviadas", visibility: [Role.Cliente, Role.Aprobador, Role.Chemico, Role.Admin] },
             { title: "Aprobaciones HS", link: "/aprobaciones_hs", visibility: [Role.AprobSeguridad] },
             {
