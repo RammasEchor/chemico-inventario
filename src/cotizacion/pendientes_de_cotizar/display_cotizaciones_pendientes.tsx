@@ -17,6 +17,7 @@ function DisplayCotizacionesPendientes() {
     const [detailQuoteId, setDetailQuoteId] = useState<string>();
     const [bothFilesUploaded, setBothFilesUploaded] = useState(0);
     const [currentTotal, setCurrentTotal] = useState<string>("");
+    const [currentSolicitante, setCurrentSolicitante] = useState("");
 
     const { userRole, userKey } = useAuth();
 
@@ -90,6 +91,7 @@ function DisplayCotizacionesPendientes() {
                                             setSelectedQuoteId(quote.id as string)
                                             setTituloDescModal(quote.descripcion as string)
                                             setCurrentTotal(quote.total as string)
+                                            setCurrentSolicitante(quote.solicitante as string)
                                             setShowDescriptionModal(true)
                                         }}
                                     >
@@ -142,6 +144,7 @@ function DisplayCotizacionesPendientes() {
                     titulo={tituloDescModal}
                     total={currentTotal}
                     onClickCancelar={() => setShowDescriptionModal(false)}
+                    solicitante={currentSolicitante}
                     show={showDescriptionModal}
                 />
             </Modal>

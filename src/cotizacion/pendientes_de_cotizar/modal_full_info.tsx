@@ -11,10 +11,11 @@ interface Props extends ComponentPropsWithoutRef<'div'> {
     cotId: string
     total: string
     show: boolean
+    solicitante: string
     onClickCancelar: () => void
 }
 
-function FullQuoteDetail({ titulo, cotId, total, onClickCancelar, show }: Props) {
+function FullQuoteDetail({ titulo, cotId, total, onClickCancelar, solicitante, show }: Props) {
     interface infoType {
         id: number,
         nombre: string,
@@ -103,13 +104,24 @@ function FullQuoteDetail({ titulo, cotId, total, onClickCancelar, show }: Props)
                                 </tbody>
                             </table>
                         </div>
-                        <TextInputLabelWarning value={formikProps.values.total ?? "0"} label="Total" name="total" />
+                        <TextInputLabelWarning
+                            label="Solicitante"
+                            name="total"
+                            value={solicitante}
+                            readOnly={true}
+                        />
+                        <TextInputLabelWarning
+                            label="Total"
+                            name="total"
+                            value={formikProps.values.total ?? "0"}
+                            readOnly={!(userRoleType === Role.Chemico || userRoleType === Role.Admin)}
+                        />
                     </div>
                     <footer className="modal-card-foot is-flex is-justify-content-flex-end">
                         <button className="button is-danger is-outlined" onClick={onClickCancelar}>Cerrar</button>
                         {
                             (userRoleType === Role.Chemico ||
-                            userRoleType === Role.Admin)
+                                userRoleType === Role.Admin)
                             &&
                             <button
                                 className="button is-success mx-1"

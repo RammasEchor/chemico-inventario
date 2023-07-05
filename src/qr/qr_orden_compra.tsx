@@ -1,14 +1,14 @@
-import ProtectedRoute from "../login/protected-route/protected_route"
-import PageWithNavbar from "../mainpage/pageWithNavbar/page_with_navbar"
+import Brand from "../navbar/brand/brand"
 import DisplayQrOrdenCompra from "./display_qr_orden_compra"
 
 function QrOrdenCompra() {
     return (
-        <ProtectedRoute>
-            <PageWithNavbar>
-                <DisplayQrOrdenCompra />
-            </PageWithNavbar>
-        </ProtectedRoute>
+        <>
+            <nav className="navbar">
+                <Brand onClick={() => console.log('No redirection!')} />
+            </nav>
+            <DisplayQrOrdenCompra />
+        </>
     )
 }
 

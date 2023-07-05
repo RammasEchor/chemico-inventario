@@ -15,6 +15,7 @@ function DisplayCotizacionesPorAprobar() {
     const [showDescriptionModal, setShowDescriptionModal] = useState(false);
     const [tituloDescModal, setTituloDescModal] = useState('Vacio');
     const [currentTotal, setCurrentTotal] = useState<string>("");
+    const [currentSolicitante, setCurrentSolicitante] = useState("");
     const { userKey } = useAuth();
     const navigate = useNavigate();
 
@@ -92,6 +93,7 @@ function DisplayCotizacionesPorAprobar() {
                                             setSelectedQuoteId(quote.id as string)
                                             setTituloDescModal(quote.descripcion as string)
                                             setCurrentTotal(quote.total as string)
+                                            setCurrentSolicitante(quote.solicitante as string)
                                             setShowDescriptionModal(true)
                                         }}
                                     >
@@ -151,6 +153,7 @@ function DisplayCotizacionesPorAprobar() {
                     titulo={tituloDescModal}
                     total={currentTotal}
                     onClickCancelar={() => setShowDescriptionModal(false)}
+                    solicitante={currentSolicitante}
                     show={showDescriptionModal}
                 />
             </Modal>

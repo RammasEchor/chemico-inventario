@@ -16,6 +16,7 @@ function DisplayCotizacionesAprobadas() {
     const [tituloDescModal, setTituloDescModal] = useState('Vacio');
     const [showModalConpaq, setShowModalConpaq] = useState(false);
     const [currentTotal, setCurrentTotal] = useState<string>("");
+    const [currentSolicitante, setCurrentSolicitante] = useState("");
 
     const { userKey, userRole } = useAuth();
 
@@ -65,6 +66,7 @@ function DisplayCotizacionesAprobadas() {
                                             setSelectedQuoteId(quote.id as string)
                                             setTituloDescModal(quote.descripcion as string)
                                             setCurrentTotal(quote.total as string)
+                                            setCurrentSolicitante(quote.solicitante as string)
                                             setShowDescriptionModal(true)
                                         }}
                                     >
@@ -108,7 +110,7 @@ function DisplayCotizacionesAprobadas() {
                                                 setSelectedQuoteId(quote.id as string)
                                                 setShowModalConpaq(true)
                                             }}
-                                        >Procesada</button>
+                                        >{quote.fechaEstimada && quote.orden ? "Modificar" : "Procesada"}</button>
                                     }
                                 </div>
                             </td>
@@ -121,6 +123,7 @@ function DisplayCotizacionesAprobadas() {
                     cotId={selectedQuoteId}
                     titulo={tituloDescModal}
                     onClickCancelar={() => setShowDescriptionModal(false)}
+                    solicitante={currentSolicitante}
                     show={showDescriptionModal}
                     total={currentTotal}
                 />

@@ -52,9 +52,7 @@ function App() {
       <Route path="/" element={<MainPage />} />
       <Route path="/" element={<MainPage />} />
       <Route path="/" element={<MainPage />} />
-      <Route path="/qr_orden_compra">
-        <Route path=":id" element={<QrOrdenCompra />} />
-      </Route>
+      <Route path="/qr_orden_compra" element={<QrOrdenCompra />} />
     </Routes>
   );
 }

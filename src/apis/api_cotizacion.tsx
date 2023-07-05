@@ -28,6 +28,7 @@ interface MasterQuoteFields {
     fechaAprob2?: string,
     fechaEstimada?: string,
     orden?: string,
+    solicitante?: string,
     total?: string
 }
 
