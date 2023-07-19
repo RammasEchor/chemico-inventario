@@ -46,7 +46,14 @@ const menu_layout = [
             { title: "Cancelar salida de material", link: "/", visibility: [Role.Admin] },
             { title: "Ajustes de inventario", link: "/", visibility: [Role.Admin] }
         ],
-        visibility: []
+        visibility: [Role.Ninguno]
+    },
+    {
+        title: "Entradas", children: [
+            { title: "Ver Entradas", link: "/ver_entradas", visibility: [Role.Admin, Role.Chemico] },
+            { title: "Cargar a Base de Datos", link: "/cargar_bd", visibility: [Role.Admin, Role.Chemico] },
+        ],
+        visibility: [Role.Admin, Role.Chemico]
     },
     {
         title: "Consultas", children: [

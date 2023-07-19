@@ -8,6 +8,8 @@ import CotizacionesEnviadas from "./cotizacion/cotizaciones_enviadas/cotizacione
 import CotizacionesRechazadas from "./cotizacion/cotizaciones_rechazadas/cotizaciones_rechazadas";
 import CrearCotizacion from "./cotizacion/crear_cotizacion/crear_cotizacion";
 import CotizacionesPendientes from "./cotizacion/pendientes_de_cotizar/cotizaciones_pendientes";
+import CargarBaseDatos from './entradas/cargar_base_datos/cargar_base_datos';
+import VerEntradas from './entradas/ver_entradas/ver_entradas';
 import EntradaMaterial from "./inventario/entrada_material/entrada_producto";
 import Inventario from "./inventario/inventario/inventario";
 import Login from "./login/login";
@@ -50,8 +52,8 @@ function App() {
       <Route path="/" element={<MainPage />} />
       <Route path="/" element={<MainPage />} />
       <Route path="/" element={<MainPage />} />
-      <Route path="/" element={<MainPage />} />
-      <Route path="/" element={<MainPage />} />
+      <Route path="/cargar_bd" element={<CargarBaseDatos />} />
+      <Route path="/ver_entradas" element={<VerEntradas />} />
       <Route path="/qr_orden_compra" element={<QrOrdenCompra />} />
     </Routes>
   );

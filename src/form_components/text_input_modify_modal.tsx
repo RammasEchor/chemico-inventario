@@ -7,7 +7,7 @@ interface Props extends ComponentPropsWithoutRef<"input"> {
 }
 
 function TextInputModifyModal(props: Props) {
-    const [currentValue, setCurrentValue] = useState(props.initialValue);
+    const [currentValue, setCurrentValue] = useState(props.initialValue ?? "");
 
     let inputChanged = false;
     if (props.initialValue !== currentValue) {

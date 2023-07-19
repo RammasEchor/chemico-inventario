@@ -4,7 +4,7 @@ registerLocale("es", es);
 
 interface DatepickerProps extends ReactDatePickerProps {
     label?: string,
-    selected: Date,
+    selected: Date | null,
     onChange: (date: Date) => void
 }
 

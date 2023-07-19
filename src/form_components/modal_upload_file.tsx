@@ -7,8 +7,13 @@ interface UploadFileModalProps {
     onClickAprobar: (file: File) => void
 }
 
-function QuoteDetail(props: UploadFileModalProps) {
+function UploadFile(props: UploadFileModalProps) {
     const [file, setFile] = useState<File>(new File([], 'dummy'));
+
+    let file_selected = false
+    if (file.name !== 'dummy') {
+        file_selected = true
+    }
 
     return (
         <div className="model-card">
@@ -20,11 +25,11 @@ function QuoteDetail(props: UploadFileModalProps) {
                 <FileForm onChange={setFile} />
             </section>
             <footer className="modal-card-foot is-flex is-justify-content-flex-end">
-                <button className="button is-success" onClick={() => props.onClickAprobar(file)}>Enviar</button>
+                <button className="button is-success" disabled={!file_selected} onClick={() => props.onClickAprobar(file)}>Enviar</button>
                 <button className="button" onClick={props.onClickX}>Cancelar</button>
             </footer>
         </div>
     );
 }
 
-export { QuoteDetail };
+export { UploadFile };

@@ -2,6 +2,7 @@ import { PropsWithChildren } from "react";
 
 interface PropsTabla {
     cols: string[]
+    className?: string
 }
 
 function Tabla(props: PropsTabla & PropsWithChildren) {
@@ -10,7 +11,7 @@ function Tabla(props: PropsTabla & PropsWithChildren) {
     });
 
     return (
-        <div className="table-container">
+        <div className={`table-container ` + props.className}>
             <table className="table is-hoverable is-fullwidth is-striped">
                 <thead>
                     <tr>
