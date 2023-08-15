@@ -8,8 +8,12 @@ function DisplayCargarBaseDatos() {
     function startUpload(file: File) {
         uploadPurchaseOrderFileToDatabase(file)
             .then(res => {
-                if (res.ok)
-                    navigate(0);
+                if (res.ok) {
+                    res.text().then(info_to_show => {
+                        alert(info_to_show)
+                        navigate(0);
+                    })
+                }
             })
             .catch(error => console.log(error))
     }
