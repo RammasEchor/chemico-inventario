@@ -9,6 +9,7 @@ import CotizacionesRechazadas from "./cotizacion/cotizaciones_rechazadas/cotizac
 import CrearCotizacion from "./cotizacion/crear_cotizacion/crear_cotizacion";
 import CotizacionesPendientes from "./cotizacion/pendientes_de_cotizar/cotizaciones_pendientes";
 import CargarBaseDatos from './entradas/cargar_base_datos/cargar_base_datos';
+import HistorialEntradas from './entradas/historial_entradas/historial_entradas';
 import VerEntradas from './entradas/ver_entradas/ver_entradas';
 import EntradaMaterial from "./inventario/entrada_material/entrada_producto";
 import Inventario from "./inventario/inventario/inventario";
@@ -45,7 +46,7 @@ function App() {
       <Route path="/cotizaciones_por_aprobar" element={<CotizationesPorAprobar />} />
       <Route path="/cotizaciones_aprobadas" element={<CotizacionesAprobadas />} />
       <Route path="/entrada_material" element={<EntradaMaterial />} />
-      <Route path="/" element={<MainPage />} />
+      <Route path="/historial_entradas" element={<HistorialEntradas />} />
       <Route path="/" element={<MainPage />} />
       <Route path="/" element={<MainPage />} />
       <Route path="/inventario" element={<Inventario />} />

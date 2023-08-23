@@ -21,7 +21,7 @@ const menu_layout = [
     },
     {
         title: "Cotización", children: [
-            { title: "Crear cotización", link: "/crear_cotizacion", visibility: [Role.Cliente, Role.Aprobador, Role.Chemico, Role.Admin] },
+            { title: "Crear cotización", link: "/crear_cotizacion", visibility: [Role.Cliente, Role.Chemico, Role.Admin] },
             { title: "Pendientes de cotizar", link: "/cotizaciones_pendientes", visibility: [Role.Chemico, Role.Admin] },
             { title: "Cotizaciones rechazadas", link: "/cotizaciones_rechazadas", visibility: [Role.Admin, Role.Chemico] },
             { title: "Cotizaciones enviadas", link: "/cotizaciones_enviadas", visibility: [Role.Cliente, Role.Aprobador, Role.Chemico, Role.Admin] },
@@ -50,10 +50,11 @@ const menu_layout = [
     },
     {
         title: "Entradas", children: [
-            { title: "Ver Entradas", link: "/ver_entradas", visibility: [Role.Admin, Role.Chemico] },
-            { title: "Cargar a Base de Datos", link: "/cargar_bd", visibility: [Role.Admin, Role.Chemico] },
+            { title: "Ver Entradas", link: "/ver_entradas", visibility: [Role.Admin, Role.Chemico, Role.AlmacenChemico, Role.AlmacenCliente] },
+            { title: "Historial de Entradas", link: "/historial_entradas", visibility: [Role.Admin, Role.Chemico, Role.AlmacenChemico, Role.AlmacenCliente] },
+            { title: "Cargar a Base de Datos", link: "/cargar_bd", visibility: [Role.Admin, Role.Chemico, Role.AlmacenChemico, Role.AlmacenCliente] },
         ],
-        visibility: [Role.Admin, Role.Chemico]
+        visibility: [Role.Admin, Role.Chemico, Role.AlmacenChemico, Role.AlmacenCliente]
     },
     {
         title: "Consultas", children: [

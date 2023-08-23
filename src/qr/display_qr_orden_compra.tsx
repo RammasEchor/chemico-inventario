@@ -20,7 +20,9 @@ function DisplayQrOrdenCompra() {
             lote: "",
             fechaCad: "",
             fechaIngreso: "",
-            noRemision: ""
+            noRemision: "",
+            usuario: "",
+            restante: ""
         }
     ]);
 

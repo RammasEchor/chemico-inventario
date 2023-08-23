@@ -1,11 +1,13 @@
 import { useState } from "react"
 import { useNavigate } from "react-router"
 import { PurchaseOrderItem, setMasterPurchaseOrderItem } from "../apis/api_orden_compra"
+import { useAuth } from "../login/auth-provider/auth_provider"
 import DatePickerField from "./datepicker"
 import TextInputModifyModal from "./text_input_modify_modal"
 
 function TableRowModifyValues({ item }: { item: PurchaseOrderItem }) {
     const [modifiedItem, setModifiedItem] = useState(item)
+    const { userKey } = useAuth();
 
     function updateItem(field: string, value: string) {
         setModifiedItem(modifiedItem => {
@@ -19,7 +21,7 @@ function TableRowModifyValues({ item }: { item: PurchaseOrderItem }) {
     const navigate = useNavigate();
 
     function startModifyingItem(item: PurchaseOrderItem) {
-        setMasterPurchaseOrderItem(item.id, item)
+        setMasterPurchaseOrderItem(userKey, item)
             .then(res => {
                 if (res.ok)
                     navigate(0);
