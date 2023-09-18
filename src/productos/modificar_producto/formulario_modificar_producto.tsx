@@ -24,12 +24,19 @@ function FormularioModificarProducto() {
 
     function startModifyProduct(product: Producto) {
         modifyProduct(product)
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok)
+                    response.text().then(log => {
+                        throw new Error(log);
+                    })
+
+                response.json()
+            })
             .then(data => {
                 console.log(data)
                 setProductWasModified(true)
             })
-            .catch(error => console.log(error))
+            .catch(error => alert(error))
     }
 
     if (productWasModified) {

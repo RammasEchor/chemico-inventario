@@ -11,6 +11,7 @@ class User {
     aprob1 = "";
     aprob2 = "";
     monto = "";
+    almacen = "";
 }
 
 interface RolAPIReturn {
@@ -61,6 +62,7 @@ function createUser(user: User) {
     api_url += `${user.aprob1}/`
     api_url += `${user.aprob2}/`
     api_url += `${user.monto}/`
+    api_url += `${user.almacen}/`
 
     return fetch(api_url);
 }
@@ -98,9 +100,17 @@ function modifyUser(user: User) {
     });
 }
 
+function getWarehouses(plant: APIStringArg) {
+    let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
+    api_url += process.env.REACT_APP_BACKEND_GET_WAREHOUSES;
+    api_url += `${plant}/`
+
+    return fetch(api_url);
+}
+
 export {
     Role, User, createUser, getAprobadores,
-    getAprobadores2, getRoles, getUserRoleFromString, getUsers, modifyUser
+    getAprobadores2, getRoles, getUserRoleFromString, getUsers, getWarehouses, modifyUser
 };
 export type { RolAPIReturn };
 

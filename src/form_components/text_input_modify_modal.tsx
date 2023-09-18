@@ -26,6 +26,7 @@ function TextInputModifyModal(props: Props) {
                 setCurrentValue(e.target.value)
                 props.setCurrentValue(props.fieldName, e.target.value ? e.target.value : props.initialValue)
             }}
+            {...props}
         ></input>
     );
 }

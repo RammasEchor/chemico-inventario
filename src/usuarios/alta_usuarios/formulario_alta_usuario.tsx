@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import * as Yup from 'yup';
 import { PlantasAPI, getPlants } from "../../apis/api_plantas";
-import { RolAPIReturn, User, createUser, getAprobadores, getAprobadores2, getRoles } from "../../apis/api_usuarios";
+import { RolAPIReturn, User, createUser, getAprobadores, getAprobadores2, getRoles, getWarehouses } from "../../apis/api_usuarios";
 import LoadingModal from "../../form_components/loading_modal";
 import { SelectWithLabel } from "../../form_components/select_with_label";
 import ShadowedForm from "../../form_components/shadowed_form";
@@ -16,11 +16,15 @@ function FormularioAltaUsuario() {
 
     const [roles, setRoles] = useState<string[]>([]);
     const [plantas, setPlantas] = useState<string[]>([]);
+    const [warehouses, setWarehouses] = useState<string[]>([]);
     const [currentPlant, setCurrentPlant] = useState('');
-    const [currentRole, setCurrentRole] = useState('')
+    const [currentRole, setCurrentRole] = useState('');
+    const [currentWarehouse, setCurrentWarehouse] = useState('');
 
-    const [aprobadores1, setAprobadores1] = useState([])
-    const [aprobadores2, setAprobadores2] = useState([])
+    const [aprobadores1, setAprobadores1] = useState([]);
+    const [currentAprob1, setCurrentAprob1] = useState('');
+    const [aprobadores2, setAprobadores2] = useState([]);
+    const [currentAprob2, setCurrentAprob2] = useState('');
 
     const [initialValues, setIntialValues] = useState<User>(new User());
     const navigate = useNavigate();
@@ -55,48 +59,30 @@ function FormularioAltaUsuario() {
                 .then(response => response.json())
                 .then(data => {
                     setAprobadores1(data)
-                    setIntialValues(initialValues => {
-                        return {
-                            ...initialValues,
-                            aprob1: data[0]
-                        }
-                    })
+                    setCurrentAprob1(data[0] ? data[0] : '')
                 })
 
             getAprobadores2(currentPlant)
                 .then(response => response.json())
                 .then(data => {
                     setAprobadores2(data)
-                    setIntialValues(initialValues => {
-                        return {
-                            ...initialValues,
-                            aprob2: data[0]
-                        }
-                    })
+                    setCurrentAprob2(data[0] ? data[0] : '')
                 })
         }
     }, [currentPlant])
 
-    let extra_items = <></>
-    if (currentRole === 'Cliente') {
-        extra_items = (
-            <div className="px-3">
-                <SelectWithLabel name='aprob1' label='Aprobador 1'>
-                    {aprobadores1.map(ap1 => <option value={ap1} key={ap1}>{ap1}</option>)}
-                </SelectWithLabel>
-                <SelectWithLabel name='aprob2' label='Aprobador 2'>
-                    {aprobadores2.map(ap2 => <option value={ap2} key={ap2}>{ap2}</option>)}
-                </SelectWithLabel>
-            </div>
-        )
-    }
-    else if (currentRole === 'Aprobador') {
-        extra_items = (
-            <div className="px-3">
-                <TextInputLabelWarning name='monto' label='Monto' />
-            </div>
-        )
-    }
+    useEffect(() => {
+        if (currentPlant) {
+            setCurrentWarehouse('');
+            getWarehouses(currentPlant)
+                .then(res => res.json())
+                .then(data => {
+                    setWarehouses(data);
+                    setCurrentWarehouse(data[0] ? data[0] : '-')
+                })
+                .catch(error => console.log(error))
+        }
+    }, [currentPlant])
 
     return (
         <Formik
@@ -118,10 +104,15 @@ function FormularioAltaUsuario() {
                     .required(appendFieldRequiredSpanish('Clave de Usuario')),
                 aprob1: Yup.string(),
                 aprob2: Yup.string(),
-                monto: Yup.string()
+                monto: Yup.string(),
+                almacen: Yup.string()
             })}
             onSubmit={(values, { setSubmitting }) => {
                 setSubmitting(false);
+                values.aprob1 = currentAprob1;
+                values.aprob2 = currentAprob2;
+                values.almacen = currentWarehouse;
+
                 if (currentRole !== 'Cliente') {
                     values.aprob1 = '-'
                     values.aprob2 = '-'
@@ -167,7 +158,50 @@ function FormularioAltaUsuario() {
                         >
                             {roles.map(rol => <option value={rol} key={rol}>{rol}</option>)}
                         </SelectWithLabel>
-                        {extra_items}
+                        {
+                            currentRole === 'Cliente' &&
+                            <div className="px-3">
+                                <SelectWithLabel
+                                    onChange={e => {
+                                        setCurrentAprob1(e.currentTarget.value)
+                                        formikProps.setFieldValue('aprob1', e.currentTarget.value)
+                                    }}
+                                    value={currentAprob1}
+                                    name='aprob1'
+                                    label='Aprobador 1'
+                                >
+                                    {aprobadores1.map(ap1 => <option value={ap1} key={ap1}>{ap1}</option>)}
+                                </SelectWithLabel>
+                                <SelectWithLabel
+                                    onChange={e => {
+                                        setCurrentAprob2(e.currentTarget.value)
+                                        formikProps.setFieldValue('aprob2', e.currentTarget.value)
+                                    }}
+                                    value={currentAprob2}
+                                    name='aprob2'
+                                    label='Aprobador 2'
+                                >
+                                    {aprobadores2.map(ap2 => <option value={ap2} key={ap2}>{ap2}</option>)}
+                                </SelectWithLabel>
+                            </div>
+                        }
+                        {
+                            currentRole === 'Aprobador' &&
+                            <div className="px-3">
+                                <TextInputLabelWarning name='monto' label='Monto' />
+                            </div>
+                        }
+                        <SelectWithLabel
+                            onChange={e => {
+                                setCurrentWarehouse(e.currentTarget.value)
+                                formikProps.setFieldValue('almacen', e.currentTarget.value)
+                            }}
+                            value={currentWarehouse}
+                            name='almacen'
+                            label='Almacén'
+                        >
+                            {warehouses.map(warehouse => <option value={warehouse} key={warehouse}>{warehouse}</option>)}
+                        </SelectWithLabel>
                         <TextInputLabelWarning name='email' label='Email' />
                         <TextInputLabelWarning name='cveUsuario' label='Clave de Usuario' />
                     </div>

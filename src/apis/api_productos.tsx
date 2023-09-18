@@ -23,10 +23,10 @@ function insertProduct(product: Producto) {
     api_url += `${product.descripcion}/`
     api_url += `${product.maximo}/`
     api_url += `${product.minimo}/`
-    api_url += `${product.precio}/`
     api_url += `${product.uni_medida}/`
     api_url += `${product.fecha_exp}/`
     api_url += `${product.ubicacion}/`
+    api_url += `${product.precio}/`
 
     return fetch(api_url);
 }

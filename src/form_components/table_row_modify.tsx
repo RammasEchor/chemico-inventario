@@ -10,6 +10,13 @@ function TableRowModifyValues({ item }: { item: PurchaseOrderItem }) {
     const { userKey } = useAuth();
 
     function updateItem(field: string, value: string) {
+        if (field === "cantidadParcial" &&
+            parseInt(value) &&
+            parseInt(item.cantidad) &&
+            parseInt(value) > parseInt(item.cantidad)) {
+            alert("Cantidad parcial no puede ser mayor a la Cantidad ordenada.");
+        }
+
         setModifiedItem(modifiedItem => {
             return {
                 ...modifiedItem,
@@ -21,10 +28,17 @@ function TableRowModifyValues({ item }: { item: PurchaseOrderItem }) {
     const navigate = useNavigate();
 
     function startModifyingItem(item: PurchaseOrderItem) {
-        setMasterPurchaseOrderItem(userKey, item)
+        if (parseInt(modifiedItem.cantidadParcial) > parseInt(modifiedItem.cantidad)) {
+            return;
+        }
+
+        setMasterPurchaseOrderItem(userKey, modifiedItem)
             .then(res => {
                 if (res.ok)
                     navigate(0);
+
+                else
+                    res.text().then(log => alert(log))
             })
             .catch(error => console.log(error))
     }
@@ -41,7 +55,8 @@ function TableRowModifyValues({ item }: { item: PurchaseOrderItem }) {
                 <TextInputModifyModal
                     initialValue={item.cantidadParcial}
                     fieldName="cantidadParcial"
-                    setCurrentValue={updateItem} />
+                    setCurrentValue={updateItem}
+                    max={item.cantidad} />
             </td>
             <td>
                 <TextInputModifyModal
@@ -69,6 +84,7 @@ function TableRowModifyValues({ item }: { item: PurchaseOrderItem }) {
             </td>
             <td>
                 <button
+                    disabled={parseInt(modifiedItem.cantidadParcial) > parseInt(item.cantidad) ? true : false}
                     className="button is-info"
                     onClick={() => startModifyingItem(modifiedItem)}
                 >Ingresar</button>
