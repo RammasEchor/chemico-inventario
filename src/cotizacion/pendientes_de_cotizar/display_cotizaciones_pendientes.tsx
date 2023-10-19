@@ -81,10 +81,10 @@ function DisplayCotizacionesPendientes() {
                             onClick={() => setSelectedQuoteId(quote.id as string)}
                             className={selectedQuoteId === quote.id ? 'is-selected' : ''}
                         >
-                            <td key={quote.id} className={redIfNull(quote.id)}>
+                            <td className={redIfNull(quote.id)}>
                                 {quote.id ? quote.id : "Sin Descripción"}
                             </td>
-                            <td key={quote.descripcion} className={redIfNull(quote.descripcion)}>
+                            <td className={redIfNull(quote.descripcion)}>
                                 {quote.descripcion ?
                                     <GhostButton
                                         onClick={() => {
@@ -101,19 +101,19 @@ function DisplayCotizacionesPendientes() {
                                     "Sin Descripción"
                                 }
                             </td>
-                            <td key={quote.aprobador1} className={redIfNull(quote.aprobador1)}>
+                            <td className={redIfNull(quote.aprobador1)}>
                                 {quote.aprobador1 ? quote.aprobador1 : "Faltante"}
                             </td>
-                            <td key={quote.aprobador2} className={redIfNull(quote.aprobador2)}>
+                            <td className={redIfNull(quote.aprobador2)}>
                                 {quote.aprobador2 ? quote.aprobador2 : "Faltante"}
                             </td>
-                            <td key={quote.fechaAprob1} className={redIfNull(quote.fechaAprob1)}>
+                            <td className={redIfNull(quote.fechaAprob1)}>
                                 {quote.fechaAprob1 ? dateParser(quote.fechaAprob1) : "Faltante"}
                             </td>
-                            <td key={quote.fechaAprob2} className={redIfNull(quote.fechaAprob2)}>
+                            <td className={redIfNull(quote.fechaAprob2)}>
                                 {quote.fechaAprob2 ? dateParser(quote.fechaAprob2) : "Faltante"}
                             </td>
-                            <td key={quote.id + (quote.fechaAprob1 as string)}>
+                            <td>
                                 <div className="block">
                                     <button
                                         className={selectedQuoteId === quote.id ?
@@ -131,10 +131,13 @@ function DisplayCotizacionesPendientes() {
                     );
                 })}
             </Tabla>
-            <Modal showModal={showDetail} onClick={() => setShowDetail(false)}>
+            <Modal key={detailQuoteId} showModal={showDetail} onClick={() => setShowDetail(false)}>
                 <QuoteDetail
                     quoteId={detailQuoteId}
-                    onClickX={() => setShowDetail(false)}
+                    onClickX={() => {
+                        setShowDetail(false);
+                        
+                    }}
                     onClickAprobar={startUpload}
                 />
             </Modal>

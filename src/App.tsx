@@ -12,6 +12,7 @@ import CargarBaseDatos from './entradas/cargar_base_datos/cargar_base_datos';
 import HistorialEntradas from './entradas/historial_entradas/historial_entradas';
 import VerEntradas from './entradas/ver_entradas/ver_entradas';
 import EntradaMaterial from "./inventario/entrada_material/entrada_producto";
+import Existencias from './inventario/existencias/existencias';
 import Inventario from "./inventario/inventario/inventario";
 import Login from "./login/login";
 import ResetPassword from "./login/reset_passwd";
@@ -47,7 +48,7 @@ function App() {
       <Route path="/cotizaciones_aprobadas" element={<CotizacionesAprobadas />} />
       <Route path="/entrada_material" element={<EntradaMaterial />} />
       <Route path="/historial_entradas" element={<HistorialEntradas />} />
-      <Route path="/" element={<MainPage />} />
+      <Route path="/existencias" element={<Existencias />} />
       <Route path="/" element={<MainPage />} />
       <Route path="/inventario" element={<Inventario />} />
       <Route path="/" element={<MainPage />} />

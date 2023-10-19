@@ -12,6 +12,7 @@ class Producto {
     fecha_exp = "";
     ubicacion = "";
     precio = "";
+    stock = "";
 }
 
 function insertProduct(product: Producto) {
@@ -27,6 +28,7 @@ function insertProduct(product: Producto) {
     api_url += `${product.fecha_exp}/`
     api_url += `${product.ubicacion}/`
     api_url += `${product.precio}/`
+    api_url += `${product.stock}/`
 
     return fetch(api_url);
 }
@@ -61,7 +63,22 @@ function modifyProduct(product: Producto) {
     });
 }
 
+function getExistent() {
+    let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
+    api_url += process.env.REACT_APP_BACKEND_GET_EXISTANT
+    return fetch(api_url);
+}
+
+function searchProducts(noParte: APIStringArg, desc: APIStringArg) {
+    let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
+    api_url += process.env.REACT_APP_BACKEND_GET_PRODUCTS
+    api_url += `${noParte}/`
+    api_url += `${desc}/`
+
+    return fetch(api_url);
+}
+
 export {
-    Producto, deleteProduct, getProducts, insertProduct, modifyProduct
+    Producto, deleteProduct, getExistent, getProducts, insertProduct, modifyProduct, searchProducts
 };
 

@@ -45,6 +45,7 @@ function FormularioAltaProducto() {
                 uni_medida: Yup.string().required(appendFieldRequiredSpanish('Unidad de Medida')),
                 fecha_exp: Yup.string(),
                 ubicacion: Yup.string().required(appendFieldRequiredSpanish('Ubicación')),
+                stock: Yup.string().required(appendFieldRequiredSpanish('Cantidad Inicial')),
             })}
             onSubmit={(values, { setSubmitting }) => {
                 setSubmitting(false);
@@ -72,6 +73,7 @@ function FormularioAltaProducto() {
                     <TextInputLabelWarning name='uni_medida' label='Unidad de medida' />
                     <DatePickerField label="Fecha de Expiración" selected={date} onChange={setDate} />
                     <TextInputLabelWarning name='ubicacion' label='Ubicación almacén' />
+                    <TextInputLabelWarning name='stock' label='Cantidad Inicial' />
                 </div>
                 <SubmitButton text='Agregar Producto' />
             </ShadowedForm>

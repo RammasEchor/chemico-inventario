@@ -56,6 +56,7 @@ function FormularioModificarProducto() {
                 'Unidad de medida',
                 'Fecha de expiración',
                 'Ubicación almacén',
+                'Stock',
                 'Acción'
             ]}>
                 {products.map(product => {
@@ -74,6 +75,7 @@ function FormularioModificarProducto() {
                             <td>{product.uni_medida}</td>
                             <td>{dateParser(product.fecha_exp)}</td>
                             <td>{product.ubicacion}</td>
+                            <td>{product.stock}</td>
                             <td>
                                 <button className={`
                                     button 

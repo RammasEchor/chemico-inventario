@@ -38,15 +38,16 @@ const menu_layout = [
     },
     {
         title: "Inventarios", children: [
-            { title: "Entrada de material", link: "/entrada_material", visibility: [Role.Admin] },
-            { title: "Salida de material", link: "/", visibility: [Role.Admin] },
-            { title: "Impresión de ordenes de material", link: "/", visibility: [Role.Aprobador, Role.Chemico, Role.Admin] },
-            { title: "Listado de productos", link: "/", visibility: [Role.Admin] },
-            { title: "Inventario", link: "/inventario", visibility: [Role.Admin] },
-            { title: "Cancelar salida de material", link: "/", visibility: [Role.Admin] },
-            { title: "Ajustes de inventario", link: "/", visibility: [Role.Admin] }
+            { title: "Entrada de material", link: "/entrada_material", visibility: [Role.Ninguno] },
+            { title: "Salida de material", link: "/", visibility: [Role.Ninguno] },
+            { title: "Impresión de ordenes de material", link: "/", visibility: [Role.Ninguno] },
+            { title: "Listado de productos", link: "/", visibility: [Role.Ninguno] },
+            { title: "Inventario", link: "/inventario", visibility: [Role.Ninguno] },
+            { title: "Cancelar salida de material", link: "/", visibility: [Role.Ninguno] },
+            { title: "Ajustes de inventario", link: "/", visibility: [Role.Ninguno] },
+            { title: "Existencias", link: "/existencias", visibility: [Role.Admin, Role.Chemico, Role.AlmacenChemico, Role.AlmacenCliente] },
         ],
-        visibility: [Role.Ninguno]
+        visibility: [Role.Admin, Role.Chemico, Role.AlmacenChemico]
     },
     {
         title: "Entradas", children: [

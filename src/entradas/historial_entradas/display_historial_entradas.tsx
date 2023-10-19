@@ -23,7 +23,8 @@ function DisplayHistorialEntradas() {
             "Cantidad Parcial",
             "Fecha de Ingreso",
             "Usuario",
-            "Restante"
+            "Restante",
+            "No. Remisión"
         ]}>
             {purchaseOrders.map(purchaseOrder =>
                 <>
@@ -36,6 +37,7 @@ function DisplayHistorialEntradas() {
                         <td>{dateParser(purchaseOrder.fechaIngreso)}</td>
                         <td>{purchaseOrder.usuario}</td>
                         <td>{purchaseOrder.restante}</td>
+                        <td>{purchaseOrder.noRemision}</td>
                     </tr>
                 </>
             )}

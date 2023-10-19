@@ -1,5 +1,4 @@
 import { useState } from "react"
-import { useNavigate } from "react-router"
 import { PurchaseOrderItem, setMasterPurchaseOrderItem } from "../apis/api_orden_compra"
 import { useAuth } from "../login/auth-provider/auth_provider"
 import DatePickerField from "./datepicker"
@@ -8,8 +7,12 @@ import TextInputModifyModal from "./text_input_modify_modal"
 function TableRowModifyValues({ item }: { item: PurchaseOrderItem }) {
     const [modifiedItem, setModifiedItem] = useState(item)
     const { userKey } = useAuth();
+    const [buttonClassName, setButtonClassName] = useState("button is-info");
+    const [buttonName, setButtonName] = useState("Ingresar");
 
     function updateItem(field: string, value: string) {
+        setButtonClassName("button is-info");
+        setButtonName("Ingresar");
         if (field === "cantidadParcial" &&
             parseInt(value) &&
             parseInt(item.cantidad) &&
@@ -25,17 +28,20 @@ function TableRowModifyValues({ item }: { item: PurchaseOrderItem }) {
         })
     }
 
-    const navigate = useNavigate();
-
-    function startModifyingItem(item: PurchaseOrderItem) {
+    function startModifyingItem() {
+        setButtonClassName("button is-info is-loading");
         if (parseInt(modifiedItem.cantidadParcial) > parseInt(modifiedItem.cantidad)) {
             return;
         }
 
         setMasterPurchaseOrderItem(userKey, modifiedItem)
             .then(res => {
-                if (res.ok)
-                    navigate(0);
+                if (res.ok) {
+                    setButtonClassName("button is-success");
+                    setButtonName("Modificado");
+
+                    res.text().then(data => alert(data))
+                }
 
                 else
                     res.text().then(log => alert(log))
@@ -85,9 +91,9 @@ function TableRowModifyValues({ item }: { item: PurchaseOrderItem }) {
             <td>
                 <button
                     disabled={parseInt(modifiedItem.cantidadParcial) > parseInt(item.cantidad) ? true : false}
-                    className="button is-info"
-                    onClick={() => startModifyingItem(modifiedItem)}
-                >Ingresar</button>
+                    className={buttonClassName}
+                    onClick={() => startModifyingItem()}
+                >{buttonName}</button>
             </td>
         </>
     )

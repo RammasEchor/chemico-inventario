@@ -24,6 +24,11 @@ function QuoteDetail(props: CotizacionCardProps) {
     }[]>([]);
     const [file, setFile] = useState<File>(new File([], 'dummy'));
     const [securityFile, setSecurityFile] = useState<File>(new File([], 'dummy'));
+    const [uploadButtonDisabled, setUploadButtonDisabled] = useState(true);
+    const [numOfFilesToUpload, setNumOfFilesToUpload] = useState(0);
+    const [fileIsSet, setFileIsSet] = useState(false);
+    const [secFileIsSet, setSecFileIsSet] = useState(false);
+    const [buttonString, setButtonString] = useState("Enviar 0/2 Archivos");
 
     useEffect(() => {
         getQuoteDetail(props.quoteId)
@@ -32,6 +37,25 @@ function QuoteDetail(props: CotizacionCardProps) {
                 setQuotes(data)
             })
     }, [props.quoteId]);
+
+    useEffect(() => {
+        if (file.name !== 'dummy' && !fileIsSet) {
+            setFileIsSet(true);
+            setNumOfFilesToUpload(numOfFilesToUpload => numOfFilesToUpload + 1);
+        }
+
+        if (securityFile.name !== 'dummy' && !secFileIsSet) {
+            setSecFileIsSet(true);
+            setNumOfFilesToUpload(numOfFilesToUpload => numOfFilesToUpload + 1);
+        }
+    }, [file, securityFile, fileIsSet, secFileIsSet])
+
+    useEffect(() => {
+        setButtonString(`Enviar ${numOfFilesToUpload}/2 Archivos`);
+        if(numOfFilesToUpload === 2) {
+            setUploadButtonDisabled(false);
+        }
+    }, [numOfFilesToUpload])
 
     return (
         <div className="model-card">
@@ -93,7 +117,7 @@ function QuoteDetail(props: CotizacionCardProps) {
                 </div>
             </section>
             <footer className="modal-card-foot is-flex is-justify-content-flex-end">
-                <button className="button is-success" onClick={() => props.onClickAprobar(file, securityFile)}>Enviar</button>
+                <button className="button is-success" onClick={() => props.onClickAprobar(file, securityFile)} disabled={uploadButtonDisabled}>{buttonString}</button>
                 <button className="button" onClick={props.onClickX}>Cancelar</button>
             </footer>
         </div>

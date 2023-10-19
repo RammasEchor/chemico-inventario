@@ -11,7 +11,9 @@ function DisplayVerEntradas() {
     useEffect(() => {
         getPurchaseOrderItemList()
             .then(res => res.json())
-            .then(data => setItems(data))
+            .then(data => {
+                setItems(data)
+            })
             .catch(error => console.log(error))
     }, [])
 
@@ -32,7 +34,7 @@ function DisplayVerEntradas() {
                     <div className="column is-offset-3 is-3 is-four-fifths-mobile is-offset-1-mobile">
                         <TextInputLabelWarning name='searchString' label='Orden de Compra' />
                     </div>
-                    <div className="column is-four-fifths-mobile is-offset-1-mobile mt-1">
+                    <div className="column is-bfour-fifths-mobile is-offset-1-mobile mt-1">
                         <button
                             className="button is-info mt-3"
                             type="submit"

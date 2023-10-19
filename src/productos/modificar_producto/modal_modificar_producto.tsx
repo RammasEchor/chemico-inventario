@@ -143,12 +143,23 @@ function ModalModificarProducto(props: Props) {
                         </td>
                     </tr>
                     <tr>
-                        <td className='has-text-weight-bold'>Mínimo</td>
+                        <td className='has-text-weight-bold'>Ubicación</td>
                         <td>{props.product.ubicacion}</td>
                         <td>
                             <TextInputModifyModal
                                 initialValue={props.product.ubicacion}
                                 fieldName="ubicacion"
+                                setCurrentValue={updateProduct}
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className='has-text-weight-bold'>Stock</td>
+                        <td>{props.product.stock}</td>
+                        <td>
+                            <TextInputModifyModal
+                                initialValue={props.product.stock}
+                                fieldName="stock"
                                 setCurrentValue={updateProduct}
                             />
                         </td>
