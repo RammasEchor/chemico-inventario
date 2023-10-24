@@ -47,28 +47,28 @@ function DisplayCotizacionesRechazadas() {
                             onClick={() => setSelectedQuoteId(cot.id as string)}
                             className={(selectedQuoteId === cot.id ? 'is-selected' : '')}
                         >
-                            <td key={cot.id} className={redIfNull(cot.id)}>
+                            <td className={redIfNull(cot.id)}>
                                 {cot.id ? cot.id : "Sin Descripción"}
                             </td>
-                            <td key={cot.descripcion} className={redIfNull(cot.descripcion)}>
+                            <td className={redIfNull(cot.descripcion)}>
                                 {cot.descripcion ? cot.descripcion : "Sin Descripción"}
                             </td>
-                            <td key={cot.aprobador1} className={redIfNull(cot.aprobador1)}>
+                            <td className={redIfNull(cot.aprobador1)}>
                                 {cot.aprobador1 ? cot.aprobador1 : "Sin Descripción"}
                             </td>
-                            <td key={cot.aprobador2} className={redIfNull(cot.aprobador2)}>
+                            <td className={redIfNull(cot.aprobador2)}>
                                 {cot.aprobador2 ? cot.aprobador2 : "Sin Descripción"}
                             </td>
-                            <td key={cot.fechaAprob1} className={redIfNull(cot.fechaAprob1)}>
+                            <td className={redIfNull(cot.fechaAprob1)}>
                                 {cot.fechaAprob1 ? dateParser(cot.fechaAprob1) : "Sin Descripción"}
                             </td>
-                            <td key={cot.fechaAprob2} className={redIfNull(cot.fechaAprob2)}>
+                            <td className={redIfNull(cot.fechaAprob2)}>
                                 {cot.fechaAprob2 ? dateParser(cot.fechaAprob2) : "Sin Descripción"}
                             </td>
-                            <td key={cot.orden} className={redIfNull(cot.orden)}>
+                            <td className={redIfNull(cot.orden)}>
                                 {cot.orden ? cot.orden : "Sin Descripción"}
                             </td>
-                            <td key={cot.total} className={redIfNull(cot.total)}>
+                            <td className={redIfNull(cot.total)}>
                                 {cot.total ? cot.total : "Sin Descripción"}
                             </td>
                         </tr>

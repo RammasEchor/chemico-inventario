@@ -50,10 +50,19 @@ function AuthProvider(props: PropsWithChildren) {
 
     const handleLogin = (values: loginValues) => {
         let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
-        api_url += `login/${values.username}/${values.password}/`
+        api_url += 'login/';
 
         return (
-            fetch(api_url)
+            fetch(api_url, {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    "usu": values.username,
+                    "pass": values.password
+                })
+            })
                 .then(response => {
                     return response.json()
                 })
@@ -100,5 +109,5 @@ function AuthProvider(props: PropsWithChildren) {
     );
 }
 
-export { useAuth, AuthProvider };
+export { AuthProvider, useAuth };
 

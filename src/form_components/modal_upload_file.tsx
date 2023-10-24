@@ -18,7 +18,7 @@ function UploadFile(props: UploadFileModalProps) {
     return (
         <div className="model-card">
             <header className="modal-card-head">
-                <p className="modal-card-title">Subir PDF</p>
+                <p className="modal-card-title">Subir Excel</p>
                 <button className="delete" aria-label="close" onClick={props.onClickX} />
             </header>
             <section className="modal-card-body">
