@@ -1,7 +1,9 @@
+import { ComponentPropsWithoutRef } from "react";
 import "../css/inventario.css";
 
-interface SubmitButtonProps {
+interface SubmitButtonProps extends ComponentPropsWithoutRef<'button'> {
     text?: string
+    className?: string
 }
 
 function SubmitButton(props: SubmitButtonProps) {
@@ -20,6 +22,7 @@ function SubmitButton(props: SubmitButtonProps) {
                     is-flex-grow-1
                 `}
                 type="submit"
+                {...props}
             >
                 {props.text ? props.text : 'Enviar'}
             </button>

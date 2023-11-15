@@ -22,6 +22,7 @@ function FormularioCotizacion() {
     const [productIdtoModify, setProductIdtoModify] = useState<string>("");
     const [productToModify, setProductToModify] = useState({} as ProductInQuote);
     const [showModifyProductModal, setShowModifyProductModal] = useState(false);
+    const [canCreateQuote, setCanCreateQuote] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -41,6 +42,15 @@ function FormularioCotizacion() {
             product
         ]);
     }
+
+    useEffect(() => {
+        if (products.length > 0) {
+            setCanCreateQuote(true);
+        }
+        else {
+            setCanCreateQuote(false);
+        }
+    }, [products])
 
     function ClearProducts() {
         setProducts([]);
@@ -154,7 +164,7 @@ function FormularioCotizacion() {
                                     {errors.masterDesc}
                                 </div>
                             }
-                            <SubmitButton text="Crear Cotización" />
+                            <SubmitButton text={`Crear Cotización: ${products.length} Producto(s)`} disabled={!canCreateQuote}/>
                         </Form>
                     </div>
                     <Modal showModal={showDetail} onClick={() => setShowDetail(false)}>

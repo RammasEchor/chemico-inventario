@@ -11,6 +11,7 @@ import CotizacionesPendientes from "./cotizacion/pendientes_de_cotizar/cotizacio
 import CargarBaseDatos from './entradas/cargar_base_datos/cargar_base_datos';
 import HistorialEntradas from './entradas/historial_entradas/historial_entradas';
 import VerEntradas from './entradas/ver_entradas/ver_entradas';
+import TestExcel from './form_components/test_excel';
 import EntradaMaterial from "./inventario/entrada_material/entrada_producto";
 import Existencias from './inventario/existencias/existencias';
 import Inventario from "./inventario/inventario/inventario";
@@ -21,6 +22,7 @@ import AltaProducto from "./productos/alta_producto/alta_producto";
 import BajaProducto from "./productos/baja_producto/baja_producto";
 import ModificarProducto from "./productos/modificar_producto/modificar_producto";
 import QrOrdenCompra from './qr/qr_orden_compra';
+import AltaSalida from './salidas/alta_salidas/alta_salidas';
 import AltaUsuario from "./usuarios/alta_usuarios/alta_usuarios";
 import BajaUsuario from "./usuarios/baja_usuarios/baja_usuarios";
 import ModificarUsuario from "./usuarios/modificar_usuarios/modificar_usuarios";
@@ -56,7 +58,9 @@ function App() {
       <Route path="/" element={<MainPage />} />
       <Route path="/cargar_bd" element={<CargarBaseDatos />} />
       <Route path="/ver_entradas" element={<VerEntradas />} />
+      <Route path="/alta_salida" element={<AltaSalida />} />
       <Route path="/qr_orden_compra" element={<QrOrdenCompra />} />
+      <Route path="/test_excel" element={<TestExcel />} />
     </Routes>
   );
 }

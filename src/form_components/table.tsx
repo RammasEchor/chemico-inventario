@@ -1,18 +1,18 @@
-import { PropsWithChildren } from "react";
+import { ComponentPropsWithoutRef, LegacyRef, forwardRef } from "react";
 
 interface PropsTabla {
     cols: string[]
     className?: string
 }
 
-function Tabla(props: PropsTabla & PropsWithChildren) {
+const Tabla = forwardRef(function Tabla(props: PropsTabla & ComponentPropsWithoutRef<'table'>, ref: LegacyRef<HTMLTableElement>) {
     const jsx_cols = props.cols.map((name) => {
         return (<th key={name}>{name}</th>);
     });
 
     return (
         <div className={`table-container ` + props.className}>
-            <table className="table is-hoverable is-fullwidth is-striped">
+            <table className="table is-hoverable is-fullwidth is-striped" ref={ref}>
                 <thead>
                     <tr>
                         {jsx_cols}
@@ -29,6 +29,6 @@ function Tabla(props: PropsTabla & PropsWithChildren) {
             </table>
         </div>
     );
-}
+});
 
 export default Tabla

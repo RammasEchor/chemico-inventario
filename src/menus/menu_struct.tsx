@@ -53,7 +53,13 @@ const menu_layout = [
         title: "Entradas", children: [
             { title: "Ver Entradas", link: "/ver_entradas", visibility: [Role.Admin, Role.Chemico, Role.AlmacenChemico, Role.AlmacenCliente] },
             { title: "Historial de Entradas", link: "/historial_entradas", visibility: [Role.Admin, Role.Chemico, Role.AlmacenChemico, Role.AlmacenCliente] },
-            { title: "Cargar a Base de Datos", link: "/cargar_bd", visibility: [Role.Admin, Role.Chemico, Role.AlmacenChemico, Role.AlmacenCliente] },
+            { title: "Cargar a Base de Datos", link: "/cargar_bd", visibility: [Role.Admin, Role.Chemico] },
+        ],
+        visibility: [Role.Admin, Role.Chemico, Role.AlmacenChemico, Role.AlmacenCliente]
+    },
+    {
+        title: "Salidas", children: [
+            { title: "Alta Salida", link: "/alta_salida", visibility: [Role.Admin, Role.Chemico, Role.AlmacenChemico, Role.AlmacenCliente] },
         ],
         visibility: [Role.Admin, Role.Chemico, Role.AlmacenChemico, Role.AlmacenCliente]
     },

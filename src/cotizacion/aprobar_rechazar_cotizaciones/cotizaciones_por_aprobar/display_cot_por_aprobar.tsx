@@ -87,42 +87,44 @@ function DisplayCotizacionesPorAprobar() {
                                 {quote.id ? quote.id : "Sin Descripción"}
                             </td>
                             <td style={{ width: "15%" }} className={redIfNull(quote.descripcion)}>
-                                {quote.descripcion ?
-                                    <GhostButton
-                                        onClick={() => {
-                                            setSelectedQuoteId(quote.id as string)
-                                            setTituloDescModal(quote.descripcion as string)
-                                            setCurrentTotal(quote.total as string)
-                                            setCurrentSolicitante(quote.solicitante as string)
-                                            setShowDescriptionModal(true)
-                                        }}
-                                    >
-                                        {quote.descripcion}
-                                    </GhostButton>
-                                    :
-                                    "Sin Descripción"
-                                }
+                                <div className="my-5">
+                                    {quote.descripcion ?
+                                        <GhostButton
+                                            onClick={() => {
+                                                setSelectedQuoteId(quote.id as string)
+                                                setTituloDescModal(quote.descripcion as string)
+                                                setCurrentTotal(quote.total as string)
+                                                setCurrentSolicitante(quote.solicitante as string)
+                                                setShowDescriptionModal(true)
+                                            }}
+                                        >
+                                            {quote.descripcion.substring(0, 53)}
+                                        </GhostButton>
+                                        :
+                                        "Sin Descripción"
+                                    }
+                                </div>
                             </td>
                             <td className={redIfNull(quote.aprobador1)}>
-                                {quote.aprobador1 ? quote.aprobador1 : "Faltante"}
+                                <div className="my-5">{quote.aprobador1 ? quote.aprobador1 : "Faltante"}</div>
                             </td>
                             <td className={redIfNull(quote.aprobador2)}>
-                                {quote.aprobador2 ? quote.aprobador2 : "Faltante"}
+                                <div className="my-5">{quote.aprobador2 ? quote.aprobador2 : "Faltante"}</div>
                             </td>
                             <td className={redIfNull(quote.fechaAprob1)}>
-                                {quote.fechaAprob1 ? dateParser(quote.fechaAprob1) : "Faltante"}
+                                <div className="my-5">{quote.fechaAprob1 ? dateParser(quote.fechaAprob1) : "Faltante"}</div>
                             </td>
                             <td className={redIfNull(quote.fechaAprob2)}>
-                                {quote.fechaAprob2 ? dateParser(quote.fechaAprob2) : "Faltante"}
+                                <div className="my-5">{quote.fechaAprob2 ? dateParser(quote.fechaAprob2) : "Faltante"}</div>
                             </td>
                             <td>
-                                <div className="is-flex is-flex-direction-column">
+                                <div className="is-flex is-flex-direction-column my-4">
                                     <a className="is-underlined" href={`https://javaclusters-95554-0.cloudclusters.net/pdfs/COT_${quote.id}`}>PDF</a>
                                     <a className="is-underlined" href={`https://javaclusters-95554-0.cloudclusters.net/pdfs/HOJA_SEG_${quote.id}`}>Hoja de Seguridad</a>
                                 </div>
                             </td>
                             <td>
-                                <div className="block">
+                                <div className="block my-5">
                                     <button
                                         className={selectedQuoteId === quote.id ?
                                             "button is-success is-inverted mr-2 mb-2" :
