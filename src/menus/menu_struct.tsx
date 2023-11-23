@@ -59,9 +59,12 @@ const menu_layout = [
     },
     {
         title: "Salidas", children: [
-            { title: "Alta Salida", link: "/alta_salida", visibility: [Role.Admin, Role.Chemico, Role.AlmacenChemico, Role.AlmacenCliente] },
+            { title: "Solicitud de Material", link: "/solicitud_material", visibility: [Role.Admin, Role.Chemico, Role.RequisitorMaterial] },
+            { title: "Solicitudes Pendientes", link: "/solicitudes_pendientes", visibility: [Role.Admin, Role.Chemico, Role.Aprobador] },
+            { title: "Solicitudes Aprobadas", link: "/solicitudes_aprobadas", visibility: [Role.Admin, Role.Chemico, Role.AlmacenChemico] },
+            { title: "Solicitudes Cerradas", link: "/solicitudes_cerradas", visibility: [Role.Admin, Role.Chemico, Role.AlmacenChemico] },
         ],
-        visibility: [Role.Admin, Role.Chemico, Role.AlmacenChemico, Role.AlmacenCliente]
+        visibility: [Role.Admin, Role.Chemico, Role.Aprobador, Role.RequisitorMaterial, Role.AlmacenChemico]
     },
     {
         title: "Consultas", children: [

@@ -114,10 +114,12 @@ function FormularioAltaUsuario() {
                 values.almacen = currentWarehouse;
 
                 if (currentRole !== 'Cliente') {
-                    values.aprob1 = '-'
+                    if (currentRole !== 'Requisitor de Material')
+                        values.aprob1 = '-'
+
                     values.aprob2 = '-'
                 }
-                if (currentRole !== 'Aprobador') {
+                if (currentRole !== 'Aprobador' && currentRole !== 'Requisitor de Material') {
                     values.monto = '-'
                 }
                 createUser(values)
@@ -186,7 +188,21 @@ function FormularioAltaUsuario() {
                             </div>
                         }
                         {
-                            currentRole === 'Aprobador' &&
+                            currentRole === 'Requisitor de Material' &&
+                            <SelectWithLabel
+                                onChange={e => {
+                                    setCurrentAprob1(e.currentTarget.value)
+                                    formikProps.setFieldValue('aprob1', e.currentTarget.value)
+                                }}
+                                value={currentAprob1}
+                                name='aprob1'
+                                label='Aprobador 1'
+                            >
+                                {aprobadores1.map(ap1 => <option value={ap1} key={ap1}>{ap1}</option>)}
+                            </SelectWithLabel>
+                        }
+                        {
+                            (currentRole === 'Aprobador' || currentRole === 'Requisitor de Material') &&
                             <div className="px-3">
                                 <TextInputLabelWarning name='monto' label='Monto' />
                             </div>

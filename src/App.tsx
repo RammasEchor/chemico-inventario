@@ -22,7 +22,10 @@ import AltaProducto from "./productos/alta_producto/alta_producto";
 import BajaProducto from "./productos/baja_producto/baja_producto";
 import ModificarProducto from "./productos/modificar_producto/modificar_producto";
 import QrOrdenCompra from './qr/qr_orden_compra';
-import AltaSalida from './salidas/alta_salidas/alta_salidas';
+import SolicitudMaterial from './salidas/solicitud_material/solicitud_material';
+import SolicitudesAprobadas from './salidas/solicitudes_aprobadas/solicitudes_aprobadas';
+import SolicitudesCerradas from './salidas/solicitudes_cerradas/solicitudes_cerradas';
+import SolicitudesPendientes from './salidas/solicitudes_pendientes/solicitudes_pendientes';
 import AltaUsuario from "./usuarios/alta_usuarios/alta_usuarios";
 import BajaUsuario from "./usuarios/baja_usuarios/baja_usuarios";
 import ModificarUsuario from "./usuarios/modificar_usuarios/modificar_usuarios";
@@ -58,7 +61,10 @@ function App() {
       <Route path="/" element={<MainPage />} />
       <Route path="/cargar_bd" element={<CargarBaseDatos />} />
       <Route path="/ver_entradas" element={<VerEntradas />} />
-      <Route path="/alta_salida" element={<AltaSalida />} />
+      <Route path="/solicitud_material" element={<SolicitudMaterial />} />
+      <Route path="/solicitudes_pendientes" element={<SolicitudesPendientes />} />
+      <Route path="/solicitudes_aprobadas" element={<SolicitudesAprobadas />} />
+      <Route path="/solicitudes_cerradas" element={<SolicitudesCerradas />} />
       <Route path="/qr_orden_compra" element={<QrOrdenCompra />} />
       <Route path="/test_excel" element={<TestExcel />} />
     </Routes>

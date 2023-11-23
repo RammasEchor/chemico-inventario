@@ -28,6 +28,7 @@ enum Role {
     AprobSeguridad,
     AlmacenChemico,
     AlmacenCliente,
+    RequisitorMaterial,
     Ninguno
 };
 
@@ -40,6 +41,7 @@ function getUserRoleFromString(rawString: APIStringArg) {
         case "Aprob. Seguridad": return Role.AprobSeguridad
         case "Almacen Chemico": return Role.AlmacenChemico
         case "Almacen Cliente": return Role.AlmacenCliente
+        case "Requisitor de Material": return Role.RequisitorMaterial
         default: return Role.UsuarioGen
     }
 }

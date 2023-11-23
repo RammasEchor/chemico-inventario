@@ -1,15 +1,15 @@
 import ProtectedRoute from "../../login/protected-route/protected_route";
 import PageWithNavbar from "../../mainpage/pageWithNavbar/page_with_navbar";
-import FormularioAltaSalida from "./formulario_alta_salidas";
+import DisplaySolicitudesCerradas from "./display_solicitudes_cerradas";
 
-function AltaSalida() {
+function SolicitudesCerradas() {
     return (
         <ProtectedRoute>
             <PageWithNavbar>
-                < FormularioAltaSalida />
+                < DisplaySolicitudesCerradas />
             </PageWithNavbar>
         </ProtectedRoute>
     );
 }
 
-export default AltaSalida
+export default SolicitudesCerradas
