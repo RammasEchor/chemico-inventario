@@ -1,0 +1,5 @@
+@dev_server=http://localhost:8080/api2/
+
+###
+GET {{dev_server}}salidasRechazadas/luis/
+Accept: */*

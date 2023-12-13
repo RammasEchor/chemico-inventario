@@ -1,12 +1,18 @@
 import { useEffect, useState } from "react";
 import { Solicitud, getSalidasCerradas } from "../../apis/api_material";
+import GhostButton from "../../form_components/ghost_button";
+import { Modal } from "../../form_components/modal";
 import Tabla from "../../form_components/table";
 import { useAuth } from "../../login/auth-provider/auth_provider";
 import { dateParser } from "../../utilities/date_parser";
+import ModalDetalleSalidas from "../modalDetalleSalidas";
+import { ModalInfo } from "../solicitudes_pendientes/display_solicitudes_pendientes";
 
 function DisplaySolicitudesCerradas() {
     const { userKey } = useAuth();
     const [solicitudes, setSolicitudes] = useState<Solicitud[]>([]);
+    const [modalInfo, setModalInfo] = useState<ModalInfo>({} as ModalInfo);
+    const [showDescriptionModal, setShowDescriptionModal] = useState(false);
 
     useEffect(() => {
         getSalidasCerradas(userKey)
@@ -33,9 +39,15 @@ function DisplaySolicitudesCerradas() {
                     <tr
                         key={solicitud.id}
                     >
-                        <td className={redIfNull(solicitud.fecha_aprob)}>
-                            {solicitud.fecha_aprob ? dateParser(solicitud.fecha_aprob) : "Faltante"}
-                        </td>
+                        <GhostButton
+                            onClick={() => {
+                                setModalInfo({
+                                    title: dateParser(solicitud.fecha_aprob),
+                                    id: solicitud.id
+                                })
+                                setShowDescriptionModal(true)
+                            }}
+                        >{solicitud.fecha_aprob ? dateParser(solicitud.fecha_aprob) : "Faltante"}</GhostButton>
                         <td className={redIfNull(solicitud.solicitante)}>
                             {solicitud.solicitante ? solicitud.solicitante : "Faltante"}
                         </td>
@@ -45,6 +57,12 @@ function DisplaySolicitudesCerradas() {
                     </tr>
                 )}
             </Tabla>
+            <Modal showModal={showDescriptionModal} onClick={() => setShowDescriptionModal(false)}>
+                <ModalDetalleSalidas key={modalInfo.id}
+                    info={modalInfo}
+                    onClickCancel={() => setShowDescriptionModal(false)}
+                />
+            </Modal>
         </div >
     );
 }

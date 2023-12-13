@@ -26,6 +26,7 @@ import SolicitudMaterial from './salidas/solicitud_material/solicitud_material';
 import SolicitudesAprobadas from './salidas/solicitudes_aprobadas/solicitudes_aprobadas';
 import SolicitudesCerradas from './salidas/solicitudes_cerradas/solicitudes_cerradas';
 import SolicitudesPendientes from './salidas/solicitudes_pendientes/solicitudes_pendientes';
+import SolicitudesRechazadas from './salidas/solicitudes_rechazadas/solicitudes_rechazadas';
 import AltaUsuario from "./usuarios/alta_usuarios/alta_usuarios";
 import BajaUsuario from "./usuarios/baja_usuarios/baja_usuarios";
 import ModificarUsuario from "./usuarios/modificar_usuarios/modificar_usuarios";
@@ -65,6 +66,7 @@ function App() {
       <Route path="/solicitudes_pendientes" element={<SolicitudesPendientes />} />
       <Route path="/solicitudes_aprobadas" element={<SolicitudesAprobadas />} />
       <Route path="/solicitudes_cerradas" element={<SolicitudesCerradas />} />
+      <Route path="/solicitudes_rechazadas" element={<SolicitudesRechazadas />} />
       <Route path="/qr_orden_compra" element={<QrOrdenCompra />} />
       <Route path="/test_excel" element={<TestExcel />} />
     </Routes>

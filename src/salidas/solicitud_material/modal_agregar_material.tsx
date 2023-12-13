@@ -2,6 +2,7 @@ import { Formik } from "formik";
 import { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { Material, getProductInfoSalida, getProductsSalida } from "../../apis/api_material";
+import { Producto } from "../../apis/api_productos";
 import { SelectWithLabel } from "../../form_components/select_with_label";
 import TextInputLabelWarning from "../../form_components/text_input_label_warning";
 import { useAuth } from "../../login/auth-provider/auth_provider";
@@ -15,16 +16,17 @@ interface AgregarMaterialProps {
 function AgregarMaterial(props: AgregarMaterialProps) {
     const [currentCode, setCurrentCode] = useState<string>("");
     const [material, setMaterial] = useState<Material>(new Material());
-    const [materials, setMaterials] = useState<string[]>([]);
+    const [materials, setMaterials] = useState<Producto[]>([]);
+    const [max, setMax] = useState("0");
 
     const { userKey } = useAuth();
 
     useEffect(() => {
         getProductsSalida(userKey)
             .then(res => res.json())
-            .then(data => {
+            .then((data: Producto[]) => {
                 setMaterials(data)
-                setCurrentCode(data[0])
+                setCurrentCode(data[0].noParte)
             })
     }, [userKey]);
 
@@ -35,16 +37,17 @@ function AgregarMaterial(props: AgregarMaterialProps) {
 
         getProductInfoSalida(currentCode)
             .then(res => res.json())
-            .then(data => {
+            .then((data: Producto) => {
                 setMaterial({
-                    codigo: currentCode,
+                    id: data.idProd,
+                    codigo: data.noParte,
+                    cantidad: "",
                     precioU: data.precio,
                     precioT: "",
-                    cantidad: "",
                     numPedido: "",
-                    folio: props.folio,
-                    id: ""
-                })
+                    folio: props.folio
+                });
+                setMax(data.stock);
             })
 
     }, [currentCode, props.folio]);
@@ -53,7 +56,11 @@ function AgregarMaterial(props: AgregarMaterialProps) {
         <Formik
             initialValues={material}
             enableReinitialize={true}
-            validationSchema={Yup.object({})}
+            validationSchema={Yup.object({
+                cantidad: Yup.number()
+                    .max(parseInt(max), "La cantidad solicitada no puede ser mayor a: " + max)
+                    .required("La cantidad es necesaria")
+            })}
             onSubmit={(values, { setSubmitting }) => {
                 setSubmitting(false);
                 props.onClickAceptar(values);
@@ -66,8 +73,9 @@ function AgregarMaterial(props: AgregarMaterialProps) {
                         <button className="delete" aria-label="close" type="button" onClick={props.onClickCancelar} />
                     </header>
                     <div className="modal-card-body">
-                        <SelectWithLabel name='codigo' label='Nombre y Código del Producto'>
-                            {materials.map(m => <option value={m} key={m}>{m}</option>)}
+                        <h5 className="subtitle is-5">No. de Pedido: {props.folio}</h5>
+                        <SelectWithLabel name='codigo' label='Nombre y Código del Producto' >
+                            {materials.map(m => <option value={m.noParte} key={m.noParte}>{m.descripcion + ", Existencias: " + m.stock}</option>)}
                         </SelectWithLabel>
                         <TextInputLabelWarning name='cantidad' label='Cantidad' value={formikProps.values.cantidad} onChange={e => {
                             formikProps.setFieldValue('cantidad', e.currentTarget.value);

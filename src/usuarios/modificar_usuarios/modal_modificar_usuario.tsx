@@ -168,7 +168,7 @@ function ModalModificarUsuario(props: Props) {
                                     </SelectWithLabel>
                                     {extra_items}
                                     {
-                                        currentRole === 'Aprobador' &&
+                                        (currentRole === 'Aprobador' || currentRole === "Requisitor de Material" ) &&
                                         <div className="px-3">
                                             <TextInputLabelWarning value={formikProps.values.monto} name='monto' label='Monto'
                                                 className={formikProps.initialValues.monto !== formikProps.values.monto ? "is-warning" : undefined}

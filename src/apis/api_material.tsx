@@ -129,8 +129,51 @@ function getSalidasCerradas(userKey: APIStringArg) {
     return fetch(api_url);
 }
 
+function getSalidasDetail(folio: APIStringArg) {
+    let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
+    api_url += process.env.REACT_APP_BACKEND_GET_SALIDAS_DETAIL;
+    api_url += `${folio}/`
+
+    return fetch(api_url);
+}
+
+function postRechazarSalida(folio: APIStringArg) {
+    let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
+    api_url += process.env.REACT_APP_BACKEND_POST_RECHAZAR_SALIDA;
+
+    return fetch(api_url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            'folio': folio
+        })
+    });
+}
+
+function getSalidasRechazadas(userKey: APIStringArg) {
+    let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
+    api_url += process.env.REACT_APP_BACKEND_GET_SALIDAS_RECHAZADAS;
+    api_url += `${userKey}/`
+
+    return fetch(api_url);
+}
+
 export {
     Material, Solicitud,
-    getNextSalida, getProductInfoSalida, getProductsSalida, getSalidasAprobadas, getSalidasCerradas, getSalidasPendientes, postAprobarSalida, postCerrarSalida, postDetalleSalida, postMasterDetalleSalida
+    getNextSalida,
+    getProductInfoSalida,
+    getProductsSalida,
+    getSalidasAprobadas,
+    getSalidasCerradas,
+    getSalidasDetail,
+    getSalidasPendientes,
+    getSalidasRechazadas,
+    postAprobarSalida,
+    postCerrarSalida,
+    postDetalleSalida,
+    postMasterDetalleSalida,
+    postRechazarSalida
 };
 

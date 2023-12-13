@@ -63,6 +63,7 @@ const menu_layout = [
             { title: "Solicitudes Pendientes", link: "/solicitudes_pendientes", visibility: [Role.Admin, Role.Chemico, Role.Aprobador] },
             { title: "Solicitudes Aprobadas", link: "/solicitudes_aprobadas", visibility: [Role.Admin, Role.Chemico, Role.AlmacenChemico] },
             { title: "Solicitudes Cerradas", link: "/solicitudes_cerradas", visibility: [Role.Admin, Role.Chemico, Role.AlmacenChemico] },
+            { title: "Solicitudes Rechazadas", link: "/solicitudes_rechazadas", visibility: [Role.Admin, Role.Chemico, Role.AlmacenChemico] },
         ],
         visibility: [Role.Admin, Role.Chemico, Role.Aprobador, Role.RequisitorMaterial, Role.AlmacenChemico]
     },

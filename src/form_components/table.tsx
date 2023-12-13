@@ -7,12 +7,12 @@ interface PropsTabla {
 
 const Tabla = forwardRef(function Tabla(props: PropsTabla & ComponentPropsWithoutRef<'table'>, ref: LegacyRef<HTMLTableElement>) {
     const jsx_cols = props.cols.map((name) => {
-        return (<th key={name}>{name}</th>);
+        return (<th className="has-text-centered" key={name}>{name}</th>);
     });
 
     return (
-        <div className={`table-container ` + props.className}>
-            <table className="table is-hoverable is-fullwidth is-striped" ref={ref}>
+        <div className={`table-container` + props.className}>
+            <table className="table is-hoverable is-fullwidth is-striped has-text-centered" ref={ref}>
                 <thead>
                     <tr>
                         {jsx_cols}

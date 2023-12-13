@@ -1,15 +1,20 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
-import { Solicitud, getSalidasAprobadas, postCerrarSalida } from "../../apis/api_material";
+import { Solicitud, getSalidasRechazadas } from "../../apis/api_material";
 import GhostButton from "../../form_components/ghost_button";
 import { Modal } from "../../form_components/modal";
 import Tabla from "../../form_components/table";
 import { useAuth } from "../../login/auth-provider/auth_provider";
 import { dateParser } from "../../utilities/date_parser";
 import ModalDetalleSalidas from "../modalDetalleSalidas";
-import { ModalInfo } from "../solicitudes_pendientes/display_solicitudes_pendientes";
 
-function DisplaySolicitudesAprobadas() {
+export interface ModalInfo {
+    title: string
+    id: string
+};
+
+function DisplaySolicitudesRechazadas() {
+    const [showDescriptionModal, setShowDescriptionModal] = useState(false);
+    const [modalInfo, setModalInfo] = useState<ModalInfo>({} as ModalInfo);
     const { userKey } = useAuth();
     const [solicitudes, setSolicitudes] = useState<Solicitud[]>([
         {
@@ -31,16 +36,11 @@ function DisplaySolicitudesAprobadas() {
             descripcion: "Placeholder"
         }
     ]);
-    const [modalInfo, setModalInfo] = useState<ModalInfo>({} as ModalInfo);
-    const [showDescriptionModal, setShowDescriptionModal] = useState(false);
-    const navigate = useNavigate();
 
     useEffect(() => {
-        getSalidasAprobadas(userKey)
+        getSalidasRechazadas(userKey)
             .then(res => res.json())
-            .then(data => {
-                setSolicitudes(data)
-            })
+            .then(data => setSolicitudes(data))
     }, [userKey]);
 
     function redIfNull(toCheck: string | undefined) {
@@ -50,19 +50,14 @@ function DisplaySolicitudesAprobadas() {
         return ""
     }
 
-    function startClosing(folio: string) {
-        postCerrarSalida(folio, userKey)
-            .then(_ => navigate(0))
-    }
-
     return (
         <div className="box">
-            <h4 className="title is-4">Solicitudes Aprobadas</h4>
+            <h4 className="title is-4">Solicitudes Rechazadas</h4>
             <Tabla cols={[
-                'Fecha de Aprobación',
+                'Fecha de Rechazo',
                 'Solicitante',
                 'Total',
-                'Cerrar'
+                'Descripcion'
             ]}>
                 {solicitudes.map(solicitud =>
                     <tr
@@ -85,13 +80,8 @@ function DisplaySolicitudesAprobadas() {
                         <td className={redIfNull(solicitud.total)}>
                             {solicitud.total ? solicitud.total : "Faltante"}
                         </td>
-                        <td>
-                            <div className="block">
-                                <button
-                                    className={"button is-danger is-outlined mr-2 mb-2"}
-                                    onClick={() => startClosing(solicitud.id)}
-                                >Cerrar</button>
-                            </div>
+                        <td className={redIfNull(solicitud.descripcion)}>
+                            {solicitud.descripcion ? solicitud.descripcion : "Faltante"}
                         </td>
                     </tr>
                 )}
@@ -103,7 +93,7 @@ function DisplaySolicitudesAprobadas() {
                 />
             </Modal>
         </div >
-    );
+    )
 }
 
-export default DisplaySolicitudesAprobadas;
+export default DisplaySolicitudesRechazadas;

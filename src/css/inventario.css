@@ -39,3 +39,7 @@
     right: 43px;
     padding: 0px;
 }
+
+table.table td {
+    vertical-align: middle;
+}
