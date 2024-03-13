@@ -5,6 +5,7 @@ interface UploadFileModalProps {
     onClickX?: () => void
     onClickCancel?: () => void
     onClickAprobar: (file: File) => void
+    title: string
 }
 
 function UploadFile(props: UploadFileModalProps) {
@@ -18,7 +19,7 @@ function UploadFile(props: UploadFileModalProps) {
     return (
         <div className="model-card">
             <header className="modal-card-head">
-                <p className="modal-card-title">Subir Excel</p>
+                <p className="modal-card-title">{props.title}</p>
                 <button className="delete" aria-label="close" onClick={props.onClickX} />
             </header>
             <section className="modal-card-body">

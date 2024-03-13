@@ -1,0 +1,9 @@
+{
+  "version": "v1",
+  "packages": {
+    "chemico-ui": {
+      "signature": "31eb8087f0411033a5bbe9f766f1b190",
+      "file": true
+    }
+  }
+}

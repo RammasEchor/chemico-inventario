@@ -1,10 +1,11 @@
 import { Formik } from "formik";
 import { useEffect, useState } from "react";
-import { Navigate } from "react-router";
 import * as Yup from "yup";
 import { PlantasAPI, getPlants } from "../../apis/api_plantas";
-import { Producto, insertProduct } from "../../apis/api_productos";
+import { Producto } from "../../apis/api_productos";
+import useProductosController from "../../controllers/productosController";
 import DatePickerField from "../../form_components/datepicker";
+import FileForm from "../../form_components/file_form";
 import { SelectWithLabel } from "../../form_components/select_with_label";
 import ShadowedForm from "../../form_components/shadowed_form";
 import SubmitButton from "../../form_components/submit_button";
@@ -13,10 +14,11 @@ import TextArea from "../../form_components/textarea";
 import { appendFieldRequiredSpanish } from "../../utilities/error_messages";
 
 function FormularioAltaProducto() {
-    const [productSubmitted, setProductSubmitted] = useState(false);
     const [plantas, setPlantas] = useState<string[]>([]);
     const [date, setDate] = useState(new Date());
     const [initialValues, setIntialValues] = useState(new Producto())
+    const [image, setImage] = useState(new File([""], ""));
+    const { postProductMutation } = useProductosController();
 
     useEffect(() => {
         getPlants()
@@ -27,8 +29,8 @@ function FormularioAltaProducto() {
             });
     }, []);
 
-    if (productSubmitted) {
-        return (<Navigate to="/" />);
+    if (postProductMutation.isSuccess) {
+        // return (<Navigate to="/" />);
     }
 
     return (
@@ -47,36 +49,42 @@ function FormularioAltaProducto() {
                 ubicacion: Yup.string().required(appendFieldRequiredSpanish('Ubicación')),
                 stock: Yup.string().required(appendFieldRequiredSpanish('Cantidad Inicial')),
             })}
-            onSubmit={(values, { setSubmitting }) => {
+            onSubmit={(values: Producto, { setSubmitting }) => {
                 setSubmitting(false);
                 values.fecha_exp = date.toISOString()
-                insertProduct(values as Producto)
-                    .then(response => {
-                        if (response.ok)
-                            setProductSubmitted(true)
-                    })
+                postProductMutation.mutate({ ...values, img: image });
             }}
         >
-            <ShadowedForm>
-                <h4 className="title is-4">Alta de Producto</h4>
-                <div className="is-flex is-flex-direction-column">
-                    <SelectWithLabel name="planta" label="Planta">
-                        {plantas.map(planta => <option value={planta} key={planta}>{planta}</option>)}
-                    </SelectWithLabel>
-                    <TextInputLabelWarning name='noParte' label='Número de parte' />
-                    <div className="mt-5 mb-5">
-                        <TextArea name='descripcion' placeholder='Descripción del producto' />
+            {formik => (
+                <ShadowedForm>
+                    <h4 className="title is-4">Alta de Producto</h4>
+                    <div className="is-flex is-flex-direction-column">
+                        <SelectWithLabel name="planta" label="Planta">
+                            {plantas.map(planta => <option value={planta} key={planta}>{planta}</option>)}
+                        </SelectWithLabel>
+                        <TextInputLabelWarning name='noParte' label='Número de parte' />
+                        <div className="mt-5 mb-5">
+                            <TextArea name='descripcion' placeholder='Descripción del producto' />
+                        </div>
+                        <TextInputLabelWarning name='maximo' label='Máximo' />
+                        <TextInputLabelWarning name='minimo' label='Mínimo' />
+                        <TextInputLabelWarning name='precio' label='Precio unitario' />
+                        <TextInputLabelWarning name='uni_medida' label='Unidad de medida' />
+                        <DatePickerField label="Fecha de Expiración" selected={date} onChange={setDate} />
+                        <TextInputLabelWarning name='ubicacion' label='Ubicación almacén' />
+                        <TextInputLabelWarning name='stock' label='Cantidad Inicial' />
+                        <div className="model-card">
+                            <header className="modal-card-head">
+                                <p className="modal-card-title">Seleccionar imagen</p>
+                            </header>
+                            <section className="modal-card-body">
+                                <FileForm onChange={setImage} saveFilename={(filename: string) => formik.setFieldValue("nomImg", filename)} />
+                            </section>
+                        </div>
                     </div>
-                    <TextInputLabelWarning name='maximo' label='Máximo' />
-                    <TextInputLabelWarning name='minimo' label='Mínimo' />
-                    <TextInputLabelWarning name='precio' label='Precio unitario' />
-                    <TextInputLabelWarning name='uni_medida' label='Unidad de medida' />
-                    <DatePickerField label="Fecha de Expiración" selected={date} onChange={setDate} />
-                    <TextInputLabelWarning name='ubicacion' label='Ubicación almacén' />
-                    <TextInputLabelWarning name='stock' label='Cantidad Inicial' />
-                </div>
-                <SubmitButton text='Agregar Producto' />
-            </ShadowedForm>
+                    <SubmitButton text='Agregar Producto' />
+                </ShadowedForm>
+            )}
         </Formik>
     );
 }

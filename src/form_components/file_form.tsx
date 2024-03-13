@@ -4,6 +4,7 @@ import "../css/inventario.css";
 
 interface FileFormInterface {
     onChange: Dispatch<SetStateAction<File>>
+    saveFilename?: (filename: string) => void
 }
 
 function FileForm(props: FileFormInterface) {
@@ -24,6 +25,9 @@ function FileForm(props: FileFormInterface) {
                         const files = event.currentTarget.files as FileList
                         props.onChange(files[0]);
                         setFilename(files[0].name);
+                        if (props.saveFilename !== undefined) {
+                            props.saveFilename(files[0].name);
+                        }
                     }} />
                 <span className="file-cta">
                     <span className="file-icon">

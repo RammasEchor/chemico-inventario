@@ -9,7 +9,7 @@ import { dateParser } from "../../utilities/date_parser";
 
 interface Props extends PropsWithChildren {
     onClickClose: () => void
-    onClickModify: (user: Producto) => void
+    onClickModify: (producto: Producto) => void
     product: Producto
 }
 

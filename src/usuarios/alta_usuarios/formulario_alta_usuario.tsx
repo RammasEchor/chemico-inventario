@@ -1,3 +1,4 @@
+import { Button } from "chemico-ui";
 import { Formik } from "formik";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
@@ -222,6 +223,7 @@ function FormularioAltaUsuario() {
                         <TextInputLabelWarning name='cveUsuario' label='Clave de Usuario' />
                     </div>
                     <SubmitButton text='Crear Usuario' />
+                    <Button></Button>
                     <LoadingModal show={showModal > 0} />
                 </ShadowedForm>
             }

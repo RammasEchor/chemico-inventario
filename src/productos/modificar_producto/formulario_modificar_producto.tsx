@@ -1,45 +1,25 @@
-import { useEffect, useState } from "react";
+import { LoadingBar } from "chemico-ui";
+import { useState } from "react";
 import { useNavigate } from "react-router";
-import { Producto, getProducts, modifyProduct } from "../../apis/api_productos";
+import { Producto } from "../../apis/api_productos";
+import useProductosController from "../../controllers/productosController";
 import { Modal } from "../../form_components/modal";
 import Tabla from "../../form_components/table";
 import { dateParser } from "../../utilities/date_parser";
 import ModalModificarProducto from "./modal_modificar_producto";
 
 function FormularioModificarProducto() {
-    const [products, setProducts] = useState<Producto[]>([]);
+    const { getProductsQuery, putProductMutation } = useProductosController();
     const [productIdtoModify, setProductIdtoModify] = useState<string>("");
     const [productToModify, setProductToModify] = useState(new Producto());
     const [showModifyProductModal, setShowModifyProductModal] = useState(false);
-    const [productWasModified, setProductWasModified] = useState(false);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        getProducts()
-            .then(response => response.json())
-            .then((data: Producto[]) => {
-                setProducts(data);
-            });
-    }, []);
-
-    function startModifyProduct(product: Producto) {
-        modifyProduct(product)
-            .then(response => {
-                if (!response.ok)
-                    response.text().then(log => {
-                        throw new Error(log);
-                    })
-
-                response.json()
-            })
-            .then(data => {
-                console.log(data)
-                setProductWasModified(true)
-            })
-            .catch(error => alert(error))
+    if (getProductsQuery.isLoading || getProductsQuery.isFetching) {
+        return <LoadingBar />
     }
 
-    if (productWasModified) {
+    if (putProductMutation.isSuccess) {
         navigate(0);
     }
 
@@ -59,7 +39,7 @@ function FormularioModificarProducto() {
                 'Stock',
                 'Acción'
             ]}>
-                {products.map(product => {
+                {getProductsQuery.data?.map(product => {
                     return (
                         <tr id={product.idProd}
                             key={product.idProd}
@@ -95,7 +75,7 @@ function FormularioModificarProducto() {
             <Modal key={productIdtoModify} showModal={showModifyProductModal} onClick={() => setShowModifyProductModal(false)}>
                 <ModalModificarProducto
                     onClickClose={() => setShowModifyProductModal(false)}
-                    onClickModify={startModifyProduct}
+                    onClickModify={(p: Producto) => putProductMutation.mutate(p)}
                     product={productToModify}
                 />
             </Modal >

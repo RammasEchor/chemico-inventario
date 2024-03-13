@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Material, getSalidasDetail } from "../apis/api_material";
-import Tabla from "../form_components/table";
+import { Material, getSalidasDetail } from "../../apis/api_material";
+import Tabla from "../../form_components/table";
 import { ModalInfo } from "./solicitudes_pendientes/display_solicitudes_pendientes";
 
 interface DetalleSalidasProps {

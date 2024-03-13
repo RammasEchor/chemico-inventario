@@ -1,3 +1,4 @@
+import { getFetch, root } from "./api";
 import { APIStringArg } from "./api_func_args_types";
 
 class Material {
@@ -8,6 +9,7 @@ class Material {
     precioT = "";
     numPedido = "";
     folio = "";
+    comentarios = "";
 };
 
 class Solicitud {
@@ -28,11 +30,10 @@ function getNextSalida() {
 }
 
 function getProductsSalida(userKey: APIStringArg) {
-    let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
-    api_url += process.env.REACT_APP_BACKEND_GET_PRODUCTS_SALIDAS;
-    api_url += `${userKey}/`
+    let endpoint = process.env.REACT_APP_BACKEND_GET_PRODUCTS_SALIDAS;
+    endpoint += `${userKey}/`;
 
-    return fetch(api_url);
+    return getFetch(root + endpoint);
 }
 
 function getProductInfoSalida(codigo: APIStringArg) {
@@ -44,14 +45,10 @@ function getProductInfoSalida(codigo: APIStringArg) {
 }
 
 function postDetalleSalida(productos: Material[]) {
-    let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
-    api_url += process.env.REACT_APP_BACKEND_POST_PRODUCTS_SALIDAS;
+    let endpoint = process.env.REACT_APP_BACKEND_POST_PRODUCTS_SALIDAS;
 
-    return fetch(api_url, {
+    return fetch(root + endpoint, {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
         body: JSON.stringify(productos)
     });
 }
@@ -62,9 +59,6 @@ function postMasterDetalleSalida(folio: APIStringArg, userKey: APIStringArg, des
 
     return fetch(api_url, {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
         body: JSON.stringify({
             'folio': folio,
             'solicitante': userKey,

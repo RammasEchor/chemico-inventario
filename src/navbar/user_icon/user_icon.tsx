@@ -63,7 +63,7 @@ function UserIcon() {
             <div className="navbar-dropdown is-right">
                 <DropMenuItem
                     text={`Cotizaciones${iconState.numberOfQuotes > 0 ? ` (${iconState.numberOfQuotes})` : ""}`}
-                    link="/status_cotizacion"
+                    link="/cotizaciones_por_aprobar"
                 />
                 <hr className="navbar-divider" />
                 <DropMenuItem

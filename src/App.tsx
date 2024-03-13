@@ -22,14 +22,14 @@ import AltaProducto from "./productos/alta_producto/alta_producto";
 import BajaProducto from "./productos/baja_producto/baja_producto";
 import ModificarProducto from "./productos/modificar_producto/modificar_producto";
 import QrOrdenCompra from './qr/qr_orden_compra';
-import SolicitudMaterial from './salidas/solicitud_material/solicitud_material';
-import SolicitudesAprobadas from './salidas/solicitudes_aprobadas/solicitudes_aprobadas';
-import SolicitudesCerradas from './salidas/solicitudes_cerradas/solicitudes_cerradas';
-import SolicitudesPendientes from './salidas/solicitudes_pendientes/solicitudes_pendientes';
-import SolicitudesRechazadas from './salidas/solicitudes_rechazadas/solicitudes_rechazadas';
 import AltaUsuario from "./usuarios/alta_usuarios/alta_usuarios";
 import BajaUsuario from "./usuarios/baja_usuarios/baja_usuarios";
 import ModificarUsuario from "./usuarios/modificar_usuarios/modificar_usuarios";
+import SolicitudMaterial from './views/salidas/solicitud_material/solicitud_material';
+import SolicitudesAprobadas from './views/salidas/solicitudes_aprobadas/solicitudes_aprobadas';
+import SolicitudesCerradas from './views/salidas/solicitudes_cerradas/solicitudes_cerradas';
+import SolicitudesPendientes from './views/salidas/solicitudes_pendientes/solicitudes_pendientes';
+import SolicitudesRechazadas from './views/salidas/solicitudes_rechazadas/solicitudes_rechazadas';
 
 function App() {
   return (

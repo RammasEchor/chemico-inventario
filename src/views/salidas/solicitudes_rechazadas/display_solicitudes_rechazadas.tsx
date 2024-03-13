@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { Solicitud, getSalidasRechazadas } from "../../apis/api_material";
-import GhostButton from "../../form_components/ghost_button";
-import { Modal } from "../../form_components/modal";
-import Tabla from "../../form_components/table";
-import { useAuth } from "../../login/auth-provider/auth_provider";
-import { dateParser } from "../../utilities/date_parser";
+import { Solicitud, getSalidasRechazadas } from "../../../apis/api_material";
+import GhostButton from "../../../form_components/ghost_button";
+import { Modal } from "../../../form_components/modal";
+import Tabla from "../../../form_components/table";
+import { useAuth } from "../../../login/auth-provider/auth_provider";
+import { dateParser } from "../../../utilities/date_parser";
 import ModalDetalleSalidas from "../modalDetalleSalidas";
 
 export interface ModalInfo {

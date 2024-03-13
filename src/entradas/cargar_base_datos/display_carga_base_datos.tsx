@@ -24,6 +24,7 @@ function DisplayCargarBaseDatos() {
         <UploadFile
             onClickAprobar={startUpload}
             onClickX={() => navigate(0)}
+            title="Subir Excel"
         />
     )
 }

@@ -1,4 +1,5 @@
 import { failedPromise } from "../utilities/failed_promise";
+import { getFetch, root } from "./api";
 import { APIStringArg } from "./api_func_args_types";
 
 class Producto {
@@ -13,30 +14,53 @@ class Producto {
     ubicacion = "";
     precio = "";
     stock = "";
+    img?: File = undefined;
+    nomImg = "";
+}
+
+function createFormDataFromProduct(product: Producto): FormData {
+    const formData = new FormData();
+
+    formData.append("idProd", product.idProd);
+    formData.append("planta", product.planta);
+    formData.append("noParte", product.noParte);
+    formData.append("descripcion", product.descripcion);
+    formData.append("maximo", product.maximo);
+    formData.append("minimo", product.minimo);
+    formData.append("uni_medida", product.uni_medida);
+    formData.append("fecha_exp", product.fecha_exp);
+    formData.append("ubicacion", product.ubicacion);
+    formData.append("precio", product.precio);
+    formData.append("stock", product.stock);
+    formData.append("img", product.img as File);
+    formData.append("nomImg", product.nomImg);
+
+    return formData;
 }
 
 function insertProduct(product: Producto) {
-    let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
-    api_url += process.env.REACT_APP_BACKEND_INSERT_PRODUCT
+    let endpoint = process.env.REACT_APP_BACKEND_INSERT_PRODUCT;
+    const formData = createFormDataFromProduct(product);
 
-    api_url += `${product.planta}/`
-    api_url += `${product.noParte}/`
-    api_url += `${product.descripcion}/`
-    api_url += `${product.maximo}/`
-    api_url += `${product.minimo}/`
-    api_url += `${product.uni_medida}/`
-    api_url += `${product.fecha_exp}/`
-    api_url += `${product.ubicacion}/`
-    api_url += `${product.precio}/`
-    api_url += `${product.stock}/`
-
-    return fetch(api_url);
+    return fetch(root + endpoint, {
+        method: 'POST',
+        body: formData
+    });
 }
 
 function getProducts() {
-    let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
-    api_url += process.env.REACT_APP_BACKEND_GET_PRODUCTS
-    return fetch(api_url);
+    const endpoint = process.env.REACT_APP_BACKEND_GET_PRODUCTS;
+    return getFetch(root + endpoint);
+}
+
+function modifyProduct(product: Producto) {
+    const endpoint = process.env.REACT_APP_BACKEND_MODIFY_PRODUCT;
+    const formData = createFormDataFromProduct(product);
+
+    return fetch(root + endpoint, {
+        method: 'POST',
+        body: formData
+    });
 }
 
 function deleteProduct(productId: APIStringArg) {
@@ -48,19 +72,6 @@ function deleteProduct(productId: APIStringArg) {
     api_url += process.env.REACT_APP_BACKEND_DELETE_PRODUCT
     api_url += `${productId}/`
     return fetch(api_url);
-}
-
-function modifyProduct(product: Producto) {
-    let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
-    api_url += process.env.REACT_APP_BACKEND_MODIFY_PRODUCT
-
-    return fetch(api_url, {
-        method: 'POST',
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(product)
-    });
 }
 
 function getExistent() {

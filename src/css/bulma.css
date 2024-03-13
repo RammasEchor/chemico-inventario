@@ -13097,3 +13097,8 @@ print {
 /* * {
   outline: 1px solid black;
 } */
+
+.sticky	{
+	position: sticky;
+  	top: 30px;
+}

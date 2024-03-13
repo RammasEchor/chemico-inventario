@@ -1,7 +1,7 @@
 import { PropsWithChildren, useState } from "react";
-import { Material } from "../../apis/api_material";
-import Tabla from "../../form_components/table";
-import TextInputModifyModal from "../../form_components/text_input_modify_modal";
+import { Material } from "../../../apis/api_material";
+import Tabla from "../../../form_components/table";
+import TextInputModifyModal from "../../../form_components/text_input_modify_modal";
 
 interface Props extends PropsWithChildren {
     onClickClose: () => void
@@ -81,12 +81,12 @@ function ModalModificarProductoSolicitud(props: Props) {
                         </td>
                     </tr>
                     <tr>
-                        <td className='has-text-weight-bold'>No. de Pedido</td>
-                        <td>{props.product.numPedido}</td>
+                        <td className='has-text-weight-bold'>Comentarios</td>
+                        <td>{props.product.comentarios}</td>
                         <td>
                             <TextInputModifyModal
-                                initialValue={props.product.numPedido}
-                                fieldName="numPedido"
+                                initialValue={props.product.comentarios}
+                                fieldName="comentarios"
                                 setCurrentValue={updateProduct}
                             />
                         </td>
