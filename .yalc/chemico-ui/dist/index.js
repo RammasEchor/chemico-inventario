@@ -1,6 +1,21 @@
 var React = require('react');
+var fa = require('react-icons/fa');
 var formik = require('formik');
 
+function _extends() {
+  _extends = Object.assign ? Object.assign.bind() : function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+    return target;
+  };
+  return _extends.apply(this, arguments);
+}
 function _objectWithoutPropertiesLoose(source, excluded) {
   if (source == null) return {};
   var target = {};
@@ -31,6 +46,39 @@ function ErrorScreen(props) {
   return React.createElement(React.Fragment, null, props.children);
 }
 
+function FileForm(props) {
+  var _useState = React.useState("Ningún archivo seleccionado"),
+    filename = _useState[0],
+    setFilename = _useState[1];
+  return React.createElement("div", {
+    className: "\n                file \n                is-boxed \n                is-centered \n                inv-file-responsive \n                has-name\n                is-large\n            "
+  }, React.createElement("label", {
+    className: "file-label"
+  }, React.createElement("input", {
+    className: "file-input",
+    type: "file",
+    name: "resume",
+    onChange: function onChange(event) {
+      var files = event.currentTarget.files;
+      props.onChange({
+        file: files[0],
+        filename: files[0].name
+      });
+      setFilename(files[0].name);
+    }
+  }), React.createElement("span", {
+    className: "file-cta"
+  }, React.createElement("span", {
+    className: "file-icon"
+  }, React.createElement("i", {
+    className: "fas fa-upload"
+  }, React.createElement(fa.FaUpload, null))), React.createElement("span", {
+    className: "file-label"
+  }, "Seleccionar archivo\u2026")), React.createElement("span", {
+    className: "file-name"
+  }, filename)));
+}
+
 function LoadingBar() {
   return React.createElement("div", {
     className: "columns is-centered is-mobile"
@@ -40,6 +88,126 @@ function LoadingBar() {
     className: "progress is-small is-info",
     max: "100"
   }, "60%")));
+}
+
+function ProductCard(p) {
+  var _p$prodsSolicitar$fin;
+  return React.createElement("div", {
+    className: "card box",
+    style: {
+      width: 300
+    }
+  }, React.createElement("div", {
+    className: "card-image columns is-vcentered is-centered"
+  }, React.createElement("figure", {
+    className: "image is-128x128 column"
+  }, React.createElement("img", {
+    src: "https://javaclusters-95554-0.cloudclusters.net/imagesProd/" + p.img,
+    alt: "Placeholder"
+  }))), React.createElement("div", {
+    className: "card-content"
+  }, React.createElement("div", {
+    className: "content"
+  }, React.createElement("h6", {
+    className: "title is-6",
+    style: {
+      height: 30
+    }
+  }, p.descripcion), React.createElement("div", {
+    className: "subtitle is-6"
+  }, "$", p.precio, " (", p.uni_medida, ")"), React.createElement("span", {
+    className: "tag is-info is-medium"
+  }, p.noParte))), React.createElement("footer", {
+    className: "card-footer"
+  }, !p.prodsSolicitar.some(function (e) {
+    return e.id === p.idProd;
+  }) ? React.createElement("a", {
+    href: "#!",
+    className: "card-footer-item",
+    onClick: function onClick() {
+      return p.setProdsSolicitar(function (prodsSolicitar) {
+        return [].concat(prodsSolicitar, [{
+          id: p.idProd,
+          codigo: p.noParte,
+          cantidad: "1",
+          precioU: p.precio,
+          precioT: p.precio,
+          numPedido: "0",
+          folio: "0",
+          comentarios: p.descripcion
+        }]);
+      });
+    }
+  }, "Agregar") : React.createElement(React.Fragment, null, React.createElement("a", {
+    href: "#!",
+    className: "card-footer-item",
+    onClick: function onClick() {
+      var _p$prodsSolicitar$ind;
+      var index = p.prodsSolicitar.findIndex(function (e) {
+        return e.id === p.idProd;
+      });
+      var cant = parseInt((_p$prodsSolicitar$ind = p.prodsSolicitar[index]) === null || _p$prodsSolicitar$ind === void 0 ? void 0 : _p$prodsSolicitar$ind.cantidad) - 1;
+      if (cant < 1) {
+        p.setProdsSolicitar(function (prodsSolicitar) {
+          return prodsSolicitar.filter(function (f) {
+            return f.id !== p.idProd;
+          });
+        });
+      } else {
+        p.setProdsSolicitar(function (prodsSolicitar) {
+          return prodsSolicitar.map(function (f) {
+            if (f.id === p.idProd) {
+              return _extends({}, f, {
+                cantidad: "" + cant,
+                precioT: "" + cant * parseFloat(f.precioU)
+              });
+            } else {
+              return f;
+            }
+          });
+        });
+      }
+    }
+  }, "-"), React.createElement("a", {
+    href: "#!",
+    className: "card-footer-item"
+  }, (_p$prodsSolicitar$fin = p.prodsSolicitar.find(function (e) {
+    return e.id === p.idProd;
+  })) === null || _p$prodsSolicitar$fin === void 0 ? void 0 : _p$prodsSolicitar$fin.cantidad), React.createElement("a", {
+    href: "#!",
+    className: "card-footer-item",
+    onClick: function onClick() {
+      var _p$prodsSolicitar$ind2;
+      var index = p.prodsSolicitar.findIndex(function (e) {
+        return e.id === p.idProd;
+      });
+      var cant = parseInt((_p$prodsSolicitar$ind2 = p.prodsSolicitar[index]) === null || _p$prodsSolicitar$ind2 === void 0 ? void 0 : _p$prodsSolicitar$ind2.cantidad) + 1;
+      p.setProdsSolicitar(function (prodsSolicitar) {
+        return prodsSolicitar.map(function (f) {
+          if (f.id === p.idProd) {
+            return _extends({}, f, {
+              cantidad: "" + cant,
+              precioT: "" + cant * parseInt(f.precioU)
+            });
+          } else {
+            return f;
+          }
+        });
+      });
+    }
+  }, "+"))));
+}
+
+function ProductsBill(props) {
+  return React.createElement(React.Fragment, null, React.createElement("h5", {
+    className: "title is-5"
+  }, "Materiales Solicitados (", props.prodsSolicitar.length, ")"), React.createElement("table", {
+    className: "table is-striped is-hoverable"
+  }, React.createElement("thead", null, React.createElement("tr", null, React.createElement("th", null, "Item"), React.createElement("th", null, "Precio"), React.createElement("th", null, "Cantidad"), React.createElement("th", null, "Subtotal"))), React.createElement("tfoot", null, React.createElement("tr", null, React.createElement("th", null, "Total"), React.createElement("th", null), React.createElement("th", null), React.createElement("th", null, "$", props.total.toFixed(2)))), React.createElement("tbody", null, props.prodsSolicitar.map(function (p) {
+    return React.createElement("tr", {
+      key: p.codigo
+    }, React.createElement("td", null, p.comentarios), React.createElement("td", null, "$", p.precioU), React.createElement("td", null, p.cantidad), React.createElement("td", null, "$", parseFloat(p.precioT).toFixed(2)));
+  }))));
 }
 
 var _excluded$1 = ["label"];
@@ -84,7 +252,10 @@ function TextInput(_ref) {
 
 exports.Button = Button;
 exports.ErrorScreen = ErrorScreen;
+exports.FileForm = FileForm;
 exports.LoadingBar = LoadingBar;
+exports.ProductCard = ProductCard;
+exports.ProductsBill = ProductsBill;
 exports.SelectInput = SelectInput;
 exports.TextInput = TextInput;
 //# sourceMappingURL=index.js.map

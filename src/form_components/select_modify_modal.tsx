@@ -20,7 +20,7 @@ function SelectModifyModal(props: Props) {
                 }}
             >
                 {
-                    props.options.map(value => <option>{value}</option>)
+                    props.options.map(value => <option key={value}>{value}</option>)
                 }
             </select>
         </div>

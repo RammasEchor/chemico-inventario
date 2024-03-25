@@ -1,6 +1,21 @@
-import { createElement, Fragment } from 'react';
+import { createElement, Fragment, useState } from 'react';
+import { FaUpload } from 'react-icons/fa';
 import { useField } from 'formik';
 
+function _extends() {
+  _extends = Object.assign ? Object.assign.bind() : function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+    return target;
+  };
+  return _extends.apply(this, arguments);
+}
 function _objectWithoutPropertiesLoose(source, excluded) {
   if (source == null) return {};
   var target = {};
@@ -31,6 +46,39 @@ function ErrorScreen(props) {
   return createElement(Fragment, null, props.children);
 }
 
+function FileForm(props) {
+  var _useState = useState("Ningún archivo seleccionado"),
+    filename = _useState[0],
+    setFilename = _useState[1];
+  return createElement("div", {
+    className: "\n                file \n                is-boxed \n                is-centered \n                inv-file-responsive \n                has-name\n                is-large\n            "
+  }, createElement("label", {
+    className: "file-label"
+  }, createElement("input", {
+    className: "file-input",
+    type: "file",
+    name: "resume",
+    onChange: function onChange(event) {
+      var files = event.currentTarget.files;
+      props.onChange({
+        file: files[0],
+        filename: files[0].name
+      });
+      setFilename(files[0].name);
+    }
+  }), createElement("span", {
+    className: "file-cta"
+  }, createElement("span", {
+    className: "file-icon"
+  }, createElement("i", {
+    className: "fas fa-upload"
+  }, createElement(FaUpload, null))), createElement("span", {
+    className: "file-label"
+  }, "Seleccionar archivo\u2026")), createElement("span", {
+    className: "file-name"
+  }, filename)));
+}
+
 function LoadingBar() {
   return createElement("div", {
     className: "columns is-centered is-mobile"
@@ -40,6 +88,126 @@ function LoadingBar() {
     className: "progress is-small is-info",
     max: "100"
   }, "60%")));
+}
+
+function ProductCard(p) {
+  var _p$prodsSolicitar$fin;
+  return createElement("div", {
+    className: "card box",
+    style: {
+      width: 300
+    }
+  }, createElement("div", {
+    className: "card-image columns is-vcentered is-centered"
+  }, createElement("figure", {
+    className: "image is-128x128 column"
+  }, createElement("img", {
+    src: "https://javaclusters-95554-0.cloudclusters.net/imagesProd/" + p.img,
+    alt: "Placeholder"
+  }))), createElement("div", {
+    className: "card-content"
+  }, createElement("div", {
+    className: "content"
+  }, createElement("h6", {
+    className: "title is-6",
+    style: {
+      height: 30
+    }
+  }, p.descripcion), createElement("div", {
+    className: "subtitle is-6"
+  }, "$", p.precio, " (", p.uni_medida, ")"), createElement("span", {
+    className: "tag is-info is-medium"
+  }, p.noParte))), createElement("footer", {
+    className: "card-footer"
+  }, !p.prodsSolicitar.some(function (e) {
+    return e.id === p.idProd;
+  }) ? createElement("a", {
+    href: "#!",
+    className: "card-footer-item",
+    onClick: function onClick() {
+      return p.setProdsSolicitar(function (prodsSolicitar) {
+        return [].concat(prodsSolicitar, [{
+          id: p.idProd,
+          codigo: p.noParte,
+          cantidad: "1",
+          precioU: p.precio,
+          precioT: p.precio,
+          numPedido: "0",
+          folio: "0",
+          comentarios: p.descripcion
+        }]);
+      });
+    }
+  }, "Agregar") : createElement(Fragment, null, createElement("a", {
+    href: "#!",
+    className: "card-footer-item",
+    onClick: function onClick() {
+      var _p$prodsSolicitar$ind;
+      var index = p.prodsSolicitar.findIndex(function (e) {
+        return e.id === p.idProd;
+      });
+      var cant = parseInt((_p$prodsSolicitar$ind = p.prodsSolicitar[index]) === null || _p$prodsSolicitar$ind === void 0 ? void 0 : _p$prodsSolicitar$ind.cantidad) - 1;
+      if (cant < 1) {
+        p.setProdsSolicitar(function (prodsSolicitar) {
+          return prodsSolicitar.filter(function (f) {
+            return f.id !== p.idProd;
+          });
+        });
+      } else {
+        p.setProdsSolicitar(function (prodsSolicitar) {
+          return prodsSolicitar.map(function (f) {
+            if (f.id === p.idProd) {
+              return _extends({}, f, {
+                cantidad: "" + cant,
+                precioT: "" + cant * parseFloat(f.precioU)
+              });
+            } else {
+              return f;
+            }
+          });
+        });
+      }
+    }
+  }, "-"), createElement("a", {
+    href: "#!",
+    className: "card-footer-item"
+  }, (_p$prodsSolicitar$fin = p.prodsSolicitar.find(function (e) {
+    return e.id === p.idProd;
+  })) === null || _p$prodsSolicitar$fin === void 0 ? void 0 : _p$prodsSolicitar$fin.cantidad), createElement("a", {
+    href: "#!",
+    className: "card-footer-item",
+    onClick: function onClick() {
+      var _p$prodsSolicitar$ind2;
+      var index = p.prodsSolicitar.findIndex(function (e) {
+        return e.id === p.idProd;
+      });
+      var cant = parseInt((_p$prodsSolicitar$ind2 = p.prodsSolicitar[index]) === null || _p$prodsSolicitar$ind2 === void 0 ? void 0 : _p$prodsSolicitar$ind2.cantidad) + 1;
+      p.setProdsSolicitar(function (prodsSolicitar) {
+        return prodsSolicitar.map(function (f) {
+          if (f.id === p.idProd) {
+            return _extends({}, f, {
+              cantidad: "" + cant,
+              precioT: "" + cant * parseInt(f.precioU)
+            });
+          } else {
+            return f;
+          }
+        });
+      });
+    }
+  }, "+"))));
+}
+
+function ProductsBill(props) {
+  return createElement(Fragment, null, createElement("h5", {
+    className: "title is-5"
+  }, "Materiales Solicitados (", props.prodsSolicitar.length, ")"), createElement("table", {
+    className: "table is-striped is-hoverable"
+  }, createElement("thead", null, createElement("tr", null, createElement("th", null, "Item"), createElement("th", null, "Precio"), createElement("th", null, "Cantidad"), createElement("th", null, "Subtotal"))), createElement("tfoot", null, createElement("tr", null, createElement("th", null, "Total"), createElement("th", null), createElement("th", null), createElement("th", null, "$", props.total.toFixed(2)))), createElement("tbody", null, props.prodsSolicitar.map(function (p) {
+    return createElement("tr", {
+      key: p.codigo
+    }, createElement("td", null, p.comentarios), createElement("td", null, "$", p.precioU), createElement("td", null, p.cantidad), createElement("td", null, "$", parseFloat(p.precioT).toFixed(2)));
+  }))));
 }
 
 var _excluded$1 = ["label"];
@@ -82,5 +250,5 @@ function TextInput(_ref) {
   }, meta.error) : null);
 }
 
-export { Button, ErrorScreen, LoadingBar, SelectInput, TextInput };
+export { Button, ErrorScreen, FileForm, LoadingBar, ProductCard, ProductsBill, SelectInput, TextInput };
 //# sourceMappingURL=index.modern.js.map

@@ -49,9 +49,9 @@ function ModalModificarProductoSolicitud(props: Props) {
                         <td>{props.product.cantidad}</td>
                         <td>
                             <TextInputModifyModal
-                                initialValue={props.product.cantidad}
-                                fieldName="cantidad"
-                                setCurrentValue={updateProduct}
+                                initialvalue={props.product.cantidad}
+                                fieldname="cantidad"
+                                setcurrentvalue={updateProduct}
                             />
                         </td>
                     </tr>
@@ -60,9 +60,9 @@ function ModalModificarProductoSolicitud(props: Props) {
                         <td>{props.product.precioU}</td>
                         <td>
                             <TextInputModifyModal
-                                initialValue={props.product.precioU}
-                                fieldName="precioU"
-                                setCurrentValue={updateProduct}
+                                initialvalue={props.product.precioU}
+                                fieldname="precioU"
+                                setcurrentvalue={updateProduct}
                                 disabled
                             />
                         </td>
@@ -72,9 +72,9 @@ function ModalModificarProductoSolicitud(props: Props) {
                         <td>{props.product.precioT}</td>
                         <td>
                             <TextInputModifyModal
-                                initialValue={props.product.precioT}
-                                fieldName="precioT"
-                                setCurrentValue={updateProduct}
+                                initialvalue={props.product.precioT}
+                                fieldname="precioT"
+                                setcurrentvalue={updateProduct}
                                 value={modifiedProduct.precioT}
                                 disabled
                             />
@@ -85,9 +85,9 @@ function ModalModificarProductoSolicitud(props: Props) {
                         <td>{props.product.comentarios}</td>
                         <td>
                             <TextInputModifyModal
-                                initialValue={props.product.comentarios}
-                                fieldName="comentarios"
-                                setCurrentValue={updateProduct}
+                                initialvalue={props.product.comentarios}
+                                fieldname="comentarios"
+                                setcurrentvalue={updateProduct}
                             />
                         </td>
                     </tr>

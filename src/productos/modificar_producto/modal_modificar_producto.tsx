@@ -2,6 +2,7 @@ import { PropsWithChildren, useEffect, useState } from "react";
 import { PlantasAPI, getPlants } from "../../apis/api_plantas";
 import { Producto } from "../../apis/api_productos";
 import DatePickerField from "../../form_components/datepicker";
+import FileForm from "../../form_components/file_form";
 import SelectModifyModal from "../../form_components/select_modify_modal";
 import Tabla from "../../form_components/table";
 import TextInputModifyModal from "../../form_components/text_input_modify_modal";
@@ -16,6 +17,7 @@ interface Props extends PropsWithChildren {
 function ModalModificarProducto(props: Props) {
     const [modifiedProduct, setModifiedProduct] = useState<Producto>({ ...props.product })
     const [plantas, setPlantas] = useState<string[]>([]);
+    const [image, setImage] = useState(props.product.img!);
 
     let productBeforeDate = new Date()
     if (props.product.fecha_exp) {
@@ -74,9 +76,9 @@ function ModalModificarProducto(props: Props) {
                         <td>{props.product.noParte}</td>
                         <td>
                             <TextInputModifyModal
-                                initialValue={props.product.noParte}
-                                fieldName="noParte"
-                                setCurrentValue={updateProduct}
+                                initialvalue={props.product.noParte}
+                                fieldname="noParte"
+                                setcurrentvalue={updateProduct}
                             />
                         </td>
                     </tr>
@@ -85,9 +87,9 @@ function ModalModificarProducto(props: Props) {
                         <td>{props.product.descripcion}</td>
                         <td>
                             <TextInputModifyModal
-                                initialValue={props.product.descripcion}
-                                fieldName="descripcion"
-                                setCurrentValue={updateProduct}
+                                initialvalue={props.product.descripcion}
+                                fieldname="descripcion"
+                                setcurrentvalue={updateProduct}
                             />
                         </td>
                     </tr>
@@ -96,9 +98,9 @@ function ModalModificarProducto(props: Props) {
                         <td>{props.product.maximo}</td>
                         <td>
                             <TextInputModifyModal
-                                initialValue={props.product.maximo}
-                                fieldName="maximo"
-                                setCurrentValue={updateProduct}
+                                initialvalue={props.product.maximo}
+                                fieldname="maximo"
+                                setcurrentvalue={updateProduct}
                             />
                         </td>
                     </tr>
@@ -107,9 +109,9 @@ function ModalModificarProducto(props: Props) {
                         <td>{props.product.minimo}</td>
                         <td>
                             <TextInputModifyModal
-                                initialValue={props.product.minimo}
-                                fieldName="minimo"
-                                setCurrentValue={updateProduct}
+                                initialvalue={props.product.minimo}
+                                fieldname="minimo"
+                                setcurrentvalue={updateProduct}
                             />
                         </td>
                     </tr>
@@ -118,9 +120,9 @@ function ModalModificarProducto(props: Props) {
                         <td>{props.product.precio}</td>
                         <td>
                             <TextInputModifyModal
-                                initialValue={props.product.precio}
-                                fieldName="precio"
-                                setCurrentValue={updateProduct}
+                                initialvalue={props.product.precio}
+                                fieldname="precio"
+                                setcurrentvalue={updateProduct}
                             />
                         </td>
                     </tr>
@@ -129,9 +131,9 @@ function ModalModificarProducto(props: Props) {
                         <td>{props.product.uni_medida}</td>
                         <td>
                             <TextInputModifyModal
-                                initialValue={props.product.uni_medida}
-                                fieldName="uni_medida"
-                                setCurrentValue={updateProduct}
+                                initialvalue={props.product.uni_medida}
+                                fieldname="uni_medida"
+                                setcurrentvalue={updateProduct}
                             />
                         </td>
                     </tr>
@@ -139,7 +141,7 @@ function ModalModificarProducto(props: Props) {
                         <td className='has-text-weight-bold'>Fecha de expiración</td>
                         <td>{dateParser(props.product.fecha_exp)}</td>
                         <td>
-                            <DatePickerField label="Fecha de Expiración" selected={date} onChange={setDate} />
+                            <DatePickerField selected={date} onChange={setDate} />
                         </td>
                     </tr>
                     <tr>
@@ -147,9 +149,9 @@ function ModalModificarProducto(props: Props) {
                         <td>{props.product.ubicacion}</td>
                         <td>
                             <TextInputModifyModal
-                                initialValue={props.product.ubicacion}
-                                fieldName="ubicacion"
-                                setCurrentValue={updateProduct}
+                                initialvalue={props.product.ubicacion}
+                                fieldname="ubicacion"
+                                setcurrentvalue={updateProduct}
                             />
                         </td>
                     </tr>
@@ -158,10 +160,21 @@ function ModalModificarProducto(props: Props) {
                         <td>{props.product.stock}</td>
                         <td>
                             <TextInputModifyModal
-                                initialValue={props.product.stock}
-                                fieldName="stock"
-                                setCurrentValue={updateProduct}
+                                initialvalue={props.product.stock}
+                                fieldname="stock"
+                                setcurrentvalue={updateProduct}
                             />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className='has-text-weight-bold'>Imagen</td>
+                        <td>
+                            <figure className="image is-128x128 is-flex is-align-items-center">
+                                <img src={`https://javaclusters-95554-0.cloudclusters.net/imagesProd/${props.product.nomImg}`} alt="Placeholder" />
+                            </figure>
+                        </td>
+                        <td>
+                            <FileForm onChange={setImage} saveFilename={(filename: string) => updateProduct("nomImg", filename)} />
                         </td>
                     </tr>
                 </Tabla>
@@ -171,7 +184,8 @@ function ModalModificarProducto(props: Props) {
                     className="button is-success mx-1"
                     onClick={() => props.onClickModify({
                         ...modifiedProduct,
-                        fecha_exp: date.toISOString()
+                        fecha_exp: date.toISOString(),
+                        img: image
                     })}
                 >Modificar</button>
                 <button

@@ -59,16 +59,16 @@ function TableRowModifyValues({ item }: { item: PurchaseOrderItem }) {
             <td>{item.costo}</td>
             <td>
                 <TextInputModifyModal
-                    initialValue={item.cantidadParcial}
-                    fieldName="cantidadParcial"
-                    setCurrentValue={updateItem}
+                    initialvalue={item.cantidadParcial}
+                    fieldname="cantidadParcial"
+                    setcurrentvalue={updateItem}
                     max={item.cantidad} />
             </td>
             <td>
                 <TextInputModifyModal
-                    initialValue={item.lote}
-                    fieldName="lote"
-                    setCurrentValue={updateItem} />
+                    initialvalue={item.lote}
+                    fieldname="lote"
+                    setcurrentvalue={updateItem} />
             </td>
             <td>
                 <DatePickerField
@@ -84,9 +84,9 @@ function TableRowModifyValues({ item }: { item: PurchaseOrderItem }) {
             </td>
             <td>
                 <TextInputModifyModal
-                    initialValue={item.noRemision}
-                    fieldName="noRemision"
-                    setCurrentValue={updateItem} />
+                    initialvalue={item.noRemision}
+                    fieldname="noRemision"
+                    setcurrentvalue={updateItem} />
             </td>
             <td>
                 <button

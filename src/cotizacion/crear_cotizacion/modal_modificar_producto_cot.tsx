@@ -42,9 +42,9 @@ function ModalModificarProductoCotizacion(props: Props) {
                         <td>{props.product.fabricante}</td>
                         <td>
                             <TextInputModifyModal
-                                initialValue={props.product.fabricante}
-                                fieldName="fabricante"
-                                setCurrentValue={updateProduct}
+                                initialvalue={props.product.fabricante}
+                                fieldname="fabricante"
+                                setcurrentvalue={updateProduct}
                             />
                         </td>
                     </tr>
@@ -53,9 +53,9 @@ function ModalModificarProductoCotizacion(props: Props) {
                         <td>{props.product.cant}</td>
                         <td>
                             <TextInputModifyModal
-                                initialValue={props.product.cant}
-                                fieldName="cant"
-                                setCurrentValue={updateProduct}
+                                initialvalue={props.product.cant}
+                                fieldname="cant"
+                                setcurrentvalue={updateProduct}
                             />
                         </td>
                     </tr>
@@ -64,9 +64,9 @@ function ModalModificarProductoCotizacion(props: Props) {
                         <td>{props.product.presentacion}</td>
                         <td>
                             <TextInputModifyModal
-                                initialValue={props.product.presentacion}
-                                fieldName="presentacion"
-                                setCurrentValue={updateProduct}
+                                initialvalue={props.product.presentacion}
+                                fieldname="presentacion"
+                                setcurrentvalue={updateProduct}
                             />
                         </td>
                     </tr>
@@ -75,9 +75,9 @@ function ModalModificarProductoCotizacion(props: Props) {
                         <td>{props.product.uni_medida}</td>
                         <td>
                             <TextInputModifyModal
-                                initialValue={props.product.uni_medida}
-                                fieldName="uni_medida"
-                                setCurrentValue={updateProduct}
+                                initialvalue={props.product.uni_medida}
+                                fieldname="uni_medida"
+                                setcurrentvalue={updateProduct}
                             />
                         </td>
                     </tr>
@@ -86,9 +86,9 @@ function ModalModificarProductoCotizacion(props: Props) {
                         <td>{props.product.area}</td>
                         <td>
                             <TextInputModifyModal
-                                initialValue={props.product.area}
-                                fieldName="area"
-                                setCurrentValue={updateProduct}
+                                initialvalue={props.product.area}
+                                fieldname="area"
+                                setcurrentvalue={updateProduct}
                             />
                         </td>
                     </tr>

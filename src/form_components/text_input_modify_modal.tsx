@@ -1,16 +1,16 @@
 import { ComponentPropsWithoutRef, useState } from "react";
 
 interface Props extends ComponentPropsWithoutRef<"input"> {
-    initialValue: string
-    fieldName: string
-    setCurrentValue: (field: string, value: string) => void
+    initialvalue: string
+    fieldname: string
+    setcurrentvalue: (field: string, value: string) => void
 }
 
 function TextInputModifyModal(props: Props) {
-    const [currentValue, setCurrentValue] = useState(props.initialValue ?? "");
+    const [currentValue, setCurrentValue] = useState(props.initialvalue ?? "");
 
     let inputChanged = false;
-    if (props.initialValue !== currentValue) {
+    if (props.initialvalue !== currentValue) {
         if (currentValue) {
             inputChanged = true;
         }
@@ -20,11 +20,11 @@ function TextInputModifyModal(props: Props) {
         <input
             className={`input ${inputChanged ? 'is-warning' : ''}`}
             type="text"
-            placeholder={props.initialValue}
+            placeholder={props.initialvalue}
             value={currentValue}
             onChange={e => {
                 setCurrentValue(e.target.value)
-                props.setCurrentValue(props.fieldName, e.target.value ? e.target.value : props.initialValue)
+                props.setcurrentvalue(props.fieldname, e.target.value ? e.target.value : props.initialvalue)
             }}
             {...props}
         ></input>

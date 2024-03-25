@@ -1,5 +1,6 @@
 import { Formik } from "formik";
 import { useEffect, useState } from "react";
+import { Navigate } from "react-router";
 import * as Yup from "yup";
 import { PlantasAPI, getPlants } from "../../apis/api_plantas";
 import { Producto } from "../../apis/api_productos";
@@ -30,7 +31,7 @@ function FormularioAltaProducto() {
     }, []);
 
     if (postProductMutation.isSuccess) {
-        // return (<Navigate to="/" />);
+        return (<Navigate to="/" />);
     }
 
     return (

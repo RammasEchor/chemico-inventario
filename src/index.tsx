@@ -22,7 +22,7 @@ const queryClient = new QueryClient({
 root.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter basename='/chemico-front'>
+      <BrowserRouter basename='/chemico-demo'>
         <AuthProvider>
           <App />
         </AuthProvider>
