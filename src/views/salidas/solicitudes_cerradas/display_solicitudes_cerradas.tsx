@@ -105,6 +105,7 @@ function DisplaySolicitudesCerradas() {
                                     setDownloadPdf(true);
                                     setCurrentSolicitud(solicitud);
                                 }}
+                                disabled={solicitud.firma === null}
                             >Imprimir vale</button>
                         </td>
                     </tr>

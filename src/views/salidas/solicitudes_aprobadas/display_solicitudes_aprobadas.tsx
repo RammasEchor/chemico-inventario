@@ -19,7 +19,8 @@ function DisplaySolicitudesAprobadas() {
             fecha_aprob: "Placeholder",
             solicitante: "Placeholder",
             total: "Placeholder",
-            descripcion: "Placeholder"
+            descripcion: "Placeholder",
+            firma: "test"
         },
         {
             id: "Placeholder",
@@ -28,7 +29,8 @@ function DisplaySolicitudesAprobadas() {
             fecha_aprob: "Placeholder",
             solicitante: "Placeholder",
             total: "Placeholder",
-            descripcion: "Placeholder"
+            descripcion: "Placeholder",
+            firma: "test"
         }
     ]);
     const [modalInfo, setModalInfo] = useState<ModalInfo>({} as ModalInfo);

@@ -23,7 +23,8 @@ function TestPdf() {
                 fecha_aprob: "2024-01-10T06:00:00.000+00:00",
                 solicitante: "Mercado Libre",
                 total: "3000.400",
-                descripcion: "Descripción"
+                descripcion: "Descripción",
+                firma: "test"
             }}
                 solicitudDetalle={getSalidaDetailQuery.data} />
         </PDFViewer>

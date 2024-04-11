@@ -25,7 +25,8 @@ function DisplaySolicitudesPendientes() {
             fecha_aprob: "Placeholder",
             solicitante: "Placeholder",
             total: "Placeholder",
-            descripcion: "Placeholder"
+            descripcion: "Placeholder",
+            firma: "test"
         },
         {
             id: "Placeholder",
@@ -34,7 +35,8 @@ function DisplaySolicitudesPendientes() {
             fecha_aprob: "Placeholder",
             solicitante: "Placeholder",
             total: "Placeholder",
-            descripcion: "Placeholder"
+            descripcion: "Placeholder",
+            firma: "test"
         }
     ]);
     const navigate = useNavigate();

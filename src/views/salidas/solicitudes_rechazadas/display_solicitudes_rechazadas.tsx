@@ -24,7 +24,8 @@ function DisplaySolicitudesRechazadas() {
             fecha_aprob: "Placeholder",
             solicitante: "Placeholder",
             total: "Placeholder",
-            descripcion: "Placeholder"
+            descripcion: "Placeholder",
+            firma: "test"
         },
         {
             id: "Placeholder",
@@ -33,7 +34,8 @@ function DisplaySolicitudesRechazadas() {
             fecha_aprob: "Placeholder",
             solicitante: "Placeholder",
             total: "Placeholder",
-            descripcion: "Placeholder"
+            descripcion: "Placeholder",
+            firma: "test"
         }
     ]);
 

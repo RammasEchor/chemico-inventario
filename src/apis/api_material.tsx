@@ -20,6 +20,7 @@ class Solicitud {
     solicitante = "";
     total = "";
     descripcion = "";
+    firma = "";
 }
 
 function getNextSalida() {

@@ -24,11 +24,14 @@ function UserIcon() {
         if (role !== Role.Cliente) {
             const interval = setInterval(() => {
                 getPendingQuotes(userKey)
-                    .then(response => response.json())
-                    .then(pending => setIconState({
-                        activeIconBadge: true,
-                        numberOfQuotes: pending
-                    }));
+                    .then(response => {
+                        if (response.ok) {
+                            response.json().then(pending => setIconState({
+                                activeIconBadge: true,
+                                numberOfQuotes: pending
+                            }));
+                        }
+                    });
             }, 10000);
             return () => clearInterval(interval);
         }

@@ -1,4 +1,4 @@
-import { Document, Page, Text, View } from '@react-pdf/renderer';
+import { Document, Image, Page, Text, View } from '@react-pdf/renderer';
 import { Material, Solicitud } from '../../../apis/api_material';
 import { dateParser } from '../../../utilities/date_parser';
 
@@ -27,7 +27,6 @@ function Vale(props: ValeProps) {
                     marginBottom: '20px'
                 }}>
                     <Text>{`Solicitante: ${props.solicitudMaster.solicitante}`}</Text>
-                    <Text>{`Aprobador: ${props.solicitudMaster.aprobador}`}</Text>
                 </View>
                 <View style={{
                     fontSize: '17',
@@ -76,6 +75,15 @@ function Vale(props: ValeProps) {
                         marginTop: '35px'
                     }}>
                         <Text>{`Total: ${props.solicitudMaster.total}`}</Text>
+                    </View>
+                    <View style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        margin: '35px'
+                    }}>
+                        <Image src={props.solicitudMaster.firma} style={{ height: "100px" }} />
+                        <Text>{`Aprobador: ${props.solicitudMaster.aprobador}`}</Text>
                     </View>
                 </View>
             </Page>
