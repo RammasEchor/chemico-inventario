@@ -61,25 +61,32 @@ function DisplaySolicitudesAprobadas() {
         <div className="box">
             <h4 className="title is-4">Solicitudes Aprobadas</h4>
             <Tabla cols={[
+                'Folio',
                 'Fecha de Aprobación',
                 'Solicitante',
                 'Total',
-                'Cerrar'
+                'Acción'
             ]}>
                 {solicitudes.map(solicitud =>
                     <tr
                         key={solicitud.id}
                     >
+                        <td className={redIfNull(solicitud.id)}>
+                            {solicitud.id ? solicitud.id : "Faltante"}
+                        </td>
                         <td className={redIfNull(solicitud.fecha_aprob)}>
                             <GhostButton
                                 onClick={() => {
                                     setModalInfo({
                                         title: dateParser(solicitud.fecha_aprob),
-                                        id: solicitud.id
+                                        id: solicitud.id,
                                     })
                                     setShowDescriptionModal(true)
                                 }}
                             >{solicitud.fecha_aprob ? dateParser(solicitud.fecha_aprob) : "Faltante"}</GhostButton>
+                        </td>
+                        <td className={redIfNull(solicitud.solicitante)}>
+                            {solicitud.solicitante ? solicitud.solicitante : "Faltante"}
                         </td>
                         <td className={redIfNull(solicitud.solicitante)}>
                             {solicitud.solicitante ? solicitud.solicitante : "Faltante"}

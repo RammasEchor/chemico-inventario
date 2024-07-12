@@ -89,6 +89,25 @@ function ModalModificarUsuario(props: Props) {
         )
     }
 
+    else if (currentRole === "Requisitor de Material") {
+        extra_items = (
+            <div className="px-3">
+                <SelectWithLabel name='aprob1' label='Aprobador 1'>
+                    {
+                        props.user.aprob1 === "-" &&
+                        <option selected disabled value={"-"}>{"-"}</option>
+                    }
+                    {aprobadores1.map(ap1 => {
+                        if (ap1 === props.user.aprob1)
+                            return <option selected value={ap1} key={ap1}>{ap1}</option>
+
+                        return <option value={ap1} key={ap1}>{ap1}</option>
+                    })}
+                </SelectWithLabel>
+            </div>
+        )
+    }
+
     return (
         <Formik
             initialValues={props.user}
@@ -111,11 +130,11 @@ function ModalModificarUsuario(props: Props) {
             })}
             onSubmit={(values, { setSubmitting }) => {
                 setSubmitting(false);
-                if (currentRole !== 'Cliente') {
+                if (currentRole !== 'Cliente' && currentRole !== 'Requisitor de Material') {
                     values.aprob1 = '-'
                     values.aprob2 = '-'
                 }
-                if (currentRole !== 'Aprobador') {
+                if (currentRole !== 'Aprobador' && currentRole !== 'Requisitor de Material') {
                     values.monto = '-'
                 }
 
@@ -152,7 +171,13 @@ function ModalModificarUsuario(props: Props) {
                             </tr>
                             <tr>
                                 <td className='has-text-weight-bold'>Rol</td>
-                                <td>{props.user.rol}</td>
+                                <td>
+                                    {props.user.rol}
+                                    {
+                                        (currentRole === 'Aprobador' || currentRole === "Requisitor de Material") &&
+                                        <div>Monto: {props.user.monto}</div>
+                                    }
+                                </td>
                                 <td>
                                     <SelectWithLabel
                                         onChange={e => {
@@ -168,7 +193,7 @@ function ModalModificarUsuario(props: Props) {
                                     </SelectWithLabel>
                                     {extra_items}
                                     {
-                                        (currentRole === 'Aprobador' || currentRole === "Requisitor de Material" ) &&
+                                        (currentRole === 'Aprobador' || currentRole === "Requisitor de Material") &&
                                         <div className="px-3">
                                             <TextInputLabelWarning value={formikProps.values.monto} name='monto' label='Monto'
                                                 className={formikProps.initialValues.monto !== formikProps.values.monto ? "is-warning" : undefined}

@@ -92,6 +92,21 @@ function FileForm(props) {
   }, filename)));
 }
 
+var _excluded$2 = ["className", "style", "children"];
+function GhostButton(_ref) {
+  var children = _ref.children,
+    rest = _objectWithoutPropertiesLoose(_ref, _excluded$2);
+  return React.createElement("button", Object.assign({
+    className: 'button is-ghost',
+    style: {
+      whiteSpace: "normal",
+      textAlign: "start",
+      wordBreak: "break-word",
+      wordWrap: "break-word"
+    }
+  }, rest), children);
+}
+
 function LoadingBar() {
   return React.createElement("div", {
     className: "columns is-centered is-mobile"
@@ -111,13 +126,16 @@ function ProductCard(p) {
       width: 300
     }
   }, React.createElement("div", {
-    className: "card-image columns is-vcentered is-centered"
-  }, React.createElement("figure", {
-    className: "image is-128x128 column"
+    className: "card-image columns is-vcentered is-centered mt-2"
   }, React.createElement("img", {
-    src: "https://javaclusters-95554-0.cloudclusters.net/imagesProd/" + p.img,
-    alt: "Placeholder"
-  }))), React.createElement("div", {
+    src: p.img,
+    alt: "Placeholder",
+    style: {
+      objectFit: "contain",
+      width: 250,
+      height: 200
+    }
+  })), React.createElement("div", {
     className: "card-content"
   }, React.createElement("div", {
     className: "content"
@@ -133,7 +151,9 @@ function ProductCard(p) {
     }
   }, p.descripcion), React.createElement("div", {
     className: "subtitle is-6"
-  }, React.createElement("div", null, p.precio !== "" ? "$" : "", p.precio), React.createElement("div", null, p.uni_medida)), React.createElement("span", {
+  }, React.createElement("div", null, p.precio !== "" ? p.precio + " " + p.currency : ""), React.createElement("div", null, p.uni_medida)), React.createElement("div", {
+    className: "subtitle is-6 is-italic"
+  }, "Disponible: " + p.stock), React.createElement("span", {
     className: "tag is-info is-medium"
   }, p.noParte))), React.createElement("footer", {
     className: "card-footer"
@@ -159,7 +179,9 @@ function ProductCard(p) {
             folio: "0",
             comentarios: p.descripcion,
             tipo_equipo: "",
-            numEconomico: ""
+            numEconomico: "",
+            currency: p.currency,
+            stock: p.stock
           }]);
         });
       }
@@ -204,6 +226,10 @@ function ProductCard(p) {
       p.setProdsSolicitar(function (prodsSolicitar) {
         return prodsSolicitar.map(function (f) {
           if (f.id === p.idProd) {
+            if (parseInt(e.target.value) > parseInt(f.stock)) return _extends({}, f, {
+              cantidad: "" + f.stock,
+              precioT: "" + parseInt(f.stock) * parseFloat(f.precioU)
+            });
             return _extends({}, f, {
               cantidad: "" + e.target.value,
               precioT: "" + parseInt(e.target.value) * parseFloat(f.precioU)
@@ -258,6 +284,10 @@ function ProductCard(p) {
       p.setProdsSolicitar(function (prodsSolicitar) {
         return prodsSolicitar.map(function (f) {
           if (f.id === p.idProd) {
+            if (cant > parseInt(f.stock)) return _extends({}, f, {
+              cantidad: "" + f.stock,
+              precioT: "" + parseInt(f.stock) * parseFloat(f.precioU)
+            });
             return _extends({}, f, {
               cantidad: "" + cant,
               precioT: "" + cant * parseInt(f.precioU)
@@ -272,21 +302,47 @@ function ProductCard(p) {
 }
 
 function ProductsBill(props) {
+  console.log(props.prodsSolicitar);
+  var usdList = [];
+  var mxnList = [];
+  props.prodsSolicitar.forEach(function (p) {
+    var _p$currency;
+    var strippedCurrency = (_p$currency = p.currency) === null || _p$currency === void 0 ? void 0 : _p$currency.trim();
+    if (strippedCurrency === "USD") {
+      usdList.push(p);
+    } else if (strippedCurrency === "MXN") {
+      mxnList.push(p);
+    }
+  });
   return React.createElement(React.Fragment, null, React.createElement("h5", {
     className: "title is-5"
-  }, "Materiales Solicitados (", props.prodsSolicitar.length, ")"), React.createElement("table", {
+  }, "Materiales Solicitados (", props.prodsSolicitar.length, ")"), React.createElement("div", {
+    className: 'block'
+  }, mxnList.length == 0 && usdList.length == 0 && React.createElement("table", {
     className: "table is-striped is-hoverable"
-  }, React.createElement("thead", null, React.createElement("tr", null, React.createElement("th", null, "Item"), React.createElement("th", null, "Precio"), React.createElement("th", null, "Cantidad"), React.createElement("th", null, "Subtotal"))), React.createElement("tfoot", null, React.createElement("tr", null, React.createElement("th", null, "Total"), React.createElement("th", null), React.createElement("th", null), React.createElement("th", null, "$", props.total.toFixed(2)))), React.createElement("tbody", null, props.prodsSolicitar.map(function (p) {
+  }, React.createElement("thead", null, React.createElement("tr", null, React.createElement("th", null, "Item"), React.createElement("th", null, "Precio"), React.createElement("th", null, "Cantidad"), React.createElement("th", null, "Subtotal"))), React.createElement("tfoot", null, React.createElement("tr", null, React.createElement("th", null, "Total"), React.createElement("th", null), React.createElement("th", null), React.createElement("th", null, "$", 0.0.toFixed(2))))), mxnList.length > 0 && React.createElement("table", {
+    className: "table is-striped is-hoverable"
+  }, React.createElement("thead", null, React.createElement("tr", null, React.createElement("th", null, "Item"), React.createElement("th", null, "Precio"), React.createElement("th", null, "Cantidad"), React.createElement("th", null, "Subtotal"))), React.createElement("tfoot", null, React.createElement("tr", null, React.createElement("th", null, "Total"), React.createElement("th", null), React.createElement("th", null), React.createElement("th", null, "$", mxnList.reduce(function (acc, p) {
+    return acc + parseFloat(p.precioT);
+  }, 0).toFixed(2), " MXN"))), React.createElement("tbody", null, mxnList.map(function (p) {
     return React.createElement("tr", {
       key: p.codigo
-    }, React.createElement("td", null, p.comentarios), React.createElement("td", null, "$", p.precioU), React.createElement("td", null, p.cantidad), React.createElement("td", null, "$", parseFloat(p.precioT).toFixed(2)));
-  }))));
+    }, React.createElement("td", null, p.comentarios), React.createElement("td", null, "$", p.precioU, " MXN"), React.createElement("td", null, p.cantidad), React.createElement("td", null, "$", parseFloat(p.precioT).toFixed(2), " MXN"));
+  }))), usdList.length > 0 && React.createElement("table", {
+    className: "table is-striped is-hoverable"
+  }, React.createElement("thead", null, React.createElement("tr", null, React.createElement("th", null, "Item"), React.createElement("th", null, "Precio"), React.createElement("th", null, "Cantidad"), React.createElement("th", null, "Subtotal"))), React.createElement("tfoot", null, React.createElement("tr", null, React.createElement("th", null, "Total"), React.createElement("th", null), React.createElement("th", null), React.createElement("th", null, "$", usdList.reduce(function (acc, p) {
+    return acc + parseFloat(p.precioT);
+  }, 0).toFixed(2), " USD"))), React.createElement("tbody", null, usdList.map(function (p) {
+    return React.createElement("tr", {
+      key: p.codigo
+    }, React.createElement("td", null, p.comentarios), React.createElement("td", null, "$", p.precioU, " USD"), React.createElement("td", null, p.cantidad), React.createElement("td", null, "$", parseFloat(p.precioT).toFixed(2), " USD"));
+  })))));
 }
 
-var _excluded$2 = ["label"];
+var _excluded$3 = ["label"];
 function SelectInput(_ref) {
   var label = _ref.label,
-    props = _objectWithoutPropertiesLoose(_ref, _excluded$2);
+    props = _objectWithoutPropertiesLoose(_ref, _excluded$3);
   var _useField = formik.useField(props),
     field = _useField[0],
     meta = _useField[1];
@@ -298,16 +354,16 @@ function SelectInput(_ref) {
   }, label), React.createElement("br", null), React.createElement("div", {
     className: "control is-expanded"
   }, React.createElement("div", {
-    className: "select is-fullwidth is-info is-medium mt-3"
+    className: "select is-fullwidth is-info is-medium mt-3 mb-3"
   }, React.createElement("select", Object.assign({}, field, props)))), meta.touched && meta.error ? React.createElement("div", {
     className: "ml-2 mt-1 has-text-danger is-size-7"
   }, meta.error) : null);
 }
 
-var _excluded$3 = ["label"];
+var _excluded$4 = ["label"];
 function TextInput(_ref) {
   var label = _ref.label,
-    props = _objectWithoutPropertiesLoose(_ref, _excluded$3);
+    props = _objectWithoutPropertiesLoose(_ref, _excluded$4);
   var _useField = formik.useField(props),
     field = _useField[0],
     meta = _useField[1];
@@ -327,6 +383,7 @@ exports.Button = Button;
 exports.CellButton = CellButton;
 exports.ErrorScreen = ErrorScreen;
 exports.FileForm = FileForm;
+exports.GhostButton = GhostButton;
 exports.LoadingBar = LoadingBar;
 exports.ProductCard = ProductCard;
 exports.ProductsBill = ProductsBill;

@@ -18,13 +18,15 @@ import Inventario from "./inventario/inventario/inventario";
 import Login from "./login/login";
 import ResetPassword from "./login/reset_passwd";
 import MainPage from "./mainpage/mainpage";
-import AltaProducto from "./productos/alta_producto/alta_producto";
-import BajaProducto from "./productos/baja_producto/baja_producto";
-import ModificarProducto from "./productos/modificar_producto/modificar_producto";
 import QrOrdenCompra from './qr/qr_orden_compra';
 import AltaUsuario from "./usuarios/alta_usuarios/alta_usuarios";
 import BajaUsuario from "./usuarios/baja_usuarios/baja_usuarios";
 import ModificarUsuario from "./usuarios/modificar_usuarios/modificar_usuarios";
+import PresupuestoBU from './views/almacen/presupuestoBU';
+import AltaProducto from "./views/productos/alta_producto/alta_producto";
+import BajaProducto from "./views/productos/baja_producto/baja_producto";
+import ModificarProducto from "./views/productos/modificar_producto/modificar_producto";
+import ReporteCaducidad from './views/productos/reporte_caducidad/reporte_caducidad';
 import SolicitudMaterial from './views/salidas/solicitud_material/solicitud_material';
 import SolicitudesAprobadas from './views/salidas/solicitudes_aprobadas/solicitudes_aprobadas';
 import SolicitudesCerradas from './views/salidas/solicitudes_cerradas/solicitudes_cerradas';
@@ -44,7 +46,7 @@ function App() {
       <Route path="/alta_producto" element={<AltaProducto />} />
       <Route path="/modificar_producto" element={<ModificarProducto />} />
       <Route path="/baja_producto" element={<BajaProducto />} />
-      <Route path="/" element={<MainPage />} />
+      <Route path="/reporte_caducidad" element={<ReporteCaducidad />} />
       <Route path="/" element={<MainPage />} />
       <Route path="/crear_cotizacion" element={<CrearCotizacion />} />
       <Route path="/cotizaciones_pendientes" element={<CotizacionesPendientes />} />
@@ -58,7 +60,7 @@ function App() {
       <Route path="/existencias" element={<Existencias />} />
       <Route path="/" element={<MainPage />} />
       <Route path="/inventario" element={<Inventario />} />
-      <Route path="/" element={<MainPage />} />
+      <Route path="/almacen" element={<PresupuestoBU />} />
       <Route path="/" element={<MainPage />} />
       <Route path="/" element={<MainPage />} />
       <Route path="/cargar_bd" element={<CargarBaseDatos />} />

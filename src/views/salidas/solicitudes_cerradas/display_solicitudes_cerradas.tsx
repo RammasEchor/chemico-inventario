@@ -2,7 +2,7 @@ import { pdf } from "@react-pdf/renderer";
 import { useQuery } from "@tanstack/react-query";
 import { saveAs } from 'file-saver';
 import { useEffect, useState } from "react";
-import { getFetch, root } from "../../../apis/api";
+import { getFetch, rootUrl } from "../../../apis/api";
 import { Material, Solicitud, getSalidasCerradas } from "../../../apis/api_material";
 import GhostButton from "../../../form_components/ghost_button";
 import { Modal } from "../../../form_components/modal";
@@ -28,7 +28,7 @@ function DisplaySolicitudesCerradas() {
     const getSalidaDetailQuery = useQuery<Material[]>({
         queryKey: ["getSalidaDetailQuery", currentId],
         queryFn: async () => {
-            let api_url = root + process.env.REACT_APP_BACKEND_GET_SALIDAS_DETAIL;
+            let api_url = rootUrl + process.env.REACT_APP_BACKEND_GET_SALIDAS_DETAIL;
             api_url += `${currentId}/`
             return getFetch(api_url);
         },
@@ -64,6 +64,7 @@ function DisplaySolicitudesCerradas() {
         <div className="box">
             <h4 className="title is-4">Solicitudes Cerradas</h4>
             <Tabla cols={[
+                'Folio',
                 'Fecha de Aprobación',
                 'Solicitante',
                 'Total',
@@ -73,12 +74,15 @@ function DisplaySolicitudesCerradas() {
                     <tr
                         key={solicitud.id}
                     >
+                        <td className={redIfNull(solicitud.id)}>
+                            {solicitud.id ? solicitud.id : "Faltante"}
+                        </td>
                         <td>
                             <GhostButton
                                 onClick={() => {
                                     setModalInfo({
                                         title: dateParser(solicitud.fecha_aprob),
-                                        id: solicitud.id
+                                        id: solicitud.id,
                                     })
                                     setShowDescriptionModal(true)
                                 }}

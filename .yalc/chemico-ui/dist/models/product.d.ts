@@ -9,5 +9,7 @@ interface Product {
     comentarios: string;
     tipo_equipo: string;
     numEconomico: string;
+    currency?: string;
+    stock?: string;
 }
 export default Product;

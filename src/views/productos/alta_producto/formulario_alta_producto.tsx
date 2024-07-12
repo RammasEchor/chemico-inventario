@@ -2,17 +2,17 @@ import { Formik } from "formik";
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router";
 import * as Yup from "yup";
-import { PlantasAPI, getPlants } from "../../apis/api_plantas";
-import { Producto } from "../../apis/api_productos";
-import useProductosController from "../../controllers/productosController";
-import DatePickerField from "../../form_components/datepicker";
-import FileForm from "../../form_components/file_form";
-import { SelectWithLabel } from "../../form_components/select_with_label";
-import ShadowedForm from "../../form_components/shadowed_form";
-import SubmitButton from "../../form_components/submit_button";
-import TextInputLabelWarning from "../../form_components/text_input_label_warning";
-import TextArea from "../../form_components/textarea";
-import { appendFieldRequiredSpanish } from "../../utilities/error_messages";
+import { PlantasAPI, getPlants } from "../../../apis/api_plantas";
+import { Producto } from "../../../apis/api_productos";
+import useProductosController from "../../../controllers/productosController";
+import DatePickerField from "../../../form_components/datepicker";
+import FileForm from "../../../form_components/file_form";
+import { SelectWithLabel } from "../../../form_components/select_with_label";
+import ShadowedForm from "../../../form_components/shadowed_form";
+import SubmitButton from "../../../form_components/submit_button";
+import TextInputLabelWarning from "../../../form_components/text_input_label_warning";
+import TextArea from "../../../form_components/textarea";
+import { appendFieldRequiredSpanish } from "../../../utilities/error_messages";
 
 function FormularioAltaProducto() {
     const [plantas, setPlantas] = useState<string[]>([]);
@@ -49,6 +49,7 @@ function FormularioAltaProducto() {
                 fecha_exp: Yup.string(),
                 ubicacion: Yup.string().required(appendFieldRequiredSpanish('Ubicación')),
                 stock: Yup.string().required(appendFieldRequiredSpanish('Cantidad Inicial')),
+                lote: Yup.string().required(appendFieldRequiredSpanish('Lote')),
             })}
             onSubmit={(values: Producto, { setSubmitting }) => {
                 setSubmitting(false);
@@ -74,6 +75,7 @@ function FormularioAltaProducto() {
                         <DatePickerField label="Fecha de Expiración" selected={date} onChange={setDate} />
                         <TextInputLabelWarning name='ubicacion' label='Ubicación almacén' />
                         <TextInputLabelWarning name='stock' label='Cantidad Inicial' />
+                        <TextInputLabelWarning name='lote' label='Lote' />
                         <div className="model-card">
                             <header className="modal-card-head">
                                 <p className="modal-card-title">Seleccionar imagen</p>

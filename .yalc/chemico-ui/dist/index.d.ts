@@ -2,6 +2,7 @@ export * from "./components/button";
 export * from "./components/cellButton";
 export * from "./components/errorScreen";
 export * from "./components/fileForm";
+export * from "./components/ghostButton";
 export * from "./components/loadingBar";
 export * from "./components/productCard";
 export * from "./components/productsBill";

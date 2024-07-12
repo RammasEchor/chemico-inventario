@@ -1,4 +1,4 @@
-import { getFetch, root } from "./api";
+import { getFetch, rootUrl } from "./api";
 import { APIStringArg } from "./api_func_args_types";
 
 class Material {
@@ -10,6 +10,7 @@ class Material {
     numPedido = "";
     folio = "";
     comentarios = "";
+    descripcion = "";
 };
 
 class Solicitud {
@@ -23,18 +24,11 @@ class Solicitud {
     firma = "";
 }
 
-function getNextSalida() {
-    let api_url = process.env.REACT_APP_BACKEND_ROOT_URL as string;
-    api_url += process.env.REACT_APP_BACKEND_GET_NEXT_SALIDA;
-
-    return fetch(api_url);
-}
-
 function getProductsSalida(userKey: APIStringArg) {
-    let endpoint = process.env.REACT_APP_BACKEND_GET_PRODUCTS_SALIDAS;
+    let endpoint = process.env.REACT_APP_PRODUCTS_SOLICITUD;
     endpoint += `${userKey}/`;
 
-    return getFetch(root + endpoint);
+    return getFetch(rootUrl + endpoint);
 }
 
 function getProductInfoSalida(codigo: APIStringArg) {
@@ -48,7 +42,7 @@ function getProductInfoSalida(codigo: APIStringArg) {
 function postDetalleSalida(productos: Material[]) {
     let endpoint = process.env.REACT_APP_BACKEND_POST_PRODUCTS_SALIDAS;
 
-    return fetch(root + endpoint, {
+    return fetch(rootUrl + endpoint, {
         method: 'POST',
         body: JSON.stringify(productos)
     });
@@ -157,7 +151,6 @@ function getSalidasRechazadas(userKey: APIStringArg) {
 
 export {
     Material, Solicitud,
-    getNextSalida,
     getProductInfoSalida,
     getProductsSalida,
     getSalidasAprobadas,

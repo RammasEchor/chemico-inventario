@@ -1,6 +1,6 @@
 import { PDFViewer } from "@react-pdf/renderer";
 import { useQuery } from "@tanstack/react-query";
-import { getFetch, root } from "../../apis/api";
+import { getFetch, rootUrl } from "../../apis/api";
 import { Material } from "../../apis/api_material";
 import Vale from "../salidas/solicitudes_cerradas/vale";
 
@@ -8,7 +8,7 @@ function TestPdf() {
     const getSalidaDetailQuery = useQuery<Material[]>({
         queryKey: ["getSalidaDetailQuery", 1],
         queryFn: async () => {
-            let api_url = root + process.env.REACT_APP_BACKEND_GET_SALIDAS_DETAIL;
+            let api_url = rootUrl + process.env.REACT_APP_BACKEND_GET_SALIDAS_DETAIL;
             api_url += `${1}/`
             return getFetch(api_url);
         },

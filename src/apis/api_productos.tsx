@@ -1,5 +1,5 @@
 import { failedPromise } from "../utilities/failed_promise";
-import { getFetch, root } from "./api";
+import { getFetch, rootUrl } from "./api";
 import { APIStringArg } from "./api_func_args_types";
 
 class Producto {
@@ -16,6 +16,7 @@ class Producto {
     stock = "";
     img?: File = undefined;
     nomImg = "";
+    lote = "";
 }
 
 function createFormDataFromProduct(product: Producto): FormData {
@@ -32,6 +33,7 @@ function createFormDataFromProduct(product: Producto): FormData {
     formData.append("ubicacion", product.ubicacion);
     formData.append("precio", product.precio);
     formData.append("stock", product.stock);
+    formData.append("lote", product.lote);
     formData.append("img", product.img as File);
     formData.append("nomImg", product.nomImg);
 
@@ -42,7 +44,7 @@ function insertProduct(product: Producto) {
     let endpoint = process.env.REACT_APP_BACKEND_INSERT_PRODUCT;
     const formData = createFormDataFromProduct(product);
 
-    return fetch(root + endpoint, {
+    return fetch(rootUrl + endpoint, {
         method: 'POST',
         body: formData
     });
@@ -50,14 +52,14 @@ function insertProduct(product: Producto) {
 
 function getProducts() {
     const endpoint = process.env.REACT_APP_BACKEND_GET_PRODUCTS;
-    return getFetch(root + endpoint);
+    return getFetch(rootUrl + endpoint);
 }
 
 function modifyProduct(product: Producto) {
     const endpoint = process.env.REACT_APP_BACKEND_MODIFY_PRODUCT;
     const formData = createFormDataFromProduct(product);
 
-    return fetch(root + endpoint, {
+    return fetch(rootUrl + endpoint, {
         method: 'POST',
         body: formData
     });

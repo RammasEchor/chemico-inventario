@@ -43,9 +43,11 @@ function Vale(props: ValeProps) {
                         display: 'flex',
                         flexDirection: 'row',
                         justifyContent: 'space-around',
-                        fontWeight: 'bold'
+                        fontWeight: 'bold',
+                        fontSize: 14,
                     }}>
                         <Text>Código de Producto</Text>
+                        <Text>Descripción</Text>
                         <Text>Cantidad</Text>
                         <Text>Precio Unitario</Text>
                         <Text>Precio Total</Text>
@@ -57,9 +59,11 @@ function Vale(props: ValeProps) {
                                     display: 'flex',
                                     flexDirection: 'row',
                                     justifyContent: 'space-around',
-                                    fontWeight: 'bold'
+                                    fontWeight: 'bold',
+                                    fontSize: 12
                                 }}>
                                     <Text>{material.codigo}</Text>
+                                    <Text style={{maxWidth: 75}}>{material.descripcion}</Text>
                                     <Text>{material.cantidad}</Text>
                                     <Text>{material.precioU}</Text>
                                     <Text>{material.precioT}</Text>

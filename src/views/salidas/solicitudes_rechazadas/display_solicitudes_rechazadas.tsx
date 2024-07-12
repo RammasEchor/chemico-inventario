@@ -16,28 +16,7 @@ function DisplaySolicitudesRechazadas() {
     const [showDescriptionModal, setShowDescriptionModal] = useState(false);
     const [modalInfo, setModalInfo] = useState<ModalInfo>({} as ModalInfo);
     const { userKey } = useAuth();
-    const [solicitudes, setSolicitudes] = useState<Solicitud[]>([
-        {
-            id: "Placeholder",
-            aprobador: "Placeholder",
-            estatus: "Placeholder",
-            fecha_aprob: "Placeholder",
-            solicitante: "Placeholder",
-            total: "Placeholder",
-            descripcion: "Placeholder",
-            firma: "test"
-        },
-        {
-            id: "Placeholder",
-            aprobador: "Placeholder",
-            estatus: "Placeholder",
-            fecha_aprob: "Placeholder",
-            solicitante: "Placeholder",
-            total: "Placeholder",
-            descripcion: "Placeholder",
-            firma: "test"
-        }
-    ]);
+    const [solicitudes, setSolicitudes] = useState<Solicitud[]>([]);
 
     useEffect(() => {
         getSalidasRechazadas(userKey)
@@ -56,15 +35,19 @@ function DisplaySolicitudesRechazadas() {
         <div className="box">
             <h4 className="title is-4">Solicitudes Rechazadas</h4>
             <Tabla cols={[
-                'Fecha de Rechazo',
+                'Folio',
+                'Fecha de Aprobación',
                 'Solicitante',
                 'Total',
-                'Descripcion'
+                'Acción'
             ]}>
                 {solicitudes.map(solicitud =>
                     <tr
                         key={solicitud.id}
                     >
+                        <td className={redIfNull(solicitud.id)}>
+                            {solicitud.id ? solicitud.id : "Faltante"}
+                        </td>
                         <td className={redIfNull(solicitud.fecha_aprob)}>
                             <GhostButton
                                 onClick={() => {

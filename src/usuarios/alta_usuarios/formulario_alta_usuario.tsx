@@ -189,17 +189,19 @@ function FormularioAltaUsuario() {
                         }
                         {
                             currentRole === 'Requisitor de Material' &&
-                            <SelectWithLabel
-                                onChange={e => {
-                                    setCurrentAprob1(e.currentTarget.value)
-                                    formikProps.setFieldValue('aprob1', e.currentTarget.value)
-                                }}
-                                value={currentAprob1}
-                                name='aprob1'
-                                label='Aprobador 1'
-                            >
-                                {aprobadores1.map(ap1 => <option value={ap1} key={ap1}>{ap1}</option>)}
-                            </SelectWithLabel>
+                            <div className="px-3">
+                                <SelectWithLabel
+                                    onChange={e => {
+                                        setCurrentAprob1(e.currentTarget.value)
+                                        formikProps.setFieldValue('aprob1', e.currentTarget.value)
+                                    }}
+                                    value={currentAprob1}
+                                    name='aprob1'
+                                    label='Aprobador 1'
+                                >
+                                    {aprobadores1.map(ap1 => <option value={ap1} key={ap1}>{ap1}</option>)}
+                                </SelectWithLabel>
+                            </div>
                         }
                         {
                             (currentRole === 'Aprobador' || currentRole === 'Requisitor de Material') &&

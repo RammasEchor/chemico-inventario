@@ -1,4 +1,7 @@
+import { useMutation } from "@tanstack/react-query";
+import { mutationOnError, mutationOnSuccessReload, postFetch, rootUrl } from "./api";
 import { APIStringArg } from "./api_func_args_types";
+import { Producto } from "./api_productos";
 
 class User {
     id = "";
@@ -110,9 +113,20 @@ function getWarehouses(plant: APIStringArg) {
     return fetch(api_url);
 }
 
+function useAssignProductsToUser() {
+    return useMutation({
+        mutationFn: async (params: { id: string, products: Producto[] }) => {
+            const endpoint = rootUrl + process.env.REACT_APP_ASIGN_PRODUCTS;
+            return postFetch(endpoint, params.products.map(p => { return { idUsuario: params.id, idProducto: p.idProd } }));
+        },
+        onSuccess: mutationOnSuccessReload,
+        onError: mutationOnError
+    });
+}
+
 export {
     Role, User, createUser, getAprobadores,
-    getAprobadores2, getRoles, getUserRoleFromString, getUsers, getWarehouses, modifyUser
+    getAprobadores2, getRoles, getUserRoleFromString, getUsers, getWarehouses, modifyUser, useAssignProductsToUser
 };
 export type { RolAPIReturn };
 

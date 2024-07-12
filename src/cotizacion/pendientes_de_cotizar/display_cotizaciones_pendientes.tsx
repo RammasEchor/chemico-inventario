@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { MasterQuoteFields, getMasterQuotes, uploadPDF, uploadSecurityFile } from "../../apis/api_cotizacion";
+import { useNavigate } from "react-router-dom";
+import { MasterQuoteFields, getMasterQuotes, sendOneDecline, uploadPDF, uploadSecurityFile } from "../../apis/api_cotizacion";
 import GhostButton from "../../form_components/ghost_button";
 import { Modal } from "../../form_components/modal";
 import Tabla from "../../form_components/table";
@@ -18,6 +19,7 @@ function DisplayCotizacionesPendientes() {
     const [bothFilesUploaded, setBothFilesUploaded] = useState(0);
     const [currentTotal, setCurrentTotal] = useState<string>("");
     const [currentSolicitante, setCurrentSolicitante] = useState("");
+    const navigate = useNavigate();
 
     const { userRole, userKey } = useAuth();
 
@@ -62,6 +64,20 @@ function DisplayCotizacionesPendientes() {
         return ""
     }
 
+    function startDecline(folio: string | undefined) {
+        sendOneDecline(folio)
+            .then(response => response.text())
+            .then(data => {
+                alert(data);
+                if (data) {
+                    navigate(0);
+                }
+            })
+            .catch(error => {
+                alert(error)
+            })
+    }
+
     return (
         <div className="box">
             <h4 className="title is-4">Cotizaciones Pendientes</h4>
@@ -72,7 +88,7 @@ function DisplayCotizacionesPendientes() {
                 'Aprobador 2',
                 'Fecha Aprobación 1',
                 'Fecha Aprobación 2',
-                'Detalle'
+                'Acción'
             ]}>
                 {quotes.map(quote => {
                     return (
@@ -117,14 +133,23 @@ function DisplayCotizacionesPendientes() {
                                 <div className="block">
                                     <button
                                         className={selectedQuoteId === quote.id ?
-                                            "button is-info is-inverted" :
-                                            "button is-info is-outlined"
+                                            "button is-info is-inverted mr-3" :
+                                            "button is-info is-outlined mr-3"
                                         }
                                         onClick={() => {
                                             setShowDetail(true)
                                             setDetailQuoteId(quote.id)
                                         }}
                                     >Adjuntar PDF</button>
+                                    <button
+                                        className={selectedQuoteId === quote.id ?
+                                            "button is-danger is-inverted" :
+                                            "button is-danger is-outlined"
+                                        }
+                                        onClick={() => {
+                                            startDecline(quote.id)
+                                        }}
+                                    >Rechazar</button>
                                 </div>
                             </td>
                         </tr>
@@ -136,7 +161,7 @@ function DisplayCotizacionesPendientes() {
                     quoteId={detailQuoteId}
                     onClickX={() => {
                         setShowDetail(false);
-                        
+
                     }}
                     onClickAprobar={startUpload}
                 />

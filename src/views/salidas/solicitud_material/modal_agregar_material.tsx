@@ -47,7 +47,8 @@ function AgregarMaterial(props: AgregarMaterialProps) {
                     precioT: "",
                     numPedido: props.folio,
                     comentarios: "",
-                    folio: props.folio
+                    folio: props.folio,
+                    descripcion: ""
                 });
                 setMax(data.stock);
             })

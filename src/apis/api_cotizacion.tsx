@@ -1,3 +1,5 @@
+import { useQuery } from "@tanstack/react-query";
+import { getFetch, rootUrl } from "./api";
 import { APIStringArg } from "./api_func_args_types";
 import { Producto } from "./api_productos";
 
@@ -246,10 +248,23 @@ function updateCotTotal(total: APIStringArg, folio: APIStringArg) {
     });
 }
 
+function useProductsForAssignment(userKey: APIStringArg) {
+    return useQuery<Producto[]>({
+        queryKey: ["useProductsForAssignment"],
+        queryFn: async () => {
+            let url = rootUrl + process.env.REACT_APP_BACKEND_GET_PRODUCTS_SALIDAS;
+            url += `${userKey}/`
+            const data = await getFetch(url);
+
+            return data
+        }
+    });
+}
+
 export {
     ProductInQuote, approveQuote, createMasterQuote, createQuote, getCotAprobadas,
     getInfoCot, getMasterQuotes, getNextQuote, getPendingApproves, getQuoteDetail, getQuoteStatusFromString, getQuotes, getQuotesDeclined, getToApproves,
-    insertToApprove, postContpaq, sendOneApproves, sendOneDecline, updateCotTotal, uploadPDF, uploadSecurityFile
+    insertToApprove, postContpaq, sendOneApproves, sendOneDecline, updateCotTotal, uploadPDF, uploadSecurityFile, useProductsForAssignment
 };
 export type { MasterQuoteFields };
 

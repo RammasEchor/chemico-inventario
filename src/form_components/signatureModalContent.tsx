@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { useRef } from 'react';
 import SignatureCanvas from 'react-signature-canvas';
-import { mutationOnError, mutationOnSuccessReload, root } from '../apis/api';
+import { mutationOnError, mutationOnSuccessReload, rootUrl } from '../apis/api';
 import { APIStringArg } from '../apis/api_func_args_types';
 import { ModalInfo } from '../views/salidas/solicitudes_pendientes/display_solicitudes_pendientes';
 
@@ -15,7 +15,7 @@ function SignatureModalContent(props: SignatureModalContentInterface) {
     const canvasRef = useRef() as React.MutableRefObject<any>;
     const postFirmaMutation = useMutation({
         mutationFn: async (params: { img: APIStringArg, nomImg: APIStringArg, folio: APIStringArg }) => {
-            const endpoint = root + process.env.REACT_APP_BACKEND_POST_FIRMA;
+            const endpoint = rootUrl + process.env.REACT_APP_BACKEND_POST_FIRMA;
             const formData = new FormData();
             formData.append("img", params.img as string);
             formData.append("nomImg", params.nomImg as string);

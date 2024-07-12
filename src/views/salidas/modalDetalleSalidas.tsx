@@ -27,20 +27,23 @@ function ModalDetalleSalidas(props: DetalleSalidasProps) {
             </header>
             <section className="modal-card-body">
                 <Tabla cols={[
+                    'Folio',
                     'Código',
+                    'Descripción',
                     'Cantidad',
                     'Precio Unitario',
-                    'Precio Total',
-                    'No. de Pedido',
+                    'Precio Total'
                 ]}>
                     {materiales.map(m => {
                         return (
                             <tr key={m.codigo}>
+                                <td>{props.info.id}</td>
                                 <td>{m.codigo}</td>
+                                <td>{m.descripcion}</td>
                                 <td>{m.cantidad}</td>
                                 <td>{m.precioU}</td>
                                 <td>{m.precioT}</td>
-                                <td>{m.numPedido}</td>
+                               
                             </tr>
                         );
                     })}

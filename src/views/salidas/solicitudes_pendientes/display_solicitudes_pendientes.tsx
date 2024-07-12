@@ -17,34 +17,15 @@ function DisplaySolicitudesPendientes() {
     const [showDescriptionModal, setShowDescriptionModal] = useState(false);
     const [modalInfo, setModalInfo] = useState<ModalInfo>({} as ModalInfo);
     const { userKey } = useAuth();
-    const [solicitudes, setSolicitudes] = useState<Solicitud[]>([
-        {
-            id: "Placeholder",
-            aprobador: "Placeholder",
-            estatus: "Placeholder",
-            fecha_aprob: "Placeholder",
-            solicitante: "Placeholder",
-            total: "Placeholder",
-            descripcion: "Placeholder",
-            firma: "test"
-        },
-        {
-            id: "Placeholder",
-            aprobador: "Placeholder",
-            estatus: "Placeholder",
-            fecha_aprob: "Placeholder",
-            solicitante: "Placeholder",
-            total: "Placeholder",
-            descripcion: "Placeholder",
-            firma: "test"
-        }
-    ]);
+    const [solicitudes, setSolicitudes] = useState<Solicitud[]>([]);
     const navigate = useNavigate();
 
     useEffect(() => {
         getSalidasPendientes(userKey)
             .then(res => res.json())
-            .then(data => setSolicitudes(data))
+            .then(data => {
+                setSolicitudes(data)
+            })
     }, [userKey]);
 
     function redIfNull(toCheck: string | undefined) {
@@ -72,6 +53,7 @@ function DisplaySolicitudesPendientes() {
         <div className="box">
             <h4 className="title is-4">Solicitudes Pendientes</h4>
             <Tabla cols={[
+                'Folio',
                 'Fecha de Aprobación',
                 'Solicitante',
                 'Total',
@@ -81,12 +63,15 @@ function DisplaySolicitudesPendientes() {
                     <tr
                         key={solicitud.id}
                     >
+                        <td className={redIfNull(solicitud.id)}>
+                            {solicitud.id ? solicitud.id : "Faltante"}
+                        </td>
                         <td className={redIfNull(solicitud.fecha_aprob)}>
                             <GhostButton
                                 onClick={() => {
                                     setModalInfo({
                                         title: dateParser(solicitud.fecha_aprob),
-                                        id: solicitud.id
+                                        id: solicitud.id,
                                     })
                                     setShowDescriptionModal(true)
                                 }}

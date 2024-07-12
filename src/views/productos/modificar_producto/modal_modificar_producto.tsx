@@ -1,12 +1,12 @@
 import { PropsWithChildren, useEffect, useState } from "react";
-import { PlantasAPI, getPlants } from "../../apis/api_plantas";
-import { Producto } from "../../apis/api_productos";
-import DatePickerField from "../../form_components/datepicker";
-import FileForm from "../../form_components/file_form";
-import SelectModifyModal from "../../form_components/select_modify_modal";
-import Tabla from "../../form_components/table";
-import TextInputModifyModal from "../../form_components/text_input_modify_modal";
-import { dateParser } from "../../utilities/date_parser";
+import { PlantasAPI, getPlants } from "../../../apis/api_plantas";
+import { Producto } from "../../../apis/api_productos";
+import DatePickerField from "../../../form_components/datepicker";
+import FileForm from "../../../form_components/file_form";
+import SelectModifyModal from "../../../form_components/select_modify_modal";
+import Tabla from "../../../form_components/table";
+import TextInputModifyModal from "../../../form_components/text_input_modify_modal";
+import { dateParser } from "../../../utilities/date_parser";
 
 interface Props extends PropsWithChildren {
     onClickClose: () => void
@@ -170,7 +170,7 @@ function ModalModificarProducto(props: Props) {
                         <td className='has-text-weight-bold'>Imagen</td>
                         <td>
                             <figure className="image is-128x128 is-flex is-align-items-center">
-                                <img src={`https://javaclusters-95554-0.cloudclusters.net/imagesProd/${props.product.nomImg}`} alt="Placeholder" />
+                                <img src={`https://javaclusters-95554-0.cloudclusters.net/imagesProd/${props.product.nomImg}`} alt="Placeholder" style={{ objectFit: "contain", width: 250, height: 175 }}/>
                             </figure>
                         </td>
                         <td>

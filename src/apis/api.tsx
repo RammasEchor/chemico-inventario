@@ -1,4 +1,4 @@
-const root = process.env.REACT_APP_BACKEND_ROOT_URL as string;
+const rootUrl = process.env.REACT_APP_BACKEND_ROOT_URL as string;
 
 async function NiceDelay() {
     await new Promise(r => setTimeout(r, Math.random() * 3000));
@@ -52,4 +52,4 @@ function mutationOnError(error: Error) {
     console.log(error.message);
 }
 
-export { getFetch, mutationOnError, mutationOnSuccessReload, postFetch, putFetch, root };
+export { getFetch, mutationOnError, mutationOnSuccessReload, postFetch, putFetch, rootUrl };

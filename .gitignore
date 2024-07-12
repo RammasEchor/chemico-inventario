@@ -65,3 +65,4 @@ packages/react-devtools-timeline/dist
 chemico-front/
 chemico-demo/
 yalc.lock
+*.http

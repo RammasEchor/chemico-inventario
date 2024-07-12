@@ -92,6 +92,21 @@ function FileForm(props) {
   }, filename)));
 }
 
+var _excluded$2 = ["className", "style", "children"];
+function GhostButton(_ref) {
+  var children = _ref.children,
+    rest = _objectWithoutPropertiesLoose(_ref, _excluded$2);
+  return createElement("button", Object.assign({
+    className: 'button is-ghost',
+    style: {
+      whiteSpace: "normal",
+      textAlign: "start",
+      wordBreak: "break-word",
+      wordWrap: "break-word"
+    }
+  }, rest), children);
+}
+
 function LoadingBar() {
   return createElement("div", {
     className: "columns is-centered is-mobile"
@@ -111,13 +126,16 @@ function ProductCard(p) {
       width: 300
     }
   }, createElement("div", {
-    className: "card-image columns is-vcentered is-centered"
-  }, createElement("figure", {
-    className: "image is-128x128 column"
+    className: "card-image columns is-vcentered is-centered mt-2"
   }, createElement("img", {
-    src: "https://javaclusters-95554-0.cloudclusters.net/imagesProd/" + p.img,
-    alt: "Placeholder"
-  }))), createElement("div", {
+    src: p.img,
+    alt: "Placeholder",
+    style: {
+      objectFit: "contain",
+      width: 250,
+      height: 200
+    }
+  })), createElement("div", {
     className: "card-content"
   }, createElement("div", {
     className: "content"
@@ -133,7 +151,9 @@ function ProductCard(p) {
     }
   }, p.descripcion), createElement("div", {
     className: "subtitle is-6"
-  }, createElement("div", null, p.precio !== "" ? "$" : "", p.precio), createElement("div", null, p.uni_medida)), createElement("span", {
+  }, createElement("div", null, p.precio !== "" ? p.precio + " " + p.currency : ""), createElement("div", null, p.uni_medida)), createElement("div", {
+    className: "subtitle is-6 is-italic"
+  }, "Disponible: " + p.stock), createElement("span", {
     className: "tag is-info is-medium"
   }, p.noParte))), createElement("footer", {
     className: "card-footer"
@@ -159,7 +179,9 @@ function ProductCard(p) {
             folio: "0",
             comentarios: p.descripcion,
             tipo_equipo: "",
-            numEconomico: ""
+            numEconomico: "",
+            currency: p.currency,
+            stock: p.stock
           }]);
         });
       }
@@ -204,6 +226,10 @@ function ProductCard(p) {
       p.setProdsSolicitar(function (prodsSolicitar) {
         return prodsSolicitar.map(function (f) {
           if (f.id === p.idProd) {
+            if (parseInt(e.target.value) > parseInt(f.stock)) return _extends({}, f, {
+              cantidad: "" + f.stock,
+              precioT: "" + parseInt(f.stock) * parseFloat(f.precioU)
+            });
             return _extends({}, f, {
               cantidad: "" + e.target.value,
               precioT: "" + parseInt(e.target.value) * parseFloat(f.precioU)
@@ -258,6 +284,10 @@ function ProductCard(p) {
       p.setProdsSolicitar(function (prodsSolicitar) {
         return prodsSolicitar.map(function (f) {
           if (f.id === p.idProd) {
+            if (cant > parseInt(f.stock)) return _extends({}, f, {
+              cantidad: "" + f.stock,
+              precioT: "" + parseInt(f.stock) * parseFloat(f.precioU)
+            });
             return _extends({}, f, {
               cantidad: "" + cant,
               precioT: "" + cant * parseInt(f.precioU)
@@ -272,21 +302,47 @@ function ProductCard(p) {
 }
 
 function ProductsBill(props) {
+  console.log(props.prodsSolicitar);
+  var usdList = [];
+  var mxnList = [];
+  props.prodsSolicitar.forEach(function (p) {
+    var _p$currency;
+    var strippedCurrency = (_p$currency = p.currency) === null || _p$currency === void 0 ? void 0 : _p$currency.trim();
+    if (strippedCurrency === "USD") {
+      usdList.push(p);
+    } else if (strippedCurrency === "MXN") {
+      mxnList.push(p);
+    }
+  });
   return createElement(Fragment, null, createElement("h5", {
     className: "title is-5"
-  }, "Materiales Solicitados (", props.prodsSolicitar.length, ")"), createElement("table", {
+  }, "Materiales Solicitados (", props.prodsSolicitar.length, ")"), createElement("div", {
+    className: 'block'
+  }, mxnList.length == 0 && usdList.length == 0 && createElement("table", {
     className: "table is-striped is-hoverable"
-  }, createElement("thead", null, createElement("tr", null, createElement("th", null, "Item"), createElement("th", null, "Precio"), createElement("th", null, "Cantidad"), createElement("th", null, "Subtotal"))), createElement("tfoot", null, createElement("tr", null, createElement("th", null, "Total"), createElement("th", null), createElement("th", null), createElement("th", null, "$", props.total.toFixed(2)))), createElement("tbody", null, props.prodsSolicitar.map(function (p) {
+  }, createElement("thead", null, createElement("tr", null, createElement("th", null, "Item"), createElement("th", null, "Precio"), createElement("th", null, "Cantidad"), createElement("th", null, "Subtotal"))), createElement("tfoot", null, createElement("tr", null, createElement("th", null, "Total"), createElement("th", null), createElement("th", null), createElement("th", null, "$", 0.0.toFixed(2))))), mxnList.length > 0 && createElement("table", {
+    className: "table is-striped is-hoverable"
+  }, createElement("thead", null, createElement("tr", null, createElement("th", null, "Item"), createElement("th", null, "Precio"), createElement("th", null, "Cantidad"), createElement("th", null, "Subtotal"))), createElement("tfoot", null, createElement("tr", null, createElement("th", null, "Total"), createElement("th", null), createElement("th", null), createElement("th", null, "$", mxnList.reduce(function (acc, p) {
+    return acc + parseFloat(p.precioT);
+  }, 0).toFixed(2), " MXN"))), createElement("tbody", null, mxnList.map(function (p) {
     return createElement("tr", {
       key: p.codigo
-    }, createElement("td", null, p.comentarios), createElement("td", null, "$", p.precioU), createElement("td", null, p.cantidad), createElement("td", null, "$", parseFloat(p.precioT).toFixed(2)));
-  }))));
+    }, createElement("td", null, p.comentarios), createElement("td", null, "$", p.precioU, " MXN"), createElement("td", null, p.cantidad), createElement("td", null, "$", parseFloat(p.precioT).toFixed(2), " MXN"));
+  }))), usdList.length > 0 && createElement("table", {
+    className: "table is-striped is-hoverable"
+  }, createElement("thead", null, createElement("tr", null, createElement("th", null, "Item"), createElement("th", null, "Precio"), createElement("th", null, "Cantidad"), createElement("th", null, "Subtotal"))), createElement("tfoot", null, createElement("tr", null, createElement("th", null, "Total"), createElement("th", null), createElement("th", null), createElement("th", null, "$", usdList.reduce(function (acc, p) {
+    return acc + parseFloat(p.precioT);
+  }, 0).toFixed(2), " USD"))), createElement("tbody", null, usdList.map(function (p) {
+    return createElement("tr", {
+      key: p.codigo
+    }, createElement("td", null, p.comentarios), createElement("td", null, "$", p.precioU, " USD"), createElement("td", null, p.cantidad), createElement("td", null, "$", parseFloat(p.precioT).toFixed(2), " USD"));
+  })))));
 }
 
-var _excluded$2 = ["label"];
+var _excluded$3 = ["label"];
 function SelectInput(_ref) {
   var label = _ref.label,
-    props = _objectWithoutPropertiesLoose(_ref, _excluded$2);
+    props = _objectWithoutPropertiesLoose(_ref, _excluded$3);
   var _useField = useField(props),
     field = _useField[0],
     meta = _useField[1];
@@ -298,16 +354,16 @@ function SelectInput(_ref) {
   }, label), createElement("br", null), createElement("div", {
     className: "control is-expanded"
   }, createElement("div", {
-    className: "select is-fullwidth is-info is-medium mt-3"
+    className: "select is-fullwidth is-info is-medium mt-3 mb-3"
   }, createElement("select", Object.assign({}, field, props)))), meta.touched && meta.error ? createElement("div", {
     className: "ml-2 mt-1 has-text-danger is-size-7"
   }, meta.error) : null);
 }
 
-var _excluded$3 = ["label"];
+var _excluded$4 = ["label"];
 function TextInput(_ref) {
   var label = _ref.label,
-    props = _objectWithoutPropertiesLoose(_ref, _excluded$3);
+    props = _objectWithoutPropertiesLoose(_ref, _excluded$4);
   var _useField = useField(props),
     field = _useField[0],
     meta = _useField[1];
@@ -323,5 +379,5 @@ function TextInput(_ref) {
   }, meta.error) : null);
 }
 
-export { Button, CellButton, ErrorScreen, FileForm, LoadingBar, ProductCard, ProductsBill, SelectInput, TextInput };
+export { Button, CellButton, ErrorScreen, FileForm, GhostButton, LoadingBar, ProductCard, ProductsBill, SelectInput, TextInput };
 //# sourceMappingURL=index.modern.js.map

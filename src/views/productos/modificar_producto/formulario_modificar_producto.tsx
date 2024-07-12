@@ -1,11 +1,11 @@
 import { LoadingBar } from "chemico-ui";
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { Producto } from "../../apis/api_productos";
-import useProductosController from "../../controllers/productosController";
-import { Modal } from "../../form_components/modal";
-import Tabla from "../../form_components/table";
-import { dateParser } from "../../utilities/date_parser";
+import { Producto } from "../../../apis/api_productos";
+import useProductosController from "../../../controllers/productosController";
+import { Modal } from "../../../form_components/modal";
+import Tabla from "../../../form_components/table";
+import { dateParser } from "../../../utilities/date_parser";
 import ModalModificarProducto from "./modal_modificar_producto";
 
 function FormularioModificarProducto() {

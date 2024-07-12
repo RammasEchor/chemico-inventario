@@ -2,12 +2,10 @@ import { Form, Formik } from "formik";
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router";
 import * as Yup from "yup";
-import { Producto, deleteProduct, getProducts } from "../../apis/api_productos";
-import "../../css/inventario.css";
-import Checkbox from "../../form_components/checkbox";
-import Tabla from "../../form_components/table";
-import WithdrawButton from "../../form_components/withdraw_button";
-import { dateParser } from "../../utilities/date_parser";
+import { Producto, deleteProduct, getProducts } from "../../../apis/api_productos";
+import Tabla from "../../../form_components/table";
+import WithdrawButton from "../../../form_components/withdraw_button";
+import { dateParser } from "../../../utilities/date_parser";
 
 function FormularioBajaProducto() {
     const [products, setProducts] = useState<Producto[]>([]);
@@ -16,7 +14,6 @@ function FormularioBajaProducto() {
 
     useEffect(() => {
         getProducts()
-            .then(response => response.json())
             .then((data: Producto[]) => {
                 setProducts(data);
             });
@@ -45,7 +42,7 @@ function FormularioBajaProducto() {
         >
             <Form className='box'>
                 <h4 className="title is-4">Baja de Producto</h4>
-                <div className='columns p-3 is-vcentered is-desktop'>
+                {/* <div className='columns p-3 is-vcentered is-desktop'>
                     <input
                         className={`
                                 input is-info
@@ -80,7 +77,7 @@ function FormularioBajaProducto() {
                     <div className="column is-narrow-desktop">
                         <button className="button is-info is-medium">Buscar</button>
                     </div>
-                </div>
+                </div> */}
                 <Tabla cols={[
                     'Planta',
                     'No. Parte',

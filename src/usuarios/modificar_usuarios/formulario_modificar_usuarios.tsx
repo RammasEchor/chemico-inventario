@@ -1,8 +1,10 @@
+import { CellButton } from "chemico-ui";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { User, getUsers, modifyUser } from "../../apis/api_usuarios";
 import { Modal } from "../../form_components/modal";
 import Tabla from "../../form_components/table";
+import ModalAsignarProductos from "./modalAsignarProductos";
 import ModalModificarUsuario from "./modal_modificar_usuario";
 
 function FormularioModificarUsuarios() {
@@ -11,6 +13,7 @@ function FormularioModificarUsuarios() {
     const [userToModify, setUserToModify] = useState<User>(new User());
     const [showModifyUserModal, setShowModifyUserModal] = useState(false);
     const [userWasModified, setUserWasModified] = useState(false);
+    const [showAsignProductModal, setShowAsignProductModal] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -54,7 +57,7 @@ function FormularioModificarUsuarios() {
                 {users.map(user => {
                     return (
                         <tr id={user.id}
-                            key={user.id}
+                            key={user.cveUsuario}
                             onClick={() => setUserIdtoModify(user.id)}
                             className={userIdtoModify === user.id ? 'is-selected' : ''}
                         >
@@ -63,7 +66,16 @@ function FormularioModificarUsuarios() {
                             <td>{user.email}</td>
                             <td>{user.planta}</td>
                             <td>{user.cveUsuario}</td>
-                            <td>
+                            <td className="is-flex is-justify-content-center">
+                                <CellButton
+                                    className="button is-primary is-light mr-2"
+                                    onClick={() => {
+                                        setUserToModify(user);
+                                        setShowAsignProductModal(true);
+                                    }}
+                                >
+                                    Asignar Producto
+                                </CellButton>
                                 <button className={`
                                     button 
                                     is-normal 
@@ -79,13 +91,19 @@ function FormularioModificarUsuarios() {
                     );
                 })}
             </Tabla>
-            <Modal key={userToModify.id} showModal={showModifyUserModal} onClick={() => setShowModifyUserModal(false)}>
+            <Modal key={userToModify.id + "modificarUsuario"} showModal={showModifyUserModal} onClick={() => setShowModifyUserModal(false)}>
                 <ModalModificarUsuario
                     onClickClose={() => setShowModifyUserModal(false)}
                     onClickModify={startModifyUser}
                     user={userToModify}
                 />
             </Modal >
+            <ModalAsignarProductos
+                key={userToModify.id + "asignarProducto"}
+                clickedUser={userToModify}
+                isActive={showAsignProductModal}
+                setIsActive={setShowAsignProductModal}
+            />
         </div >
     );
 }

@@ -7,6 +7,8 @@ interface ProductCardInterface {
     uni_medida: string;
     noParte: string;
     idProd: string;
+    currency: string;
+    stock?: string;
     prodsSolicitar: Product[];
     setProdsSolicitar: React.Dispatch<React.SetStateAction<Product[]>>;
     onClickAgregar?: (id: string) => boolean;

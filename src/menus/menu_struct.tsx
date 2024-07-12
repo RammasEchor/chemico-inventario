@@ -14,8 +14,9 @@ const menu_layout = [
             { title: "Alta de producto", link: "/alta_producto", visibility: [Role.Admin] },
             { title: "Modificar producto", link: "/modificar_producto", visibility: [Role.Admin] },
             { title: "Baja de producto", link: "/baja_producto", visibility: [Role.Admin] },
+            { title: "Reporte de Caducidad", link: "/reporte_caducidad", visibility: [Role.Admin] },
             { title: "Traspaso entre ubicaciones", link: "/", visibility: [Role.Admin] },
-            { title: "Asignar producto a usuario", link: "/", visibility: [Role.Admin] }
+            { title: "Asignar producto a usuario", link: "/", visibility: [Role.Ninguno] }
         ],
         visibility: [Role.Admin]
     },
@@ -75,6 +76,12 @@ const menu_layout = [
             { title: "Listado de usuarios", link: "/", visibility: [Role.Admin] },
         ],
         visibility: [Role.Ninguno]
+    },
+    {
+        title: "Almacén", children: [
+            { title: "Presupuesto BU", link: "/almacen", visibility: [Role.Chemico, Role.Admin] },
+        ],
+        visibility: [Role.Chemico, Role.Admin]
     },
 
 ]
