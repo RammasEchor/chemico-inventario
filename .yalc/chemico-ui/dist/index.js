@@ -290,7 +290,7 @@ function ProductCard(p) {
             });
             return _extends({}, f, {
               cantidad: "" + cant,
-              precioT: "" + cant * parseInt(f.precioU)
+              precioT: "" + cant * parseFloat(f.precioU)
             });
           } else {
             return f;

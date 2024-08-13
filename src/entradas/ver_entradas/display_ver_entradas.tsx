@@ -72,7 +72,7 @@ function DisplayVerEntradas() {
                                             type="radio"
                                             name="fileType"
                                             checked
-                                            onChange={() => setFileType("PDF")}
+                                            onClick={() => setFileType("PDF")}
                                         />
                                         PDF
                                     </label>
@@ -81,7 +81,7 @@ function DisplayVerEntradas() {
                                     <input
                                         type="radio"
                                         name="fileType"
-                                        onChange={() => setFileType("EXCEL")}
+                                        onClick={() => setFileType("EXCEL")}
                                     />
                                     Excel
                                 </label>

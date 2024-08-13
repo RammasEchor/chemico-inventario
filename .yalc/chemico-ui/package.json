@@ -1,6 +1,6 @@
 {
   "name": "chemico-ui",
-  "version": "1.0.1+31c15f20",
+  "version": "1.0.1+0c5ce82c",
   "description": "Made with create-react-library",
   "author": "RammasEchor",
   "license": "MIT",
@@ -33,5 +33,5 @@
   "dependencies": {
     "react-icons": "^5.0.1"
   },
-  "yalcSig": "31c15f204f103363df8271eb264c8979"
+  "yalcSig": "0c5ce82c5909033f6c601400a937a26f"
 }

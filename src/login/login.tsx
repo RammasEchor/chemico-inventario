@@ -5,7 +5,6 @@ function Login() {
         <div className="is-overlay has-background-info">
             <div className="p-5 is-flex is-justify-content-center">
                 <LoginForm />
-
             </div>
             <footer className="footer footer1 py-2 has-text-white has-background-info">
                 <div className="content has-text-centered">
