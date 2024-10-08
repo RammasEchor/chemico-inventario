@@ -2,11 +2,12 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { getFetch, mutationOnError, mutationOnSuccessReload, postFetch, rootUrl } from "../apis/api";
 import Almacen from "../models/almacen";
 
-function useGetAlmacen() {
+function useGetAlmacen(cveUsuario: string) {
     const query = useQuery<Almacen[]>({
         queryKey: ['useGetAlmacen'],
         queryFn: async () => {
-            const endpoint = rootUrl + process.env.REACT_APP_BACKEND_GET_ALMACENES;
+            let endpoint = rootUrl + process.env.REACT_APP_BACKEND_GET_ALMACENES;
+            endpoint += `${cveUsuario}/`
             const data = await getFetch(endpoint);
             return data;
         }

@@ -11,5 +11,6 @@ interface Product {
     numEconomico: string;
     currency?: string;
     stock?: string;
+    idOdc: string;
 }
 export default Product;

@@ -121,47 +121,47 @@ function LoadingBar() {
 function ProductCard(p) {
   var _p$prodsSolicitar$fin;
   return createElement("div", {
-    className: "card box",
+    className: 'card box',
     style: {
       width: 300
     }
   }, createElement("div", {
-    className: "card-image columns is-vcentered is-centered mt-2"
+    className: 'card-image columns is-vcentered is-centered mt-2'
   }, createElement("img", {
     src: p.img,
-    alt: "Placeholder",
+    alt: 'Placeholder',
     style: {
-      objectFit: "contain",
+      objectFit: 'contain',
       width: 250,
       height: 200
     }
   })), createElement("div", {
-    className: "card-content"
+    className: 'card-content'
   }, createElement("div", {
-    className: "content"
+    className: 'content'
   }, createElement("h6", {
-    className: "title is-6",
+    className: 'title is-6',
     style: {
       height: 50,
-      overflow: "hidden",
-      whiteSpace: "normal",
-      textOverflow: "ellipsis",
-      wordBreak: "break-word",
-      wordWrap: "break-word"
+      overflow: 'hidden',
+      whiteSpace: 'normal',
+      textOverflow: 'ellipsis',
+      wordBreak: 'break-word',
+      wordWrap: 'break-word'
     }
   }, p.descripcion), createElement("div", {
-    className: "subtitle is-6"
-  }, createElement("div", null, p.precio !== "" ? p.precio + " " + p.currency : ""), createElement("div", null, p.uni_medida)), createElement("div", {
-    className: "subtitle is-6 is-italic"
-  }, "Disponible: " + p.stock), createElement("span", {
-    className: "tag is-info is-medium"
+    className: 'subtitle is-6'
+  }, createElement("div", null, p.precio !== '' ? p.precio + " " + p.currency : ''), createElement("div", null, p.uni_medida)), createElement("div", {
+    className: 'subtitle is-6 is-italic'
+  }, 'Disponible: ' + p.stock), createElement("span", {
+    className: 'tag is-info is-medium'
   }, p.noParte))), createElement("footer", {
-    className: "card-footer"
+    className: 'card-footer'
   }, !p.prodsSolicitar.some(function (e) {
     return e.id === p.idProd;
   }) ? createElement("a", {
-    href: "#!",
-    className: "card-footer-item",
+    href: '#!',
+    className: 'card-footer-item',
     onClick: function onClick() {
       var addItem = true;
       if (p.onClickAgregar !== undefined) {
@@ -172,23 +172,24 @@ function ProductCard(p) {
           return [].concat(prodsSolicitar, [{
             id: p.idProd,
             codigo: p.noParte,
-            cantidad: "1",
+            cantidad: '1',
             precioU: p.precio,
             precioT: p.precio,
-            numPedido: "0",
-            folio: "0",
+            numPedido: '0',
+            folio: '0',
             comentarios: p.descripcion,
-            tipo_equipo: "",
-            numEconomico: "",
+            tipo_equipo: '',
+            numEconomico: '',
             currency: p.currency,
-            stock: p.stock
+            stock: p.stock,
+            idOdc: p.idOdc
           }]);
         });
       }
     }
   }, "Agregar") : createElement(Fragment, null, createElement("a", {
-    href: "#!",
-    className: "card-footer-item",
+    href: '#!',
+    className: 'card-footer-item',
     onClick: function onClick() {
       var _p$prodsSolicitar$ind;
       var index = p.prodsSolicitar.findIndex(function (e) {
@@ -217,8 +218,8 @@ function ProductCard(p) {
       }
     }
   }, "-"), createElement("input", {
-    className: "input card-footer-item has-text-link ml-6 mt-3",
-    pattern: "[0-9]*",
+    className: 'input card-footer-item has-text-link ml-6 mt-3',
+    pattern: '[0-9]*',
     value: (_p$prodsSolicitar$fin = p.prodsSolicitar.find(function (e) {
       return e.id === p.idProd;
     })) === null || _p$prodsSolicitar$fin === void 0 ? void 0 : _p$prodsSolicitar$fin.cantidad,
@@ -241,7 +242,7 @@ function ProductCard(p) {
       });
     },
     onBlur: function onBlur(e) {
-      if (e.currentTarget.value === "") {
+      if (e.currentTarget.value === '') {
         p.setProdsSolicitar(function (prodsSolicitar) {
           return prodsSolicitar.filter(function (f) {
             return f.id !== p.idProd;
@@ -271,10 +272,10 @@ function ProductCard(p) {
       }
     }
   }), createElement("a", {
-    className: "card-footer-item"
+    className: 'card-footer-item'
   }), createElement("a", {
-    href: "#!",
-    className: "card-footer-item",
+    href: '#!',
+    className: 'card-footer-item',
     onClick: function onClick() {
       var _p$prodsSolicitar$ind2;
       var index = p.prodsSolicitar.findIndex(function (e) {

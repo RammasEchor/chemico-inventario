@@ -9,6 +9,7 @@ interface ProductCardInterface {
     idProd: string;
     currency: string;
     stock?: string;
+    idOdc: string;
     prodsSolicitar: Product[];
     setProdsSolicitar: React.Dispatch<React.SetStateAction<Product[]>>;
     onClickAgregar?: (id: string) => boolean;

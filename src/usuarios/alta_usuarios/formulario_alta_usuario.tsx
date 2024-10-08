@@ -124,8 +124,10 @@ function FormularioAltaUsuario() {
                 }
                 createUser(values)
                     .then(response => {
-                        if (!response.ok)
-                            return Promise.reject(response)
+                        if (!response.ok)   {
+                            response.text().then(t => alert(t));
+                            return;
+                        }
 
                         navigate(0);
                     })

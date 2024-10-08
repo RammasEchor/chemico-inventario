@@ -92,7 +92,7 @@ function FormularioCotizacion() {
                     .catch(error => console.error(error))
             }}
         >
-            {({ errors, touched }) => (
+            {({ errors, touched, isValid }) => (
                 <>
                     <div className="columns is-centered p-3">
                         <Form className="is-flex is-flex-direction-column box column is-11">
@@ -164,7 +164,7 @@ function FormularioCotizacion() {
                                     {errors.masterDesc}
                                 </div>
                             }
-                            <SubmitButton text={`Crear Cotización: ${products.length} Producto(s)`} disabled={!canCreateQuote}/>
+                            <SubmitButton text={`Crear Cotización: ${products.length} Producto(s)`} disabled={!(canCreateQuote && isValid)}/>
                         </Form>
                     </div>
                     <Modal showModal={showDetail} onClick={() => setShowDetail(false)}>
