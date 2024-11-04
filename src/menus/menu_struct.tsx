@@ -79,9 +79,15 @@ const menu_layout = [
     },
     {
         title: "Almacén", children: [
-            { title: "Presupuesto BU", link: "/almacen", visibility: [Role.Chemico, Role.Admin, Role.Finanzas] },
+            { title: "Presupuesto BU", link: "/almacen", visibility: [Role.Chemico, Role.Admin] },
         ],
-        visibility: [Role.Chemico, Role.Admin, Role.Finanzas]
+        visibility: [Role.Chemico, Role.Admin]
+    },
+    {
+        title: "Cotizaciones Avox/Sem", children: [
+            { title: "Cotizaciones Avox/Sem", link: "/cotizaciones_avox", visibility: [Role.Chemico, Role.Admin] },
+        ],
+        visibility: [Role.Chemico, Role.Admin]
     },
 
 ]

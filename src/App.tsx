@@ -62,6 +62,7 @@ function App() {
       <Route path="/inventario" element={<Inventario />} />
       <Route path="/almacen" element={<PresupuestoBU />} />
       <Route path="/" element={<MainPage />} />
+      <Route path="/cotizaciones_avox" element={<MainPage />} />
       <Route path="/" element={<MainPage />} />
       <Route path="/cargar_bd" element={<CargarBaseDatos />} />
       <Route path="/ver_entradas" element={<VerEntradas />} />
