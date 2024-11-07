@@ -1,12 +1,12 @@
-import { Field, Formik } from "formik";
+import { Formik } from "formik";
 import { PropsWithChildren, useEffect, useState } from "react";
 import * as Yup from "yup";
 import { PlantasAPI, getPlants } from "../../apis/api_plantas";
 import {
-    User,
-    getAprobadores,
-    getAprobadores2,
-    getRoles,
+  User,
+  getAprobadores,
+  getAprobadores2,
+  getRoles,
 } from "../../apis/api_usuarios";
 import { SelectWithLabel } from "../../form_components/select_with_label";
 import Tabla from "../../form_components/table";
@@ -140,7 +140,6 @@ function ModalModificarUsuario(props: Props) {
 
   var newUser = new User();
   Object.keys(props.user).map((k) => (newUser[k] = props.user[k]));
-  newUser.avox = (props.user.avox as unknown) === "1" ? true : false;
   return (
     <Formik
       initialValues={newUser}
@@ -320,25 +319,6 @@ function ModalModificarUsuario(props: Props) {
                   />
                 </td>
               </tr>
-              {formikProps.values.planta === "Planta 3 Oxygen" && (
-                <tr>
-                  <td className="has-text-weight-bold">Avox/Sem</td>
-                  <td>
-                    <input
-                      type="checkbox"
-                      disabled={true}
-                      checked={
-                        (props.user.avox as unknown) === "1" ? true : false
-                      }
-                    />
-                  </td>
-                  <td>
-                    <label className="checkbox is-size-5 my-3">
-                      <Field type="checkbox" name="avox" className="mr-2" />
-                    </label>
-                  </td>
-                </tr>
-              )}
             </Tabla>
           </section>
           <footer className="modal-card-foot is-flex-direction-row-reverse">

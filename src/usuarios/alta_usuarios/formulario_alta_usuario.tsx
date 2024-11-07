@@ -1,16 +1,16 @@
-import { Field, Formik } from "formik";
+import { Formik } from "formik";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import * as Yup from "yup";
 import { PlantasAPI, getPlants } from "../../apis/api_plantas";
 import {
-    RolAPIReturn,
-    User,
-    createUser,
-    getAprobadores,
-    getAprobadores2,
-    getRoles,
-    getWarehouses,
+  RolAPIReturn,
+  User,
+  createUser,
+  getAprobadores,
+  getAprobadores2,
+  getRoles,
+  getWarehouses,
 } from "../../apis/api_usuarios";
 import LoadingModal from "../../form_components/loading_modal";
 import { SelectWithLabel } from "../../form_components/select_with_label";
@@ -256,12 +256,6 @@ function FormularioAltaUsuario() {
             </SelectWithLabel>
             <TextInputLabelWarning name="email" label="Email" />
             <TextInputLabelWarning name="cveUsuario" label="Clave de Usuario" />
-            {formikProps.values.planta === "Planta 3 Oxygen" && (
-              <label className="checkbox is-size-5 mt-5 ml-1">
-                <Field type="checkbox" name="avox" className="mr-2" />
-                AVOX/SEM
-              </label>
-            )}
           </div>
           <SubmitButton text="Crear Usuario" />
           <LoadingModal show={showModal > 0} />

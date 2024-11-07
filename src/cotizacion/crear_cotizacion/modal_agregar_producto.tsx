@@ -1,6 +1,7 @@
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { ProductInQuote } from "../../apis/api_cotizacion";
+import { SelectWithLabel } from "../../form_components/select_with_label";
 import TextInputLabelWarning from "../../form_components/text_input_label_warning";
 import TextArea from "../../form_components/textarea";
 import { useAuth } from "../../login/auth-provider/auth_provider";
@@ -17,7 +18,7 @@ function AddProduct(props: AddProductProps) {
 
   return (
     <Formik
-      initialValues={{ ...new ProductInQuote(), planta: userPlant as string }}
+      initialValues={{ ...new ProductInQuote(), planta: userPlant as string, avox: "avox" }}
       validationSchema={Yup.object({
         descripcion: Yup.string().required(
           appendFieldRequiredSpanish("Nombre")
@@ -70,6 +71,12 @@ function AddProduct(props: AddProductProps) {
               readOnly={true}
             />
             <TextInputLabelWarning name="area" label="Área de Utilización" />
+            {userPlant === "Planta 3 Oxygen" && (
+              <SelectWithLabel name="avox" label="AVOX/SEM">
+                <option value="avox">avox</option>
+                <option value="sem">sem</option>
+              </SelectWithLabel>
+            )}
             <div className="mt-5">
               <TextArea name="datos_adicionales" placeholder="Datos Adicionales" />
               {formikProps.errors["datos_adicionales"] && (

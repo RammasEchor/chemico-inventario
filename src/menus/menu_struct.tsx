@@ -79,7 +79,7 @@ const menu_layout = [
     },
     {
         title: "Almacén", children: [
-            { title: "Presupuesto BU", link: "/almacen", visibility: [Role.Chemico, Role.Admin] },
+            { title: "Presupuesto BU", link: "/almacen", visibility: [Role.Chemico, Role.Admin, Role.Finanzas] },
         ],
         visibility: [Role.Chemico, Role.Admin]
     },

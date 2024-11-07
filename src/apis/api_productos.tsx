@@ -18,6 +18,7 @@ class Producto {
   nomImg = "";
   lote = "";
   idOdc = "";
+  avox = "";
 }
 
 function createFormDataFromProduct(product: Producto): FormData {
@@ -93,10 +94,10 @@ function searchProducts(noParte: APIStringArg, desc: APIStringArg) {
 }
 
 export {
-    deleteProduct,
-    getExistent,
-    getProducts,
-    insertProduct,
-    modifyProduct, Producto, searchProducts
+  deleteProduct,
+  getExistent,
+  getProducts,
+  insertProduct,
+  modifyProduct, Producto, searchProducts
 };
 

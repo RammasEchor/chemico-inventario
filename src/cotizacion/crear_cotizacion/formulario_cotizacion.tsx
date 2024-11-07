@@ -106,8 +106,7 @@ function FormularioCotizacion() {
                                 'Presentación',
                                 'Unidad',
                                 'Planta',
-                                'Área',
-                                'Acción'
+                                'Área'
                             ]}>
                                 {products.map(product => {
                                     return (

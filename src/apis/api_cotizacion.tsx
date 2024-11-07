@@ -75,6 +75,7 @@ function createQuote(products: ProductInQuote[], quoteId: APIStringArg, userKey:
         productUrl += `${product.area}/`
         productUrl += `${userKey}/`
         productUrl += `${quoteId}/`
+        productUrl += `${product.avox}/`
 
         promiseArray.push(fetch(productUrl).then());
     });
@@ -262,9 +263,9 @@ function useProductsForAssignment(userKey: APIStringArg) {
 }
 
 export {
-    ProductInQuote, approveQuote, createMasterQuote, createQuote, getCotAprobadas,
-    getInfoCot, getMasterQuotes, getNextQuote, getPendingApproves, getQuoteDetail, getQuoteStatusFromString, getQuotes, getQuotesDeclined, getToApproves,
-    insertToApprove, postContpaq, sendOneApproves, sendOneDecline, updateCotTotal, uploadPDF, uploadSecurityFile, useProductsForAssignment
+    approveQuote, createMasterQuote, createQuote, getCotAprobadas,
+    getInfoCot, getMasterQuotes, getNextQuote, getPendingApproves, getQuoteDetail, getQuotes, getQuotesDeclined, getQuoteStatusFromString, getToApproves,
+    insertToApprove, postContpaq, ProductInQuote, sendOneApproves, sendOneDecline, updateCotTotal, uploadPDF, uploadSecurityFile, useProductsForAssignment
 };
 export type { MasterQuoteFields };
 

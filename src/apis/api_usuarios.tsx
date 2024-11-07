@@ -21,7 +21,6 @@ class User {
   aprob2 = "";
   monto = "";
   almacen = "";
-  avox = false;
 }
 
 interface RolAPIReturn {
@@ -87,7 +86,6 @@ function createUser(user: User) {
   api_url += `${user.aprob2}/`;
   api_url += `${user.monto}/`;
   api_url += `${user.almacen}/`;
-  api_url += `${user.avox ? "1" : "0"}/`;
 
   return fetch(api_url);
 }
@@ -121,7 +119,7 @@ function modifyUser(user: User) {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ ...user, avox: user.avox ? "1" : 0 }),
+    body: JSON.stringify(user),
   });
 }
 
