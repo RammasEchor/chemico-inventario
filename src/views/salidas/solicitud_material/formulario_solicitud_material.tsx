@@ -1,13 +1,14 @@
 import {
-    Button,
-    ErrorScreen,
-    LoadingBar,
-    ProductCard,
-    ProductsBill,
-    TextInput,
+  Button,
+  ErrorScreen,
+  LoadingBar,
+  ProductCard,
+  ProductsBill,
+  TextInput,
 } from "chemico-ui";
 import { Form, Formik } from "formik";
 import { useState } from "react";
+import { queryClient } from "../../..";
 import useSolicitudesController from "../../../controllers/solicitudesController";
 import { useAuth } from "../../../login/auth-provider/auth_provider";
 
@@ -56,15 +57,16 @@ function FormularioSolicitudMaterial() {
       onSubmit={(_: any, { setSubmitting }: any) => {
         setSubmitting(false);
         postMasterDetalleSalidaMutation.mutate({
-            folio: getNextFolioQuery.data,
-            userKey: userKey,
-            descripcion: "",
+          folio: getNextFolioQuery.data,
+          userKey: userKey,
+          descripcion: "",
         });
         postDetalleSalidaMutation.mutate(
-            prodSolicitar.map((p) => {
-                return { ...p, folio: getNextFolioQuery.data as string };
-            })
+          prodSolicitar.map((p) => {
+            return { ...p, folio: getNextFolioQuery.data as string };
+          })
         );
+        queryClient.invalidateQueries({ queryKey: ["getNextFolioQuery"] });
       }}
     >
       <Form className="box">
